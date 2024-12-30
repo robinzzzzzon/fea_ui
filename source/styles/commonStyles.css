@@ -1,0 +1,108 @@
+.myBtn {
+  height: 45px;
+  width: 150px;
+  border-radius: 10px;
+  border: 1px solid rgb(118, 129, 145);
+  margin-top: 15px;
+  margin-left: 5px;
+  margin-right: 5px;
+  font-size: 19px;
+  font-weight: 600;
+  font-style: inherit;
+}
+
+.myBtn:hover {
+  cursor: pointer;
+}
+
+#findNewBtn {
+  background-color: #c3b9ff;
+}
+
+#findNewBtn:hover {
+  background-color: #aea0ff;
+}
+
+#retryBtn {
+  background-color: #ffd1a8;
+}
+
+#retryBtn:hover {
+  background-color: #f8b57a;
+}
+
+#clearBtn {
+  background-color: #e1fd79;
+}
+
+#clearBtn:hover {
+  background-color: #ecff3e;
+}
+
+#checkBtn {
+  background-color: #8dfc8d;
+}
+
+#checkBtn:hover {
+  background-color: #63f36f;
+}
+
+#suggestBtn {
+  background-color: #b2fafa;
+}
+
+#suggestBtn:hover {
+  background-color: #86f7f7;
+}
+
+#answerBtn {
+  background-color: #c1c1f9;
+}
+
+#answerBtn:hover {
+  background-color: #ccccff;
+}
+
+.dictionaryRoot {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-auto-rows: 150px;
+  justify-content: center;
+  grid-gap: 10px;
+  height: 100%;
+}
+
+.dictionaryRoot > button {
+  min-width: 400px;
+  max-width: 700px;
+}
+
+.dictionary {
+  margin-left: 50px;
+  margin-right: 50px;
+  border: 1px solid lightslategray;
+  border-radius: 10px;
+  text-align: center;
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 150px;
+}
+
+.dictionary:hover {
+  cursor: pointer;
+  opacity: 0.9;
+}
+
+.initItem {
+  background-color: #a8f1f1;
+}
+
+.myProgressBar {
+  display: grid;
+  height: 12px;
+  min-width: auto;
+  margin-bottom: 40px;
+  background-color: #e6e6f0;
+  border: solid 1px lightslategray;
+  border-radius: 10px;
+}

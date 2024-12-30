@@ -1,0 +1,20 @@
+.essayConfRoot select {
+  margin-top: 5px;
+  margin-bottom: 30px;
+}
+
+.essayConfRoot label {
+  font-family: inherit;
+  font-size: 17px;
+}
+
+.essayConfRoot button {
+  background-color: lightcyan;
+  margin-top: 40px;
+  margin-bottom: 5px;
+  float: right;
+}
+
+.essayConfRoot button:hover {
+  background-color: #d0fcfc;
+}

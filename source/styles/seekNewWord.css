@@ -1,0 +1,90 @@
+.cardRoot {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  height: 400px;
+  width: 600px;
+  background: lightblue;
+  border: 1px solid lightslategray;
+  border-radius: 7px;
+}
+
+.cardWordArea {
+  height: 300px;
+  width: 500px;
+  margin-top: 20px;
+  background: #f0ffff;
+  border: 1px solid lightslategray;
+  border-radius: 7px;
+  text-align: center;
+  line-height: 150px;
+  font-size: 22px;
+}
+
+.cardWordArea > div > input {
+  height: 30px;
+  width: auto;
+  background-color: inherit;
+  border: none;
+  text-align: center;
+}
+
+.cardWordArea > div > input:focus {
+  border: 1px solid #aaaaaa;
+}
+
+.cardWordArea div:nth-child(1) {
+  border-bottom: 1px solid rgb(202, 208, 214);
+}
+
+.cardWordArea:hover {
+  cursor: url('../images/redaction.jpg'), auto;
+}
+
+#knowBtn {
+  background-color: #87ff87;
+}
+
+#knowBtn:hover {
+  background-color: #5bff5b;
+}
+
+#studyBtn {
+  background: #9cffff;
+}
+
+#studyBtn:hover {
+  background-color: #5ef8f8;
+}
+
+#startTrainBtn {
+  background-color: #ffabe3;
+}
+
+#startTrainBtn:hover {
+  background-color: #ff9cde;
+}
+
+#goOnBtn {
+  background: #e0e0d1;
+}
+
+#goOnBtn:hover {
+  background-color: #d6d6c2;
+}
+
+#changeBtn {
+  background-color: rgb(233, 253, 99);
+}
+
+#changeBtn:hover {
+  background-color: rgb(245, 255, 103);
+}
+
+#cancelBtn {
+  background-color: rgb(148, 246, 196);
+}
+
+#cancelBtn:hover {
+  background-color: rgb(155, 250, 200);
+}

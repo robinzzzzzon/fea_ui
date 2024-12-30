@@ -1,0 +1,30 @@
+{
+  "name": "fea_eng_app_ui",
+  "version": "1.0.0",
+  "description": "UI layer of the FEA",
+  "main": "index.js",
+  "author": "Ivan Maximov",
+  "license": "ISC",
+  "keywords": [
+    "js",
+    "javascript",
+    "webpack"
+  ],
+  "scripts": {
+    "dev": "webpack-dev-server --mode development --open",
+    "prod": "webpack --mode production"
+  },
+  "devDependencies": {
+    "axios": "1.3.3",
+    "bootstrap": "5.2.2",
+    "bootstrap-icons": "1.9.1",
+    "clean-webpack-plugin": "4.0.0",
+    "css-loader": "6.7.1",
+    "html-webpack-plugin": "5.5.0",
+    "openai": "4.38.3",
+    "style-loader": "3.3.1",
+    "webpack": "5.74.0",
+    "webpack-cli": "4.10.0",
+    "webpack-dev-server": "4.11.1"
+  }
+}

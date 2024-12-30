@@ -1,0 +1,59 @@
+.actualDictionaryRoot {
+  display: grid;
+  min-height: calc(100vh - 250px);
+  min-width: 800px;
+  align-content: start;
+  grid-auto-rows: 40px;
+  grid-gap: 8px;
+}
+
+.actualItem {
+  display: grid;
+  grid-template-columns: 1fr 2fr 1fr;
+  border: 1px solid rgb(118, 129, 145);
+  border-radius: 8px;
+  background-color: #f2f2fa;
+  min-width: 400px;
+}
+
+.actualItem:hover {
+  border: 1.5px solid rgb(118, 129,145);
+  background-color: #dfdfe7;
+  font-size: 18px;
+}
+
+.actualItem > div {
+  line-height: 35px;
+  margin-right: 10px;
+  margin-left: 10px;
+}
+
+#word {
+  font-weight: 600;
+}
+
+.wordBtnRoot {
+  justify-self: end;
+}
+
+.wordBtnRoot button {
+  border: 1px solid rgb(118, 129, 145);
+  border-radius: 5px;
+  background-color: #fff;
+  height: 30px;
+  width: 60px;
+  margin-bottom: 2px;
+}
+
+.wordBtnRoot button:hover {
+  cursor: pointer;
+  opacity: 0.8;
+}
+
+#understandBtn {
+  background-color: lightcyan;
+}
+
+#understandBtn:hover {
+  background-color: #d0fcfc;
+}

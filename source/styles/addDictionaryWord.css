@@ -1,0 +1,37 @@
+.wordFormRoot > div {
+  margin-top: 5px;
+  margin-left: 30px;
+}
+
+.newWordInfo {
+  margin-left: 40px;
+  max-width: 600px;
+}
+
+.newWordContent {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  justify-content: center;
+  align-content: center;
+}
+
+.newWordContent > div {
+  margin: 10px;
+}
+
+.newWordContent input {
+  border: 0.5px solid rgb(171, 180, 195);
+  border-radius: 3px;
+}
+
+#studyCb {
+  margin-top: 48px;
+}
+
+.newWordContent button {
+  background-color: lightcyan;
+}
+
+.newWordContent button:hover {
+  background-color: #d0fcfc;
+}

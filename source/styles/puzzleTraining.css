@@ -1,0 +1,87 @@
+.rootArea {
+  height: 400px;
+  width: 1200px;
+  background: lightblue;
+  border: 1px solid lightslategray;
+  border-radius: 7px;
+}
+
+.spellArea {
+  display: grid;
+  grid-auto-rows: 110px;
+  height: 220px;
+  width: auto;
+  margin: 5px;
+  background-color: #ffe8f0;
+}
+
+#translateDiv {
+  background-color: #ffe8f0;
+  text-align: center;
+  line-height: 100px;
+  font-size: 25px;
+  font-weight: 600;
+  border-top: 1px solid lightslategray;
+  border-left: 1px solid lightslategray;
+  border-right: 1px solid lightslategray;
+}
+
+#wordDiv {
+  display: grid;
+  column-gap: 1px;
+  background-color: #ffe8f0;
+  border: 1px solid lightslategray;
+}
+
+#wordDiv > div {
+  height: 90px;
+  line-height: 90px;
+  margin: 5px;
+}
+
+#charArea {
+  display: grid;
+  height: 90px;
+  grid-auto-rows: 90px;
+  grid-column-gap: 5px;
+  line-height: 90px;
+  margin: 5px;
+}
+
+.char {
+  background: #ccffff;
+  border: 1px solid lightslategray;
+  border-radius: 15px;
+  text-align: center;
+  font-size: 25px;
+  font-weight: 600;
+}
+
+.accessChar {
+  background: #75ffa3;
+}
+
+.wrongChar {
+  background: #ff8080;
+}
+
+.char:hover {
+  cursor: pointer;
+  background: #c1f8f8;
+}
+
+.btnDiv {
+  display: flex;
+  justify-content: center;
+  height: 75px;
+  border-radius: 10px;
+  margin-top: 5px;
+  margin-right: 1px;
+  margin-left: 1px;
+  margin-bottom: 5px;
+}
+
+.charSpan {
+  background-color: #73e373;
+  border: 1px solid rgb(91, 91, 91);
+}

@@ -1,0 +1,72 @@
+.essayAreaRoot {
+  margin: 30px;
+}
+
+.essayAreaRoot p {
+  text-align: center;
+  font-size: 18px;
+}
+
+.essayAreaRoot h3 {
+  text-align: center;
+}
+
+.phrasesRoot {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  grid-gap: 5px;
+  margin-left: 50px;
+  margin-right: 50px;
+  text-align: center;
+  line-height: 30px;
+}
+
+.phrasesRoot div {
+  font-size: 15px;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-weight: 600;
+  background-color: #a9ffc8;
+  border: 1px solid lightslategray;
+}
+
+.phrasesRoot div:hover {
+  opacity: 0.8;
+  cursor: pointer;
+}
+
+#essayArea {
+  display: flex;
+  justify-content: center;
+}
+
+#essayArea > textarea {
+  margin-top: 50px;
+  margin-left: 50px;
+  margin-right: 50px;
+  min-width: 1200px;
+  height: 300px;
+  outline: none;
+  font-family: inherit;
+  background-color: #f9f9f9;
+  border: 0.5px solid #d0fcfc;
+  overflow-y: scroll;
+}
+
+.btnContainer {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin-left: 75px;
+  margin-right: 75px;
+}
+
+.btnContainer > button {
+  align-self: flex-start;
+  margin-top: 25px;
+  margin-right: 20px;
+  background-color: lightcyan;
+}
+
+.btnContainer > button:hover {
+  background-color: #d0fcfc;
+}

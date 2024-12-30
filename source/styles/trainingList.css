@@ -1,0 +1,21 @@
+.trainList {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: 300px;
+  height: 300px;
+  width: 900px;
+}
+
+.trainList > div {
+  margin: 5px;
+  border: 1px solid lightslategray;
+  border-radius: 15px;
+  text-align: center;
+  line-height: 280px;
+  background-color: #ffdbff;
+}
+
+.trainList > div:hover {
+  cursor: pointer;
+  background-color: #fcd2fc;
+}
