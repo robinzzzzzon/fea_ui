@@ -14,6 +14,8 @@ export async function filterCurrentDictionary(dictionary, speechPart) {
     dictionary.data = dictionary.data.filter((item) => !studyArray.includes(item.word))
   }
 
+  dictionary.data.sort((a, b) => a.word.localeCompare(b.word))
+
   return dictionary
 }
 
