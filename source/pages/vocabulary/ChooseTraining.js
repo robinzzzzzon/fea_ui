@@ -35,12 +35,12 @@ async function renderPage() {
       <div class="wrapper">
         <div class="myProgressBar shadow"></div>
         <div class="trainArea shadow">
-          <div id="wordItem">${currentDictionary.data[0].word}</div>
+          <div id="wordItem"><p>${currentDictionary.data[0].word}</p></div>
           <div class="itemArea">
-              <div id="item">${translateArray[0]}</div>
-              <div id="item">${translateArray[1]}</div>
-              <div id="item">${translateArray[2]}</div>
-              <div id="item">${translateArray[3]}</div>
+              <div id="item"><p>${translateArray[0]}</p></div>
+              <div id="item"><p>${translateArray[1]}</p></div>
+              <div id="item"><p>${translateArray[2]}</p></div>
+              <div id="item"><p>${translateArray[3]}</p></div>
           </div>
         </div>
       </div>
@@ -79,7 +79,7 @@ async function getRandomTranslateArray(studyWord) {
 async function checkChooseWord(event) {
   event.preventDefault()
 
-  const chooseWord = event.target
+  const chooseWord = event.target.closest('div')
 
   if (chooseWord.id !== 'item') return
 
@@ -114,7 +114,9 @@ async function checkChooseWord(event) {
     findNewBtn.addEventListener('click', NewDictionary.renderPage)
     retryBtn.addEventListener('click', () => new ChooseTraining().initPage(speechPart))
   } else {
-    renderPage()
+    setTimeout(() => {
+      renderPage()
+    }, 200)
   }
 }
 

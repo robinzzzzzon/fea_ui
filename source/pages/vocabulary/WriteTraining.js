@@ -33,7 +33,7 @@ function renderPage() {
       <div class="wrapper">
         <div class="myProgressBar shadow"></div>
         <div class="rootDiv shadow">
-          <div class="translateDiv">${currentDictionary.data[0].translate}</div>
+          <div class="translateDiv"><p>${currentDictionary.data[0].translate}</p></div>
           <input type="text" class="writeInput" placeholder=" Пишите здесь...">
           <div class="btnDiv">
               <button class="myBtn" id="suggestBtn">Подсказать</button>

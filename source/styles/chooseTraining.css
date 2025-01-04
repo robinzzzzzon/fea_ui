@@ -7,13 +7,15 @@
 }
 
 #wordItem {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   height: 220px;
   width: auto;
   background: #ffe8f0;
   border: 1px solid lightslategray;
   border-radius: 8px;
   text-align: center;
-  line-height: 220px;
   font-size: 30px;
   font-weight: 600;
   margin: 5px;
@@ -26,10 +28,12 @@
   grid-column-gap: 5px;
   grid-row-gap: 5px;
   margin: 4px;
-  line-height: 80px;
 }
 
 .itemArea > div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   background: #e1fdfd;
   border: 1px solid lightslategray;
   border-radius: 10px;
@@ -41,6 +45,10 @@
 .itemArea > div:hover {
   cursor: pointer;
   background: #effafa;
+}
+
+.itemArea p {
+  margin-bottom: 0%;
 }
 
 .finishArea {
