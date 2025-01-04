@@ -10,6 +10,9 @@
 }
 
 .cardWordArea {
+  display: grid;
+  justify-content: center;
+  align-items: center;
   height: 300px;
   width: 500px;
   margin-top: 20px;
@@ -17,7 +20,6 @@
   border: 1px solid lightslategray;
   border-radius: 7px;
   text-align: center;
-  line-height: 150px;
   font-size: 22px;
 }
 
@@ -31,10 +33,6 @@
 
 .cardWordArea > div > input:focus {
   border: 1px solid #aaaaaa;
-}
-
-.cardWordArea div:nth-child(1) {
-  border-bottom: 1px solid rgb(202, 208, 214);
 }
 
 .cardWordArea:hover {

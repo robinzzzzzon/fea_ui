@@ -2,6 +2,7 @@
   display: grid;
   min-height: calc(100vh - 250px);
   min-width: 800px;
+  max-width: 1000px;
   align-content: start;
   grid-auto-rows: 40px;
   grid-gap: 8px;
@@ -19,13 +20,15 @@
 .actualItem:hover {
   border: 1.5px solid rgb(118, 129,145);
   background-color: #dfdfe7;
-  font-size: 18px;
 }
 
 .actualItem > div {
   line-height: 35px;
   margin-right: 10px;
   margin-left: 10px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 #word {

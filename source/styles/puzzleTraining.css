@@ -1,6 +1,6 @@
 .rootArea {
   height: 400px;
-  width: 1200px;
+  width: 100vw;
   background: lightblue;
   border: 1px solid lightslategray;
   border-radius: 7px;
@@ -28,7 +28,7 @@
 
 #wordDiv {
   display: grid;
-  column-gap: 1px;
+  grid-column-gap: 5px;
   background-color: #ffe8f0;
   border: 1px solid lightslategray;
 }
@@ -36,7 +36,7 @@
 #wordDiv > div {
   height: 90px;
   line-height: 90px;
-  margin: 5px;
+  margin-top: 10px;
 }
 
 #charArea {
