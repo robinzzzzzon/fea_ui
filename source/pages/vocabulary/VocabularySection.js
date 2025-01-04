@@ -18,8 +18,8 @@ class VocabularySection {
     this.actionRoot.innerHTML = `
       <button class="dictionary initItem shadow-lg" data-name="seekNew">CHOOSE WORDS</button>
       <button class="dictionary initItem shadow-lg" data-name="getTraining">STUDY WORDS</button>
-      <button class="dictionary initItem shadow-lg" data-name="seeActual">MY DICTIONARY</button>
-      <button class="dictionary initItem shadow-lg" data-name="addNew">ADD DICTIONARY WORD</button>
+      <button class="dictionary initItem shadow-lg" data-name="seeActual">ACTUAL DICTIONARY</button>
+      <button class="dictionary initItem shadow-lg" data-name="addNew">ADD NEW WORD</button>
     `
   
     if (!studyList.data.length) {

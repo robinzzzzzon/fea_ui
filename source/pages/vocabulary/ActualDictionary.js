@@ -49,8 +49,6 @@ function renderPage(itemIndex) {
     `
 
     actualDictionaryRoot.append(item)
-    item.addEventListener('click', clearWordProgress)
-    item.addEventListener('click', removeWord)
   }
 
   let windowInnerHeight = window.innerHeight - 250
@@ -64,55 +62,77 @@ function renderPage(itemIndex) {
       document.querySelector(`.actualDictionaryRoot > div:nth-child(${itemIndex - 1})`).scrollIntoView()
     }
   }
+
+  actualDictionaryRoot.addEventListener('click', async (event) => {
+    event.preventDefault()
+
+    if (event.target.tagName !== 'BUTTON') return
+
+    const targetBtn = event.target.closest('button')
+
+    if (targetBtn.id === 'clearProgress') {
+      await clearWordProgress(event)
+    } else if (targetBtn.id === 'removeWord') {
+      await removeWord(event)
+    }
+  })
 }
 
 async function clearWordProgress(event) {
   event.preventDefault()
 
-  const clearBtn = event.target
+  const itemRoot = event.target.parentNode.parentNode
 
-  if (clearBtn.id !== 'clearProgress') return
+  const itemWordText = itemRoot.querySelector('#word').textContent
 
-  const itemWordText = this.querySelector('div').textContent
+  const getWordList = await makeRequest({
+    methodType: 'GET',
+    getUrl: `${domain}/words/study`,
+    getParams: { word: itemWordText }
+  })
 
-  studyList.data.forEach((item) => {
-    if (item.word === itemWordText) {
-      item.studyLevel = 0
-      
-      makeRequest({
-        methodType: 'UPDATE',
-        getUrl: `${domain}/words/study/${item._id}`,
-        getBody: item,
-      })
-    }
+  const word = getWordList.data[0]
+
+  word.studyLevel = 0
+
+  await makeRequest({
+    methodType: 'UPDATE',
+    getUrl: `${domain}/words/study/${word._id}`,
+    getBody: word,
   })
 }
 
 async function removeWord(event) {
   event.preventDefault()
 
-  const removeBtn = event.target
+  const itemRoot = event.target.parentNode.parentNode
 
-  if (removeBtn.id !== 'removeWord') return
-
-  const thisWordText = this.querySelector('div').textContent
+  const itemWordText = itemRoot.querySelector('#word').textContent
 
   let itemIndex
 
   studyList.data.forEach((item, index) => {
-    if (item.word === thisWordText) {
+    if (item.word === itemWordText) {
       itemIndex = index
-
-      content.innerHTML = spinner
-
-      makeRequest({
-        methodType: 'DELETE',
-        getUrl: `${domain}/words/study/${item._id}`,
-      })
     }
   })
 
-  studyList.data = Array.from(studyList.data).filter((item) => item.word !== thisWordText)
+  content.innerHTML = spinner
+
+  const getWordList = await makeRequest({
+    methodType: 'GET',
+    getUrl: `${domain}/words/study`,
+    getParams: { word: itemWordText }
+  })
+
+  const word = getWordList.data[0]
+
+  await makeRequest({
+    methodType: 'DELETE',
+    getUrl: `${domain}/words/study/${word._id}`,
+  })
+
+  studyList.data = Array.from(studyList.data).filter((item) => item.word !== itemWordText)
 
   renderPage(itemIndex)
 }

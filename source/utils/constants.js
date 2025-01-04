@@ -9,7 +9,7 @@ export const speechList = [
   { dataName: 'other parts', translateName: 'прочие части речи', color: '#AFEEEE' },
   { dataName: 'idioms', translateName: 'идиомы', color: '#FFDAB9' },
   { dataName: 'useful phrases', translateName: 'популярные фразы', color: '#9ACD32' },
-  { dataName: 'it phrases', translateName: 'релевантные it-фразы', color: '#FFFF4D' },
+  { dataName: 'it phrases', translateName: 'it-фразы', color: '#FFFF4D' },
 ]
 
 export const domain = 'http://127.0.0.1:3001/api'

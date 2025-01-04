@@ -36,9 +36,12 @@ function renderPage() {
   content.innerHTML = `
     <div class="cardRoot shadow">
         <div class="cardWordArea" id="wordArea">
-            <div><b>${currentDictionary.data[0].word}</b></div>
-            <div>${currentDictionary.data[0].translate}</div> 
+          <div>
+            <b>${currentDictionary.data[0].word}</b>
+          </div>
+          <div>${currentDictionary.data[0].translate}</div>
         </div>
+        <button type="button" class="btn-close" id="deleteBtn"></button>
         <div class="cardBtnDiv">
             <button class="myBtn btn-lg" id="knowBtn">Уже знаю</button> 
             <button class="myBtn btn-lg" id="studyBtn">Изучить</button>
@@ -49,10 +52,12 @@ function renderPage() {
   const wordArea = document.querySelector('#wordArea')
   const knowBtn = document.querySelector('#knowBtn')
   const studyBtn = document.querySelector('#studyBtn')
+  const deleteBtn = document.querySelector('#deleteBtn')
 
   wordArea.addEventListener('click', changeWord)
   knowBtn.addEventListener('click', showNewWord)
   studyBtn.addEventListener('click', studyThisWord)
+  deleteBtn.addEventListener('click', deleteWord)
 }
 
 function showNewWord(event) {
@@ -110,6 +115,7 @@ function changeWord(event) {
             <div><input></input></div>
             <div><input></input></div> 
         </div>
+        <button type="button" class="btn-close" id="deleteBtn"></button>
         <div class="cardBtnDiv">
             <button class="myBtn btn-lg" id="changeBtn">Изменить</button> 
             <button class="myBtn btn-lg" id="cancelBtn">Отмена</button> 
@@ -119,6 +125,7 @@ function changeWord(event) {
 
   const changeBtn = document.querySelector('#changeBtn')
   const cancelBtn = document.querySelector('#cancelBtn')
+  const deleteBtn = document.querySelector('#deleteBtn')
   const wordInput = document.querySelector('#wordArea > div:first-child > input')
   const translationInput = document.querySelector('#wordArea > div:last-child > input')
 
@@ -144,7 +151,28 @@ function changeWord(event) {
   })
 
   cancelBtn.addEventListener('click', renderPage)
-} 
+  deleteBtn.addEventListener('click', deleteWord)
+}
+
+// TODO: add modal before deleting words
+async function deleteWord(event) {
+  event.preventDefault()
+
+  const wordList = await makeRequest({
+    methodType: 'GET',
+    getUrl: `${domain}/words/init`,
+    getParams: { word: currentDictionary.data[0].word }
+  })
+
+  await makeRequest({
+    methodType: 'DELETE',
+    getUrl: `${domain}/words/init/${wordList.data[0]._id}`,
+  })
+
+  currentDictionary.data.shift()
+
+  currentDictionary.data.length ? renderPage() : renderEmptyDictionary()
+}
 
 function renderEmptyDictionary() {
   const wordArea = document.querySelector('#wordArea')

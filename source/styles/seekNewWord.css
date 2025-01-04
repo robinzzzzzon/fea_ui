@@ -6,7 +6,7 @@
   width: 600px;
   background: lightblue;
   border: 1px solid lightslategray;
-  border-radius: 7px;
+  border-radius: 3px;
 }
 
 .cardWordArea {
@@ -15,12 +15,13 @@
   align-items: center;
   height: 300px;
   width: 500px;
-  margin-top: 20px;
   background: #f0ffff;
   border: 1px solid lightslategray;
-  border-radius: 7px;
+  border-radius: 3px;
   text-align: center;
   font-size: 22px;
+  margin-top: 20px;
+  margin-left: 26px;
 }
 
 .cardWordArea > div > input {
@@ -85,4 +86,12 @@
 
 #cancelBtn:hover {
   background-color: rgb(155, 250, 200);
+}
+
+#deleteBtn {
+  position: relative;
+  top: 1%;
+  right: -3%;
+  height: 20px;
+  width: 20px;
 }
