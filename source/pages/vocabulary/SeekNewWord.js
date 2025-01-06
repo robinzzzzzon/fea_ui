@@ -2,7 +2,7 @@ import '../../styles/seekNewWord.css'
 import NewDictionary from './NewDictionary'
 import TrainingList from './TrainingList'
 import { makeRequest, filterCurrentDictionary } from '../../utils/utils'
-import { domain, spinner } from '../../utils/constants'
+import { domain, spinner, modalHtml } from '../../utils/constants'
 
 const content = document.querySelector('.content')
 
@@ -154,24 +154,39 @@ function changeWord(event) {
   deleteBtn.addEventListener('click', deleteWord)
 }
 
-// TODO: add modal before deleting words
 async function deleteWord(event) {
   event.preventDefault()
 
-  const wordList = await makeRequest({
-    methodType: 'GET',
-    getUrl: `${domain}/words/init`,
-    getParams: { word: currentDictionary.data[0].word }
+  content.insertAdjacentHTML('afterbegin', modalHtml)
+
+  const modalRoot = document.querySelector('.c-modal')
+
+  modalRoot.addEventListener('click', async (event) => {
+    event.preventDefault()
+
+    const target = event.target
+
+    if (target.id !== 'modalBtn') return
+
+    if (target.classList.contains('c-modal-close') || target.classList.contains('c-modal-cancel')) {
+      modalRoot.remove()
+    } else if (target.classList.contains('c-modal-delete')) {
+      const wordList = await makeRequest({
+        methodType: 'GET',
+        getUrl: `${domain}/words/init`,
+        getParams: { word: currentDictionary.data[0].word }
+      })
+
+      await makeRequest({
+        methodType: 'DELETE',
+        getUrl: `${domain}/words/init/${wordList.data[0]._id}`,
+      })
+
+      currentDictionary.data.shift()
+
+      currentDictionary.data.length ? renderPage() : renderEmptyDictionary()
+    }
   })
-
-  await makeRequest({
-    methodType: 'DELETE',
-    getUrl: `${domain}/words/init/${wordList.data[0]._id}`,
-  })
-
-  currentDictionary.data.shift()
-
-  currentDictionary.data.length ? renderPage() : renderEmptyDictionary()
 }
 
 function renderEmptyDictionary() {

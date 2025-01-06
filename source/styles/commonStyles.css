@@ -106,3 +106,82 @@
   border: solid 1px lightslategray;
   border-radius: 10px;
 }
+
+.c-modal {
+  z-index: 1;
+}
+
+.c-overlay {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.c-window {
+  height: 160px;
+  width: 450px;
+  margin: 0 auto;
+  margin-top: 250px;
+  background: #F5F5F5;
+  border-radius: 5px;
+}
+
+.c-modal-header {
+  display: flex;
+  justify-content: space-between;
+  padding: 5px 10px;
+  background:	#e0e0e0;
+}
+
+.c-modal-title {
+  font-size: 1.3rem;
+  font-weight: 600;
+}
+
+.c-modal-close {
+  cursor: pointer;
+}
+
+.c-modal-body {
+  border-top: 1px solid #D3D3D3;
+  height: 70px;
+}
+
+.c-modal-body > p {
+  margin: 0 0 5px;
+  padding: 5px 10px;
+  font-size: 18px;
+}
+
+.c-modal-footer {
+  display: flex;
+  justify-content: end;
+  border-top: 1px solid #D3D3D3;
+}
+
+.c-modal-footer > button {
+  margin: 8px 3px;
+  border: 1px solid #191919;
+  border-radius: 3px;
+  height: 30px;
+  width: 60px;
+}
+
+.c-modal-delete {
+  background: #ffb2b2;
+}
+
+.c-modal-delete:hover {
+  opacity: 0.8;
+}
+
+.c-modal-cancel {
+  background: #cccccc;
+}
+
+.c-modal-cancel:hover {
+  opacity: 0.8;
+}

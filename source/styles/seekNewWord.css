@@ -37,7 +37,7 @@
 }
 
 .cardWordArea:hover {
-  cursor: url('../images/redaction.jpg'), auto;
+  cursor: zoom-in;
 }
 
 #knowBtn {
