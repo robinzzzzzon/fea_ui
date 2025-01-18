@@ -1,5 +1,6 @@
 import axios from 'axios'
 import { domain } from './constants'
+import initDictionary from './dictionary.json'
 
 export async function filterCurrentDictionary(dictionary, speechPart) {
   let studyArray = await makeRequest({
@@ -97,7 +98,7 @@ export function fillProgressBar(initDictionary, currentDictionary, selector = '.
 export async function checkAvailableStudyWords(speechPart) {
   let studyList = await fillArray(speechPart)
 
-  if (!studyList.data.length) retryBtn.disabled = 'true'
+  if (!studyList.data.length) repeatBtn.disabled = 'true'
 }
 
 export function getRandomListBySpeechPart(dictionary, speechPart, size) {
@@ -116,29 +117,65 @@ export function getRandomListBySpeechPart(dictionary, speechPart, size) {
 export function optimizeCharacters(chars) {
   let finalChars = []
 
-    finalChars = chars.reduce((total, el) => {
+  finalChars = chars.reduce((total, el) => {
+    el === ' ' ? (el = '_') : el
 
-      el === ' ' ? el = '_' : el
+    if (!finalChars.includes(el)) {
+      finalChars.push(el)
+      total.push({ element: el, count: 1 })
+    } else {
+      total.forEach((obj) => {
+        if (obj.element === el) {
+          obj.count++
+        }
+      })
+    }
 
-      if (!finalChars.includes(el)) {
-        finalChars.push(el)
-        total.push({ element: el, count: 1 })
-      } else {
-        total.forEach(obj => {
-           if (obj.element === el) {
-            obj.count++
-           }
-        });
-      }
-  
-      return total
-    }, [])
-  
-    return finalChars
+    return total
+  }, [])
+
+  return finalChars
 }
 
 export function getRandomTopic(topicList) {
   return topicList[Math.floor(Math.random() * topicList.length)]
+}
+
+export function generateWords(options) {
+  let words
+
+  if (options.onlyIdioms) {
+    return getRandomListBySpeechPart(initDictionary, 'idioms', 15)
+  }
+
+  switch (options.topicCount) {
+    case '5': {
+      const part1 = getRandomListBySpeechPart(initDictionary, 'nouns', 5)
+      const part2 = getRandomListBySpeechPart(initDictionary, 'adjectives', 5)
+      const part3 = getRandomListBySpeechPart(initDictionary, 'adverbs', 5)
+      words = [...part1, ...part2, ...part3]
+      break
+    }
+
+    case '10': {
+      const part1 = getRandomListBySpeechPart(initDictionary, 'phrasal verbs', 5)
+      const part2 = getRandomListBySpeechPart(initDictionary, 'useful phrases', 5)
+      const part3 = getRandomListBySpeechPart(initDictionary, 'adverbs', 2)
+      const part4 = getRandomListBySpeechPart(initDictionary, 'nouns', 3)
+      words = [...part1, ...part2, ...part3, ...part4]
+      break
+    }
+
+    case '20': {
+      const part1 = getRandomListBySpeechPart(initDictionary, 'phrasal verbs', 5)
+      const part2 = getRandomListBySpeechPart(initDictionary, 'useful phrases', 7)
+      const part3 = getRandomListBySpeechPart(initDictionary, 'idioms', 3)
+      words = [...part1, ...part2, ...part3]
+      break
+    }
+  }
+
+  return words
 }
 
 export function setTimer(element, interval = 20) {

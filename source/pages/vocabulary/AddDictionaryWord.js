@@ -13,15 +13,15 @@ class AddDictionaryWord {
           </div>
           <div class="newWordContent">
             <div>
-              <label for="word" class="form-label">New Word</label>
+              <label for="word" class="form-label"><b>New Word</b></label>
               <input type="text" class="wordInput form-control" id="word"></input>
             </div>
             <div>
-              <label for="translation" class="form-label">Translation</label>
+              <label for="translation" class="form-label"><b>Translation</b></label>
               <input type="text" class="translateInput form-control" id="translation"></input>
             </div>
             <div>
-              <label for="type" class="form-label">Word type</label>
+              <label for="type" class="form-label"><b>Word type</b></label>
               <select class="typeSelect form-select" id="type">
                 <option selected disabled value="">choose type...</option>
                 <option>nouns</option>
@@ -39,10 +39,10 @@ class AddDictionaryWord {
             </div>
             <div id="studyCb">
               <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-              <label class="form-check-label" for="flexCheckDefault">Add to study list</label>
+              <label class="form-check-label" for="flexCheckDefault"><b>Add to study list</b></label>
             </div>
             <div>
-              <button class="myBtn" id="addBtn">CONFIRM</button>
+              <button class="myBtn" id="addBtn">Confirm</button>
             </div>
           </div>
         </div>

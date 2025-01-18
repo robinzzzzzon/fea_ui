@@ -1,14 +1,23 @@
 import '../../styles/speakingConfiguration.css'
-import FreeSpeakingTraining from'./FreeSpeakingTraining'
+import FreeSpeakingTraining from './FreeSpeakingTraining'
 
 class FreeSpeakingConfiguration {
   renderPage(event) {
     event.preventDefault()
-  
+
     const contentRoot = document.querySelector('.content')
-  
+
     contentRoot.innerHTML = `
     <div class="speakingConfRoot">
+      <div class="gptInputs">
+        <div class="input-group mb-3" id="gptKey">
+          <input type="text" class="form-control" placeholder="Enter your gpt-key">
+        </div>
+        <div class="input-group mb-3" id="gptModel">
+          <input type="text" class="form-control" placeholder="Enter gpt-model">
+        </div>
+      </div>
+
       <label for="themes">Choose relevant topic:</label>
       <select class="form-select form-select-lg" id="themes" aria-label="topic_themes">
         <option selected value="1">Sport</option>
@@ -47,24 +56,38 @@ class FreeSpeakingConfiguration {
       <button class="myBtn" id="confirmBtn">Confirm</button>
     </div>
     `
-  
+
     const confirmBtn = document.querySelector('#confirmBtn')
-    
     confirmBtn.addEventListener('click', this.startTraining)
+    confirmBtn.disabled = true
+
+    const keyInput = document.querySelector('#gptKey > input')
+    
+    keyInput.addEventListener('input', () => {
+      keyInput.value
+        ? (confirmBtn.disabled = false)
+        : (confirmBtn.disabled = true)
+    })
   }
 
   startTraining(event) {
     event.preventDefault()
 
-    let config = document.querySelectorAll('.speakingConfRoot select')
+    const config = {}
 
-    config = Array.from(config).map((select) => select.options[select.selectedIndex].text)
+    config.gptKey = document.querySelector('#gptKey > input').value
+    config.gptModel = document.querySelector('#gptModel > input').value
 
-    const idiomsToggle = document.querySelector('#idioms')
-    config.push(idiomsToggle.checked)
+    let selectList = document.querySelectorAll('.speakingConfRoot select')
 
-    const needTimer = document.querySelector('#needTimer')
-    config.push(needTimer.checked)
+    selectList = Array.from(selectList).map(
+      (select) => select.options[select.selectedIndex].text
+    )
+
+    config.topicTheme = selectList[0]
+    config.topicCount = selectList[1]
+    config.onlyIdioms = document.querySelector('#idioms').checked
+    config.needTimer = document.querySelector('#needTimer').checked
 
     FreeSpeakingTraining.renderPage(event, config)
   }

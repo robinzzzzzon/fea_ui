@@ -25,8 +25,8 @@ function renderPage(itemIndex) {
   if (!studyList.data.length) {
     actualDictionaryRoot.innerHTML = `
     <div>
-      <p>Список изучаемых слов пуст. Вы можете добавить новые</p>
-      <button class="myBtn" id="understandBtn">Понятно</button>
+      <p>Your study list is empty. You might add new words for studying via decks.</p>
+      <button class="myBtn" id="understandBtn">Got it</button>
     </div>
     `
 

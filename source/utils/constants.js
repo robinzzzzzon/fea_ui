@@ -2,17 +2,17 @@ module.exports = {
   domain: 'http://127.0.0.1:3001/api',
 
   speechList: [
-    { dataName: 'verbs', translateName: 'глаголы', color: '#DDA0DD' },
-    { dataName: 'phrasal verbs', translateName: 'фразовые глаголы', color: '#D1FFFF' },
-    { dataName: 'nouns', translateName: 'существительные', color: '#6A90FF' },
-    { dataName: 'adjectives', translateName: 'прилагательные', color: '#FFB6C1' },
-    { dataName: 'adverbs', translateName: 'наречия', color: '#CE6A5C' },
-    { dataName: 'pronouns', translateName: 'местоимения', color: '#CDFF2F' },
-    { dataName: 'numerals', translateName: 'числительные', color: '#FFA500' },
-    { dataName: 'other parts', translateName: 'прочие части речи', color: '#AFEEEE' },
-    { dataName: 'idioms', translateName: 'идиомы', color: '#FFDAB9' },
-    { dataName: 'useful phrases', translateName: 'популярные фразы', color: '#9ACD32' },
-    { dataName: 'it phrases', translateName: 'it-фразы', color: '#FFFF4D' },
+    { dataName: 'verbs', color: '#DDA0DD' },
+    { dataName: 'phrasal verbs', color: '#D1FFFF' },
+    { dataName: 'nouns', color: '#6A90FF' },
+    { dataName: 'adjectives', color: '#FFB6C1' },
+    { dataName: 'adverbs', color: '#CE6A5C' },
+    { dataName: 'pronouns', color: '#CDFF2F' },
+    { dataName: 'numerals', color: '#FFA500' },
+    { dataName: 'other parts', color: '#AFEEEE' },
+    { dataName: 'idioms', color: '#FFDAB9' },
+    { dataName: 'useful phrases', color: '#9ACD32' },
+    { dataName: 'it phrases', color: '#FFFF4D' },
   ],
 
   modalHtml: `
@@ -44,7 +44,7 @@ module.exports = {
     `,
 
   system_colors: {
-    success: '#94ff94',
-    failed: '#ff8c8c',
+    success: '#94FF94',
+    failed: '#FF8C8C',
   },
 }

@@ -3,7 +3,6 @@ import NewDictionary from'./NewDictionary'
 import { fillArray, fillProgressBar, optimizeCharacters, modifyStudyLevel, checkAvailableStudyWords } from '../../utils/utils'
 import { spinner } from '../../utils/constants'
 
-// TODO: implement centring chars into wordDiv parent
 const content = document.querySelector('.content')
 
 let speechPart = null
@@ -41,9 +40,9 @@ function renderPage() {
               </div>
               <div id="charArea" tabindex="0"></div>
               <div class="btnDiv">
-                  <button class="myBtn" id="answerBtn" disabled>Не знаю</button>
-                  <button class="myBtn" id="checkBtn" disabled>Проверить</button>
-                  <button class="myBtn" id="clearBtn">Сбросить</button>
+                  <button class="myBtn" id="suggestBtn" disabled>Get a cue</button>
+                  <button class="myBtn" id="checkBtn" disabled>Check</button>
+                  <button class="myBtn" id="clearBtn">Reset</button>
               </div>
             </div>
         </div>
@@ -53,10 +52,10 @@ function renderPage() {
   
     genCharacters(currentDictionary.data[0])
   
-    const answerBtn = document.querySelector('#answerBtn')
+    const suggestBtn = document.querySelector('#suggestBtn')
     const checkBtn = document.querySelector('#checkBtn')
     const clearBtn = document.querySelector('#clearBtn')
-    answerBtn.addEventListener('click', showAnswer)
+    suggestBtn.addEventListener('click', showAnswer)
     checkBtn.addEventListener('click', checkEnterWord)
     clearBtn.addEventListener('click', clearWordProgress)
     clearBtn.disabled = false
@@ -98,10 +97,10 @@ function genCharacters(getWord) {
 function clearWordProgress(event, word = currentDictionary.data[0]) {
   event.preventDefault()
 
-  const answerBtn = document.querySelector('#answerBtn')
+  const suggestBtn = document.querySelector('#suggestBtn')
   const charArea = document.querySelector('#charArea')
   const wordDiv = document.querySelector('#wordDiv')
-  answerBtn.disabled = true
+  suggestBtn.disabled = true
   charArea.innerHTML = ''
   wordDiv.innerHTML = ''
 
@@ -141,7 +140,7 @@ function moveCharToWordArea(event) {
   const wordDiv = document.querySelector('#wordDiv')
   const checkBtn = document.querySelector('#checkBtn')
   const clearBtn = document.querySelector('#clearBtn')
-  const answerBtn = document.querySelector('#answerBtn')
+  const suggestBtn = document.querySelector('#suggestBtn')
   wordDiv.style.gridTemplateColumns = `repeat(${currentDictionary.data[0].word.length}, 1fr)`
 
   if (key) {
@@ -158,14 +157,14 @@ function moveCharToWordArea(event) {
   }
 
   if (!charArea.innerHTML) {
-    answerBtn.disabled = true
+    suggestBtn.disabled = true
     checkBtn.disabled = false
     clearBtn.disabled = true
 
     if (key === 'Enter') {
       checkBtn.addEventListener('keyDown', checkEnterWord(event))
     }
-  } else if (answerBtn.disabled) answerBtn.disabled = false
+  } else if (suggestBtn.disabled) suggestBtn.disabled = false
 }
 
 function handleKeyboardEvent(getChar, getKey) {
@@ -222,24 +221,24 @@ async function checkEnterWord(event) {
 
       const progressBar = document.querySelector('.myProgressBar')
       progressBar.innerHTML = ''
-      translateDiv.textContent = 'Отлично! Тебе это удалось :)'
+      translateDiv.textContent = 'It was great!'
       wordDiv.innerHTML = ''
       btnDiv.innerHTML = ''
       const newBtn = document.createElement('button')
       newBtn.classList.add('myBtn')
       newBtn.setAttribute('id', 'findNewBtn')
-      newBtn.textContent = 'Выбрать слова'
-      const retryBtn = document.createElement('button')
-      retryBtn.classList.add('myBtn')
-      retryBtn.setAttribute('id', 'retryBtn')
-      retryBtn.textContent = 'Еще раз'
+      newBtn.textContent = 'New words'
+      const repeatBtn = document.createElement('button')
+      repeatBtn.classList.add('myBtn')
+      repeatBtn.setAttribute('id', 'repeatBtn')
+      repeatBtn.textContent = 'Repeat'
       btnDiv.append(newBtn)
-      btnDiv.append(retryBtn)
+      btnDiv.append(repeatBtn)
 
       await checkAvailableStudyWords(speechPart)
 
       newBtn.addEventListener('click', NewDictionary.renderPage)
-      retryBtn.addEventListener('click', () => new PuzzleTraining().initPage(speechPart))
+      repeatBtn.addEventListener('click', () => new PuzzleTraining().initPage(speechPart))
     } else {
       toggleClassForChar(resultChars)
 

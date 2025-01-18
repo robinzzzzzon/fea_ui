@@ -56,11 +56,11 @@ function createStudyDictionary(speechListItem) {
 
   if (speechListItem) {
     dictionary.setAttribute('data-name', `${speechListItem.dataName}`)
-    dictionary.textContent = speechListItem.translateName.toUpperCase()
+    dictionary.textContent = speechListItem.dataName.toUpperCase()
     dictionary.style.backgroundColor = speechListItem.color
   } else {
     dictionary.setAttribute('data-name', 'all-study-words')
-    dictionary.textContent = 'ВСЕ СЛОВА'
+    dictionary.textContent = 'ALL WORDS'
     dictionary.style.backgroundColor = '#2D9CA0'
   }
 
