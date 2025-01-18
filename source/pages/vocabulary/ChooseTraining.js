@@ -97,22 +97,25 @@ async function checkChooseWord(event) {
     initDictionary = null
 
     content.innerHTML = `
-            <div class="finishArea">
-                <div id="finishWordArea">Вы хорошо позанимались!</div>
+            <div class="wrapper">
+              <div class="myProgressBar shadow"></div>
+              <div class="trainArea shadow">
+                <div id="wordItem"><p>It was great!</p></div>
                 <div class="finishBtnArea">
-                    <button type="button" class="myBtn btn-lg" id="findNewBtn">Новые слова</button>
-                    <button type="button" class="myBtn btn-lg" id="retryBtn">Еще раз</button>
+                    <button type="button" class="myBtn btn-lg" id="findNewBtn">New words</button>
+                    <button type="button" class="myBtn btn-lg" id="repeatBtn">Repeat</button>
                 </div>
+              </div>
             </div>
             `
 
     const findNewBtn = document.querySelector('#findNewBtn')
-    const retryBtn = document.querySelector('#retryBtn')
+    const repeatBtn = document.querySelector('#repeatBtn')
 
     await checkAvailableStudyWords(speechPart)
 
     findNewBtn.addEventListener('click', NewDictionary.renderPage)
-    retryBtn.addEventListener('click', () => new ChooseTraining().initPage(speechPart))
+    repeatBtn.addEventListener('click', () => new ChooseTraining().initPage(speechPart))
   } else {
     setTimeout(() => {
       renderPage()

@@ -4,7 +4,7 @@
   flex-wrap: wrap;
   height: 400px;
   width: 600px;
-  background: lightblue;
+  background: #e6e6fa;
   border: 1px solid lightslategray;
   border-radius: 3px;
 }
@@ -15,7 +15,7 @@
   align-items: center;
   height: 300px;
   width: 500px;
-  background: #f0ffff;
+  background: #fbebf1;
   border: 1px solid lightslategray;
   border-radius: 3px;
   text-align: center;
@@ -41,19 +41,19 @@
 }
 
 #knowBtn {
-  background-color: #87ff87;
+  background-color: #caffca;
 }
 
 #knowBtn:hover {
-  background-color: #5bff5b;
+  background-color: #b7fcb7;
 }
 
 #studyBtn {
-  background: #9cffff;
+  background: #bdf7f7;
 }
 
 #studyBtn:hover {
-  background-color: #5ef8f8;
+  background-color: #a8f7f7;
 }
 
 #startTrainBtn {
@@ -73,19 +73,19 @@
 }
 
 #changeBtn {
-  background-color: rgb(233, 253, 99);
+  background-color: #f8f8cc;
 }
 
 #changeBtn:hover {
-  background-color: rgb(245, 255, 103);
+  background-color: #f5f5b1;
 }
 
 #cancelBtn {
-  background-color: rgb(148, 246, 196);
+  background-color: #dcdcdc;
 }
 
 #cancelBtn:hover {
-  background-color: rgb(155, 250, 200);
+  background-color: #d8d5d5;
 }
 
 #deleteBtn {

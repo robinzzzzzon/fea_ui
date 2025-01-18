@@ -5,7 +5,7 @@
   grid-template-columns: 1fr;
   grid-template-rows: 2fr 1fr 1fr;
   justify-content: center;
-  background: lightblue;
+  background: #E6E6FA;
   border: 1px solid gray;
   border-radius: 5px;
 }
@@ -16,7 +16,7 @@
   align-items: center;
   height: 200px;
   width: auto;
-  background-color: #ffe8f0;
+  background-color: #FFE8F0;
   margin: 10px;
   border: 1px solid lightslategray;
   border-radius: 10px;

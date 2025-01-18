@@ -43,8 +43,8 @@ function renderPage() {
         </div>
         <button type="button" class="btn-close" id="deleteBtn"></button>
         <div class="cardBtnDiv">
-            <button class="myBtn btn-lg" id="knowBtn">Уже знаю</button> 
-            <button class="myBtn btn-lg" id="studyBtn">Изучить</button>
+            <button class="myBtn btn-lg" id="knowBtn">Already know</button> 
+            <button class="myBtn btn-lg" id="studyBtn">Add to list</button>
         </div>
     </div>
     `
@@ -94,13 +94,13 @@ async function studyThisWord(event) {
   })
 
   studyBtn.innerHTML = ''
-  studyBtn.textContent = 'Изучить'
+  studyBtn.textContent = 'Add to list'
   studyBtn.disabled = false
 
   studyWordCounter++
 
   if (studyWordCounter === 10) {
-    showTrainSuggest()
+    showTrainingSuggest()
   } else {
     showNewWord(event)
   }
@@ -117,8 +117,8 @@ function changeWord(event) {
         </div>
         <button type="button" class="btn-close" id="deleteBtn"></button>
         <div class="cardBtnDiv">
-            <button class="myBtn btn-lg" id="changeBtn">Изменить</button> 
-            <button class="myBtn btn-lg" id="cancelBtn">Отмена</button> 
+            <button class="myBtn btn-lg" id="changeBtn">Change</button> 
+            <button class="myBtn btn-lg" id="cancelBtn">Cancel</button> 
         </div>
     </div>
   `
@@ -189,14 +189,26 @@ async function deleteWord(event) {
   })
 }
 
+function muteWordInteractions() {
+  const deleteBtn = document.querySelector('#deleteBtn')
+
+  wordArea.removeEventListener('click', changeWord)
+  wordArea.style.cursor = 'default'
+
+  deleteBtn.removeEventListener('click', deleteWord)
+  deleteBtn.disabled = true
+}
+
 function renderEmptyDictionary() {
   const wordArea = document.querySelector('#wordArea')
   const cardBtnDiv = document.querySelector('.cardBtnDiv')
 
-  wordArea.innerHTML = '<p>Вы посмотрели все слова!<br>Попробуем выучить новое? :)</p>'
+  muteWordInteractions()
+
+  wordArea.innerHTML = '<p>This is the end of the deck!<br>Are you ready for studying new? :)</p>'
   cardBtnDiv.innerHTML = `
-      <button class="myBtn btn-lg" id="findNewBtn">Выбрать слова</button>
-      <button class="myBtn btn-lg" id="studyBtn">Начать учить</button>
+      <button class="myBtn btn-lg" id="findNewBtn">New words</button>
+      <button class="myBtn btn-lg" id="studyBtn">Study words</button>
     `
 
   const findNewBtn = document.querySelector('#findNewBtn')
@@ -219,16 +231,18 @@ async function checkTrainAvailable() {
     : studyBtn.addEventListener('click', () => TrainingList.renderPage(speechPart))
 }
 
-function showTrainSuggest() {
+function showTrainingSuggest() {
   currentDictionary.data.shift()
 
   const wordArea = document.querySelector('#wordArea')
   const cardBtnDiv = document.querySelector('.cardBtnDiv')
 
-  wordArea.innerHTML = '<p>Хороший набор слов. <br>Переходим к тренировкам?)</p>'
+  muteWordInteractions()
+
+  wordArea.innerHTML = '<p>Excellent supply of added words! <br>Ready for training?</p>'
   cardBtnDiv.innerHTML = `
-      <button class="myBtn btn-lg" id="startTrainBtn">Тренировать</button>
-      <button class="myBtn btn-lg" id="goOnBtn">Пока нет</button>
+      <button class="myBtn btn-lg" id="startTrainBtn">Let's study!</button>
+      <button class="myBtn btn-lg" id="goOnBtn">Not yet</button>
     `
 
   const trainBtn = document.querySelector('#startTrainBtn')

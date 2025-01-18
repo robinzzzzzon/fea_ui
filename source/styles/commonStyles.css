@@ -1,6 +1,6 @@
 .myBtn {
   height: 45px;
-  width: 150px;
+  width: 135px;
   border-radius: 10px;
   border: 1px solid rgb(118, 129, 145);
   margin-top: 15px;
@@ -16,51 +16,43 @@
 }
 
 #findNewBtn {
-  background-color: #c3b9ff;
+  background-color: #c4bafe;
 }
 
 #findNewBtn:hover {
-  background-color: #aea0ff;
+  background-color: #beb2ff;
 }
 
-#retryBtn {
-  background-color: #ffd1a8;
+#repeatBtn {
+  background-color: #fed4af;
 }
 
-#retryBtn:hover {
-  background-color: #f8b57a;
+#repeatBtn:hover {
+  background-color: #fbcea6;
 }
 
 #clearBtn {
-  background-color: #e1fd79;
+  background-color: #ffe4c4;
 }
 
 #clearBtn:hover {
-  background-color: #ecff3e;
+  background-color: #f8debf;
 }
 
 #checkBtn {
-  background-color: #8dfc8d;
+  background-color: #f3dbf3;
 }
 
 #checkBtn:hover {
-  background-color: #63f36f;
+  background-color: #f0d3f0;
 }
 
 #suggestBtn {
-  background-color: #b2fafa;
+  background-color: #fffacd;
 }
 
 #suggestBtn:hover {
-  background-color: #86f7f7;
-}
-
-#answerBtn {
-  background-color: #c1c1f9;
-}
-
-#answerBtn:hover {
-  background-color: #ccccff;
+  background-color: #faf3bb;
 }
 
 .dictionaryRoot {
@@ -124,8 +116,8 @@
   height: 160px;
   width: 450px;
   margin: 0 auto;
-  margin-top: 250px;
-  background: #F5F5F5;
+  margin-top: calc(100vh - 700px);
+  background: #f5f5f5;
   border-radius: 5px;
 }
 
@@ -133,7 +125,7 @@
   display: flex;
   justify-content: space-between;
   padding: 5px 10px;
-  background:	#e0e0e0;
+  background: #e0e0e0;
 }
 
 .c-modal-title {
@@ -146,7 +138,7 @@
 }
 
 .c-modal-body {
-  border-top: 1px solid #D3D3D3;
+  border-top: 1px solid #d3d3d3;
   height: 70px;
 }
 
@@ -159,7 +151,7 @@
 .c-modal-footer {
   display: flex;
   justify-content: end;
-  border-top: 1px solid #D3D3D3;
+  border-top: 1px solid #d3d3d3;
 }
 
 .c-modal-footer > button {
@@ -184,4 +176,20 @@
 
 .c-modal-cancel:hover {
   opacity: 0.8;
+}
+
+.gptInputs {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  justify-content: space-between;
+}
+
+#gptKey {
+  height: 50px;
+  margin-right: 5px;
+}
+
+#gptModel {
+  height: 50px;
+  margin-left: 5px;
 }

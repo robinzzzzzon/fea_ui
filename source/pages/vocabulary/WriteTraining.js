@@ -34,10 +34,10 @@ function renderPage() {
         <div class="myProgressBar shadow"></div>
         <div class="rootDiv shadow">
           <div class="translateDiv"><p>${currentDictionary.data[0].translate}</p></div>
-          <input type="text" class="writeInput" placeholder=" Пишите здесь...">
+          <input type="text" class="writeInput" placeholder=" Write here...">
           <div class="btnDiv">
-              <button class="myBtn" id="suggestBtn">Подсказать</button>
-              <button class="myBtn" id="checkBtn">Проверить</button>
+              <button class="myBtn" id="suggestBtn">Get a cue</button>
+              <button class="myBtn" id="checkBtn">Check</button>
           </div>
         </div>
       </div>
@@ -104,17 +104,17 @@ async function checkWord(event) {
       progressBar.innerHTML = ''
       input.outerHTML = ''
       const translateDiv = document.querySelector('.translateDiv')
-      translateDiv.textContent = 'Это было круто! Ты молодец :)'
+      translateDiv.textContent = 'Great job! Try again?'
       const btnDiv = document.querySelector('.btnDiv')
       btnDiv.innerHTML = ''
       const newBtn = document.createElement('button')
       newBtn.classList.add('myBtn')
       newBtn.setAttribute('id', 'findNewBtn')
-      newBtn.textContent = 'Выбрать слова'
+      newBtn.textContent = 'New words'
       const oneMoreBtn = document.createElement('button')
       oneMoreBtn.classList.add('myBtn')
-      oneMoreBtn.setAttribute('id', 'retryBtn')
-      oneMoreBtn.textContent = 'Еще раз'
+      oneMoreBtn.setAttribute('id', 'repeatBtn')
+      oneMoreBtn.textContent = 'Repeat'
       btnDiv.append(newBtn)
       btnDiv.append(oneMoreBtn)
 
@@ -150,8 +150,10 @@ function clearProgress() {
 function checkCharCount() {
   const input = document.querySelector('.writeInput')
   const checkBtn = document.querySelector('#checkBtn')
+  const suggestBtn = document.querySelector('#suggestBtn')
 
   input.value.length > 1 ? checkBtn.disabled = false : checkBtn.disabled = true
+  input.value === currentDictionary.data[0].word ? suggestBtn.disabled = true : suggestBtn.disabled = false
 }
 
 export default new WriteTraining()

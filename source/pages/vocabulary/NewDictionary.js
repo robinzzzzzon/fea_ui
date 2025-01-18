@@ -17,7 +17,7 @@ class NewDictionary {
       item.classList.add('shadow-lg')
       item.style.backgroundColor = speechList[index].color
       item.setAttribute('data-name', speechList[index].dataName)
-      item.textContent = speechList[index].translateName.toUpperCase()
+      item.textContent = speechList[index].dataName.toUpperCase()
   
       const dictionaryList = await makeRequest({
         methodType: 'GET',
