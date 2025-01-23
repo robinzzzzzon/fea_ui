@@ -1,0 +1,31 @@
+services:
+  mongo:
+    image: 'feelmax/fea_db'
+    restart: always
+    ports:
+      - 27017:27017
+
+  mongo-express:
+    image: mongo-express
+    restart: always
+    ports:
+      - 8081:8081
+    environment:
+      ME_CONFIG_MONGODB_URL: mongodb://mongo:27017/
+      ME_CONFIG_BASICAUTH: false
+    depends_on:
+      - mongo
+
+  fea_api:
+    image: 'feelmax/fea_api'
+    ports:
+      - 3001:3001
+    depends_on:
+      - mongo-express
+
+  fea_ui:
+    image: 'feelmax/fea_ui'
+    ports:
+      - '3000:3000'
+    depends_on:
+      - fea_api
