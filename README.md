@@ -20,10 +20,10 @@ In the next version of this app it's going to be equipped by the new additional 
 
 ## For developers:
 Fea was created as a typical client-server application and has the next logical parts:
-* Frontend layer (Vanilla JS/Webpack/SPA)
-* Backend layer (Vanilla JS/Node/Express)
-* MongoDB (database)
-* Mongo-express (as a db-client)
+* Frontend layer (Vanilla JS/Webpack/SPA) - this repository;
+* Backend layer (Vanilla JS/Node/Express) - fea_api repository;
+* MongoDB (database);
+* Mongo-express (as a db-client);
 
 All these parts of the app have been published as docker-images which you can find here: https://hub.docker.com/repositories/feelmax
 
