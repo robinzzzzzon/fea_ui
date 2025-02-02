@@ -31,8 +31,8 @@ All these parts of the app have been published as docker-images which you can fi
 <b>Important!</b> For the correct usage at first you have to make sure that you've already installed Docker as a container working tool. If not, please install it before you continue;
 
 * Firstly you need to find a docker-compose.yml file which is in ./.user_artifacts and then copy it to your local machine.
-* Now, by using terminal and be in the same directory where you copied .yml file, execute the follow command: <b>docker-compose up -d</b>. This command will download all the images you need and after pulling it will up the examples of these images(containers) which will work properly thanks to docker network.
-After ending the process you can check that it works fine by entering the next command <b>docker ps -a</b>
+* Now, by using terminal and be in the same directory where you copied .yml file, execute the follow command: <b>docker compose up -d</b>. This command will download all the images you need and after pulling it will up the examples of these images(containers) which will work properly thanks to docker network.
+After ending the process you can check that it works fine by entering the next command: <b>docker ps -a</b>
 
 * Now, go to the localhost:8081 in your browser. Here you can see ui-client for MongoDB-interaction. In another words by using this way you will be able to manage your own database directly.
 So, you need to find database called <b>fea_test</b> and after finding click on it. As a result you will see two collections: <b>allwords</b> and <b>studywords</b> and at the same time you can find here an "Import" - buttons for each of them which allows you to import any dictionary-file. Let's do it for the "allwords"-collection. But before doing that please copy initialDictionary.json file which you can find at the same place: ./.user_artifacts.
@@ -42,4 +42,4 @@ Now click the import button and in the system window choose .json file you've ju
 As a first step you should choose some words from the dictionary by following as <b>Vocabulary > Choose words</b>.
 Right after that you can use it in the correct way.
 
-* <b>Important!</b> After usage you can stop all those containers by using a command <b>docker compose stop</b>. It saves your containers alive just shutting it down without deleting so that the next time you are going to use it, you would just execute <b>docker compose up -d</b> and that's it.
+* <b>Important!</b> After usage you can stop all those containers by using a command: <b>docker compose stop</b>. It saves your containers alive just shutting it down without deleting so that the next time you are going to use it, you would just execute: <b>docker compose up -d</b> and that's it.
