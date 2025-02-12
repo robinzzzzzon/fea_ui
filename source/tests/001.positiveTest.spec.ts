@@ -1,7 +1,7 @@
 import {test, expect} from '@playwright/test'
 
 test('check whether works a positive way', async ({page}) => {
-    await page.goto('http://host.docker.internal:3000/')
+    await page.goto('http://localhost:3000/')
 
     const vocabularyButton = page.getByRole('button', {name: 'VOCABULARY'})
 
