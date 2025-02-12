@@ -6,8 +6,15 @@ on:
     branches: [ main, master ]
 jobs:
   test:
-    timeout-minutes: 60
+    timeout-minutes: 90
     runs-on: ubuntu-latest
+    services:
+      ui:
+        image: 'feelmax/fea_ui'
+      api:
+        image: 'feelmax/fea_api'
+      db:
+        image: 'feelmax/fea_db'
     steps:
     - uses: actions/checkout@v4
     - uses: actions/setup-node@v4
