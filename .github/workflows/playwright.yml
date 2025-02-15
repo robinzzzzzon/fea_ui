@@ -9,7 +9,6 @@ jobs:
   test:
     timeout-minutes: 90
     runs-on: ubuntu-latest
-    # Removed `container: node` to run Playwright directly on the runner machine
     services:
       ui:
         image: 'feelmax/fea_ui'
@@ -32,9 +31,17 @@ jobs:
       run: npm ci
     - name: Install Playwright Browsers
       run: npx playwright install --with-deps
+    - name: Wait for UI service to be ready
+      run: |
+        echo "Waiting for UI service to be ready..."
+        for i in {1..30}; do  # Retry for ~30 seconds
+          curl -sSf http://localhost:3000/ && break
+          echo "UI service is not ready yet. Retrying in 2s..."
+          sleep 2
+        done
     - name: Run Playwright tests
       env:
-        UI_URL: http://localhost:3000  # Now localhost will correctly map to UI
+        UI_URL: http://localhost:3000
         API_URL: http://localhost:3001
       run: |
         echo "Using UI service at $UI_URL"
