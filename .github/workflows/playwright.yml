@@ -9,7 +9,7 @@ jobs:
     timeout-minutes: 90
     runs-on: ubuntu-latest
     container: node:latest
-      network_mode: service:ui
+    network_mode: service:ui
     services:
       ui:
         image: 'feelmax/fea_ui'
