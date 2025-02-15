@@ -15,17 +15,17 @@ jobs:
         image: 'feelmax/fea_ui'
         ports:
           - 3000:3000
-        options: --add-host=localhost:host-gateway
+        # options: --add-host=localhost:host-gateway
       api:
         image: 'feelmax/fea_api'
         ports:
           - 3001:3001
-        options: --add-host=localhost:host-gateway
+        # options: --add-host=localhost:host-gateway
       db:
         image: 'feelmax/fea_db'
         ports:
           - 27017:27017
-        options: --add-host=localhost:host-gateway
+        # options: --add-host=localhost:host-gateway
     steps:
     - uses: actions/checkout@v4
     - uses: actions/setup-node@v4
