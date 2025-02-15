@@ -9,7 +9,8 @@ jobs:
   test:
     timeout-minutes: 90
     runs-on: ubuntu-latest
-    container: node:latest  # Run tests inside a container
+    image: node:latest
+    container: node  # Run tests inside a container
     network_mode: service:ui  # Use the same network as the UI service
     services:
       ui:
