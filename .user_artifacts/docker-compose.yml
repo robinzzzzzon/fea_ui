@@ -1,6 +1,6 @@
 services:
   mongo:
-    image: 'feelmax/fea_db'
+    image: 'mongo'
     restart: always
     ports:
       - 27017:27017

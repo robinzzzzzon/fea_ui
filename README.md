@@ -34,7 +34,7 @@ All these parts of the app have been published as docker-images which you can fi
 * Now, by using terminal and be in the same directory where you copied .yml file, execute the follow command: <b>docker compose up -d</b>. This command will download all the images you need and after pulling it will up the examples of these images(containers) which will work properly thanks to docker network.
 After ending the process you can check that it works fine by entering the next command: <b>docker ps -a</b>
 
-* Now, go to the localhost:8081 in your browser. Here you can see ui-client for MongoDB-interaction. In another words by using this way you will be able to manage your own database directly.
+* Now, go to the 127.0.0.1:8081 in your browser. Here you can see ui-client for MongoDB-interaction. In another words by using this way you will be able to manage your own database directly.
 So, you need to find database called <b>fea_test</b> and after finding click on it. As a result you will see two collections: <b>allwords</b> and <b>studywords</b> and at the same time you can find here an "Import" - buttons for each of them which allows you to import any dictionary-file. Let's do it for the "allwords"-collection. But before doing that please copy initialDictionary.json file which you can find at the same place: ./.user_artifacts.
 Now click the import button and in the system window choose .json file you've just copied on your local machine.
 
