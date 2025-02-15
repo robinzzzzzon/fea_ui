@@ -31,10 +31,16 @@ jobs:
       run: npm ci
     - name: Install Playwright Browsers
       run: npx playwright install --with-deps
+    - name: Check running containers (Debugging Step)
+      run: |
+        echo "Listing running Docker containers..."
+        docker ps -a
+        echo "Checking container logs..."
+        docker logs $(docker ps -q --filter "ancestor=feelmax/fea_ui") || true
     - name: Wait for UI service to be ready
       run: |
         echo "Waiting for UI service to be ready..."
-        for i in {1..30}; do  # Retry for ~30 seconds
+        for i in {1..30}; do
           curl -sSf http://localhost:3000/ && break
           echo "UI service is not ready yet. Retrying in 2s..."
           sleep 2
