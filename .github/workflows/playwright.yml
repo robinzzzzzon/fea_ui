@@ -4,12 +4,13 @@ on:
     branches: [ main, master ]
   pull_request:
     branches: [ main, master ]
+
 jobs:
   test:
     timeout-minutes: 90
     runs-on: ubuntu-latest
-    container: node:latest
-    network_mode: service:ui
+    container: node:latest  # Run tests inside a container
+    network_mode: service:ui  # Use the same network as the UI service
     services:
       ui:
         image: 'feelmax/fea_ui'
