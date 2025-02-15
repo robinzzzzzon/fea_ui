@@ -9,22 +9,23 @@ jobs:
   test:
     timeout-minutes: 90
     runs-on: ubuntu-latest
-    image: node:latest
     container: node  # Run tests inside a container
-    network_mode: service:ui  # Use the same network as the UI service
     services:
       ui:
         image: 'feelmax/fea_ui'
         ports:
           - 3000:3000
+        options: --add-host=localhost:host-gateway
       api:
         image: 'feelmax/fea_api'
         ports:
           - 3001:3001
+        options: --add-host=localhost:host-gateway
       db:
         image: 'feelmax/fea_db'
         ports:
           - 27017:27017
+        options: --add-host=localhost:host-gateway
     steps:
     - uses: actions/checkout@v4
     - uses: actions/setup-node@v4
