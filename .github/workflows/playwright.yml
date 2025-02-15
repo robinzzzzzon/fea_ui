@@ -9,23 +9,20 @@ jobs:
   test:
     timeout-minutes: 90
     runs-on: ubuntu-latest
-    container: node  # Run tests inside a container
+    # Removed `container: node` to run Playwright directly on the runner machine
     services:
       ui:
         image: 'feelmax/fea_ui'
         ports:
           - 3000:3000
-        # options: --add-host=localhost:host-gateway
       api:
         image: 'feelmax/fea_api'
         ports:
           - 3001:3001
-        # options: --add-host=localhost:host-gateway
       db:
         image: 'feelmax/fea_db'
         ports:
           - 27017:27017
-        # options: --add-host=localhost:host-gateway
     steps:
     - uses: actions/checkout@v4
     - uses: actions/setup-node@v4
@@ -36,7 +33,13 @@ jobs:
     - name: Install Playwright Browsers
       run: npx playwright install --with-deps
     - name: Run Playwright tests
-      run: npx playwright test
+      env:
+        UI_URL: http://localhost:3000  # Now localhost will correctly map to UI
+        API_URL: http://localhost:3001
+      run: |
+        echo "Using UI service at $UI_URL"
+        echo "Using API service at $API_URL"
+        npx playwright test
     - uses: actions/upload-artifact@v4
       if: ${{ !cancelled() }}
       with:
