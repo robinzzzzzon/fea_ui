@@ -10,7 +10,7 @@ jobs:
     timeout-minutes: 90
     runs-on: ubuntu-latest
     services:
-      mongo:
+      db:
         image: 'mongo'
         ports:
           - 27017:27017
@@ -35,12 +35,12 @@ jobs:
       run: |
         echo "=== Listing running containers ==="
         docker ps -a
-        echo "=== UI SERVICE LOGS ==="
-        docker logs $(docker ps -aq --filter "ancestor=feelmax/fea_ui") || true
+        echo "=== DB SERVICE LOGS ==="
+        docker logs $(docker ps -aq --filter "ancestor=db") || true
         echo "=== API SERVICE LOGS ==="
         docker logs $(docker ps -aq --filter "ancestor=feelmax/fea_api") || true
-        echo "=== DB SERVICE LOGS ==="
-        docker logs $(docker ps -aq --filter "ancestor=feelmax/fea_db") || true
+        echo "=== UI SERVICE LOGS ==="
+        docker logs $(docker ps -aq --filter "ancestor=feelmax/fea_ui") || true
     - name: Wait for UI to be Ready
       run: |
         echo "Waiting for UI..."
