@@ -43,11 +43,15 @@ export class AddNewWordPage {
         await this.confirmBtn.click()
     }
 
-    async fillNewWordForm({ word, translation, wordType }) {
+    async fillNewWordForm({ word, translation, wordType, needToStudyList }) {
         await this.setWord(word)
         await this.setTranslation(translation)
         await this.setWordType(wordType)
-        await this.checkStudyListCb()
+
+        if (needToStudyList) {
+            await this.checkStudyListCb()
+        }
+        
         await this.clickConfirmBtn()
     }
 }
