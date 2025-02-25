@@ -91,11 +91,90 @@ test('Check adding a new word to both dictionaries', async ({page}) => {
 
     await expect(modalWindow.title).toHaveText('Do you really want to delete this word?')
     await expect(modalWindow.deleteBtn).toBeEnabled()
+    await modalWindow.clickCancelBtn()
+
+    // check that current word card doesn't contain word or translation our test item:
+    await modalWindow.body.waitFor({state: 'hidden'})
+    await expect(initCardsPage.wordArea).toBeEnabled()
+    await expect(initCardsPage.alreadyKnowBtn).toBeAttached()
+    await expect(initCardsPage.addToListBtn).toBeAttached()
+})
+
+test('Check removing a new word from init dictionary', async ({page}) => {
+    await page.goto('http://localhost:3000/')
+
+    const snippets = new VocabularySnippets()
+    const mainPage = new MainPage(page)
+
+    await snippets.checkMainPageStaticContent(page)
+
+    // navigate to vocabularyOptionsPage:
+    await mainPage.clickVocabularySectionBtn()
+
+    const vocabularyOptionsPage = new VocabularyOptionsPage(page)
+
+    // check vocabulary option list:
+    await snippets.checkVocabularyPageStaticContent(page)
+
+    // navigate to addNewWordPage:
+    await vocabularyOptionsPage.clickAnySection(4);
+
+    // check form of adding words:
+    const addNewWordPage = new AddNewWordPage(page)
+
+    await expect(addNewWordPage.alertMsg).toHaveText('Here you can add a new word to initial dictionary!')
+
+    const addedWord = {
+        word: `a test-word${new Date().getTime()}`, 
+        translation: 'test translation', 
+        wordType: 'nouns' ,
+        needToStudyList: false,
+    }
+
+    // try to fill word form and add a new word to study list:
+    await addNewWordPage.fillNewWordForm(addedWord);
+    
+    // check whether form's inputs become clear:
+    await expect(addNewWordPage.wordInput).toHaveValue('')
+    await expect(addNewWordPage.translationInput).toHaveValue('')
+
+    await mainPage.backToMainPage()
+
+    await expect(mainPage.vocabularySectionBtn).toBeEnabled()
+    await mainPage.clickVocabularySectionBtn()
+
+    // navigate to addNewWordPage:
+    await vocabularyOptionsPage.clickAnySection(1);
+
+    const decksPage = new DictionaryDecksPage(page)
+
+    await expect(decksPage.deckList).toHaveCount(11)
+
+    // go to needed deck to ensure that word has been added:
+    await decksPage.deckList.nth(2).click()
+
+    const initCardsPage = new InitWordCardsPage(page)
+
+    await expect(initCardsPage.cardRoot).toBeInViewport()
+    expect(await initCardsPage.wordDiv.textContent()).toContain('a test-word')
+    expect(await initCardsPage.translationDiv.textContent()).toContain(addedWord.translation)
+
+    // then delete the word from initial dictionary:
+    await initCardsPage.clickCrossBtn()
+
+    const modalWindow = new CardWordModalWindow(page)
+
+    await expect(modalWindow.title).toHaveText('Do you really want to delete this word?')
+    await expect(modalWindow.deleteBtn).toBeEnabled()
     await modalWindow.clickDeleteBtn()
 
     // check that current word card doesn't contain word or translation our test item:
-    await initCardsPage.wordArea.waitFor({state: 'visible'})
-    await expect(initCardsPage.wordArea).toBeAttached()
+    await modalWindow.deleteBtn.waitFor({state: 'hidden'})
+    await expect(initCardsPage.wordArea).toBeEnabled()
+
+    const finalWord = await initCardsPage.wordDiv.textContent()
+
+    expect(finalWord?.trim).not.toEqual(addedWord.word)
 })
 
 test(`Check that new word has been added only to initDictionary`, async ({page, request}) => {
@@ -151,6 +230,13 @@ test(`Check that new word has been added only to initDictionary`, async ({page, 
 })
 
 test(`Check that new word hasn't been added to DB if it's a duplicate`, async ({page, request}) => {
+    // add an item:
+    await request.post(`${domain}/words/init`, { data: {
+        word: 'climate',
+        translate: 'климат',
+        wordType: 'nouns',
+    }})
+
     await page.goto('http://localhost:3000/')
 
     const mainPage = new MainPage(page)
@@ -163,6 +249,7 @@ test(`Check that new word hasn't been added to DB if it's a duplicate`, async ({
 
     const newWordPage = new AddNewWordPage(page)
 
+    // fill form with the same data:
     await newWordPage.fillNewWordForm({
         word: 'climate',
         translation: 'климат',
@@ -186,8 +273,5 @@ test(`Check that new word hasn't been added to DB if it's a duplicate`, async ({
     const finalStudyResponse = await request.get(`${domain}/words/study`, { params: { word: 'climate' }})
     let finalStudyList = await finalStudyResponse.json()
 
-    console.log(finalStudyList)
-
-    // doesn't work correctly. Investigate
-    // expect(finalStudyList.length).toEqual(0)
+    expect(finalStudyList.length).toEqual(0)
 })
