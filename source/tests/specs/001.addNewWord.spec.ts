@@ -155,7 +155,7 @@ test(`Check that new word has been added only to initDictionary`, async ({page, 
 test(`Check that new word hasn't been added to DB if it's a duplicate`, async ({page, request}) => {
     const startInitResponse = await request.get(`${domain}/words/init`, { params: { word: 'climate' }})
     const startInitList = await startInitResponse.json()
-    const startStudyResponse = await request.get(`${domain}/words/study`)
+    const startStudyResponse = await request.get(`${domain}/words/study`, { params: { word: 'climate' }})
     const startStudyList = await startStudyResponse.json()
 
     await page.goto('http://localhost:3000/')
@@ -194,11 +194,11 @@ test(`Check that new word hasn't been added to DB if it's a duplicate`, async ({
     const finalInitResponse = await request.get(`${domain}/words/init`, { params: { word: 'climate' }})
     let finalInitList = await finalInitResponse.json()
 
-    expect(finalInitList.length).toEqual(1)
+    expect(finalInitList.length).toEqual(startInitList.length)
 
     // verify that study dictionary doesn't have that test word:
     const finalStudyResponse = await request.get(`${domain}/words/study`, { params: { word: 'climate' }})
     let finalStudyList = await finalStudyResponse.json()
 
-    expect(finalStudyList.length).toEqual(0)
+    expect(finalStudyList.length).toEqual(startStudyList.length)
 })
