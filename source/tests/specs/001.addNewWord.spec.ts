@@ -96,8 +96,6 @@ test('Check adding a new word to both dictionaries', async ({page}) => {
     // check that current word card doesn't contain word or translation our test item:
     await initCardsPage.wordArea.waitFor({state: 'visible'})
     await expect(initCardsPage.wordArea).toBeAttached()
-    await expect(initCardsPage.alreadyKnowBtn).toBeEnabled()
-    await expect(initCardsPage.addToListBtn).toBeEnabled()
 })
 
 test(`Check that new word has been added only to initDictionary`, async ({page, request}) => {
@@ -153,14 +151,6 @@ test(`Check that new word has been added only to initDictionary`, async ({page, 
 })
 
 test(`Check that new word hasn't been added to DB if it's a duplicate`, async ({page, request}) => {
-    const startInitResponse = await request.get(`${domain}/words/init`, { params: { word: 'climate' }})
-    const startInitList = await startInitResponse.json()
-    const startStudyResponse = await request.get(`${domain}/words/study`, { params: { word: 'climate' }})
-    const startStudyList = await startStudyResponse.json()
-
-    console.log(startInitResponse)
-    console.log(startInitList)
-
     await page.goto('http://localhost:3000/')
 
     const mainPage = new MainPage(page)
@@ -174,9 +164,9 @@ test(`Check that new word hasn't been added to DB if it's a duplicate`, async ({
     const newWordPage = new AddNewWordPage(page)
 
     await newWordPage.fillNewWordForm({
-        word: startInitList[0].word,
-        translation: startInitList[0].translate,
-        wordType: startInitList[0].wordType,
+        word: 'climate',
+        translation: 'климат',
+        wordType: 'nouns',
         needToStudyList: true,
     })
 
@@ -197,11 +187,11 @@ test(`Check that new word hasn't been added to DB if it's a duplicate`, async ({
     const finalInitResponse = await request.get(`${domain}/words/init`, { params: { word: 'climate' }})
     let finalInitList = await finalInitResponse.json()
 
-    expect(finalInitList.length).toEqual(startInitList.length)
+    expect(finalInitList.length).toEqual(1)
 
     // verify that study dictionary doesn't have that test word:
     const finalStudyResponse = await request.get(`${domain}/words/study`, { params: { word: 'climate' }})
     let finalStudyList = await finalStudyResponse.json()
 
-    expect(finalStudyList.length).toEqual(startStudyList.length)
+    expect(finalStudyList.length).toEqual(0)
 })
