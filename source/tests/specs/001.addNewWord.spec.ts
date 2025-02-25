@@ -94,7 +94,8 @@ test.only('Check adding a new word to both dictionaries', async ({page}) => {
     await modalWindow.clickDeleteBtn()
 
     // check that current word card doesn't contain word or translation our test item:
-    await expect(modalWindow.body).not.toBeInViewport({timeout: 5_000})
+    await modalWindow.body.waitFor({state: "hidden"})
+    await expect(modalWindow.body).toBeHidden()
     expect(await initCardsPage.wordDiv.textContent()).not.toContain(addedWord.word)
     expect(await initCardsPage.translationDiv.textContent()).not.toContain(addedWord.translation)
 })
