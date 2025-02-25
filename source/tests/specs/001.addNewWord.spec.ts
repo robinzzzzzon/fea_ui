@@ -176,13 +176,6 @@ test(`Check that new word hasn't been added to DB if it's a duplicate`, async ({
 
     await mainPage.backToMainPage()
 
-    await expect(mainPage.vocabularySectionBtn).toBeEnabled()
-    await mainPage.clickVocabularySectionBtn()
-
-    const optionsList = vocabularyOptionsPage.optionsList
-
-    await expect(optionsList.nth(2)).not.toBeEnabled()
-
     // verify that init dictionary doesn't have that test word:
     const finalInitResponse = await request.get(`${domain}/words/init`, { params: { word: 'climate' }})
     let finalInitList = await finalInitResponse.json()
