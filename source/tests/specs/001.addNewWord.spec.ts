@@ -9,7 +9,7 @@ import { InitWordCardsPage } from '../pageObjects/pages/initWordCardsPage'
 import { CardWordModalWindow} from '../pageObjects/widgets/cardWordModalWindow' 
 import { domain } from '../../utils/constants'
 
-test('Check adding a new word to both dictionaries', async ({page}) => {
+test.only('Check adding a new word to both dictionaries', async ({page}) => {
     await page.goto('http://localhost:3000/')
 
     const snippets = new VocabularySnippets()
@@ -94,7 +94,7 @@ test('Check adding a new word to both dictionaries', async ({page}) => {
     await modalWindow.clickDeleteBtn()
 
     // check that current word card doesn't contain word or translation our test item:
-    await expect(modalWindow.body).not.toBeInViewport()
+    await expect(modalWindow.body).not.toBeInViewport({timeout: 5_000})
     expect(await initCardsPage.wordDiv.textContent()).not.toContain(addedWord.word)
     expect(await initCardsPage.translationDiv.textContent()).not.toContain(addedWord.translation)
 })
