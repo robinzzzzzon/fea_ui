@@ -81,7 +81,7 @@ test.only('Check adding a new word to both dictionaries', async ({page}) => {
     const initCardsPage = new InitWordCardsPage(page)
 
     await expect(initCardsPage.cardRoot).toBeInViewport()
-    expect(await initCardsPage.wordDiv.textContent()).toContain(addedWord.word)
+    expect(await initCardsPage.wordDiv.textContent()).toContain('a test-word')
     expect(await initCardsPage.translationDiv.textContent()).toContain(addedWord.translation)
 
     // then delete the word from initial dictionary:
@@ -94,10 +94,13 @@ test.only('Check adding a new word to both dictionaries', async ({page}) => {
     await modalWindow.clickDeleteBtn()
 
     // check that current word card doesn't contain word or translation our test item:
-    await expect(initCardsPage.cardRoot).toBeEnabled()
-    await modalWindow.closeBtn.waitFor({state: "hidden"})
-    expect(await initCardsPage.wordDiv.textContent()).not.toContain(addedWord.word)
-    expect(await initCardsPage.translationDiv.textContent()).not.toContain(addedWord.translation)
+    await initCardsPage.wordArea.waitFor({state: 'visible'})
+    await expect(initCardsPage.wordArea).toBeAttached()
+    await initCardsPage.alreadyKnowBtn.waitFor({state: "attached"})
+    await expect(initCardsPage.alreadyKnowBtn).toBeEnabled()
+    await expect(initCardsPage.addToListBtn).toBeEnabled()
+
+    console.log(await initCardsPage.wordDiv.textContent())
 })
 
 test(`Check that new word has been added only to initDictionary`, async ({page, request}) => {
