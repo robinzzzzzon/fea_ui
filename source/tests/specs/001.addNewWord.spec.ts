@@ -158,6 +158,9 @@ test(`Check that new word hasn't been added to DB if it's a duplicate`, async ({
     const startStudyResponse = await request.get(`${domain}/words/study`, { params: { word: 'climate' }})
     const startStudyList = await startStudyResponse.json()
 
+    console.log(startInitResponse)
+    console.log(startInitList)
+
     await page.goto('http://localhost:3000/')
 
     const mainPage = new MainPage(page)
