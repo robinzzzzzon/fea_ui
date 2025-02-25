@@ -9,7 +9,7 @@ import { InitWordCardsPage } from '../pageObjects/pages/initWordCardsPage'
 import { CardWordModalWindow} from '../pageObjects/widgets/cardWordModalWindow' 
 import { domain } from '../../utils/constants'
 
-test.only('Check adding a new word to both dictionaries', async ({page}) => {
+test('Check adding a new word to both dictionaries', async ({page}) => {
     await page.goto('http://localhost:3000/')
 
     const snippets = new VocabularySnippets()
@@ -96,11 +96,8 @@ test.only('Check adding a new word to both dictionaries', async ({page}) => {
     // check that current word card doesn't contain word or translation our test item:
     await initCardsPage.wordArea.waitFor({state: 'visible'})
     await expect(initCardsPage.wordArea).toBeAttached()
-    await initCardsPage.alreadyKnowBtn.waitFor({state: "attached"})
     await expect(initCardsPage.alreadyKnowBtn).toBeEnabled()
     await expect(initCardsPage.addToListBtn).toBeEnabled()
-
-    console.log(await initCardsPage.wordDiv.textContent())
 })
 
 test(`Check that new word has been added only to initDictionary`, async ({page, request}) => {
@@ -156,7 +153,7 @@ test(`Check that new word has been added only to initDictionary`, async ({page, 
 })
 
 test(`Check that new word hasn't been added to DB if it's a duplicate`, async ({page, request}) => {
-    const startInitResponse = await request.get(`${domain}/words/init`)
+    const startInitResponse = await request.get(`${domain}/words/init`, { params: { word: 'climate' }})
     const startInitList = await startInitResponse.json()
     const startStudyResponse = await request.get(`${domain}/words/study`)
     const startStudyList = await startStudyResponse.json()
@@ -194,14 +191,14 @@ test(`Check that new word hasn't been added to DB if it's a duplicate`, async ({
     await expect(optionsList.nth(2)).not.toBeEnabled()
 
     // verify that init dictionary doesn't have that test word:
-    const finalInitResponse = await request.get(`${domain}/words/init`)
+    const finalInitResponse = await request.get(`${domain}/words/init`, { params: { word: 'climate' }})
     let finalInitList = await finalInitResponse.json()
 
-    expect(finalInitList.length).toEqual(startInitList.length)
+    expect(finalInitList.length).toEqual(1)
 
     // verify that study dictionary doesn't have that test word:
-    const finalStudyResponse = await request.get(`${domain}/words/study`)
+    const finalStudyResponse = await request.get(`${domain}/words/study`, { params: { word: 'climate' }})
     let finalStudyList = await finalStudyResponse.json()
 
-    expect(finalStudyList.length).toEqual(startStudyList.length)
+    expect(finalStudyList.length).toEqual(0)
 })
