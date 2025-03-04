@@ -12,6 +12,8 @@ export class InitWordCardsPage {
     readonly addToListBtn: Locator
     readonly changeBtn: Locator
     readonly cancelBtn: Locator
+    readonly newWordsBtn: Locator
+    readonly studyWordsBtn: Locator
 
     constructor (page: Page) {
         this.page = page
@@ -24,6 +26,8 @@ export class InitWordCardsPage {
         this.addToListBtn = page.getByRole('button', { name: 'Add to list'})
         this.changeBtn = page.getByRole('button', { name: 'Change'})
         this.cancelBtn = page.getByRole('button', { name: 'Cancel'})
+        this.newWordsBtn = page.getByRole('button', { name: 'New words'})
+        this.studyWordsBtn = page.getByRole('button', { name: 'Study words'})
     }
 
     async goToTheNextWord() {
@@ -40,6 +44,14 @@ export class InitWordCardsPage {
 
     async clickCancelBtn() {
         await this.cancelBtn.click()
+    }
+
+    async clickNewWordsBtn() {
+        await this.newWordsBtn.click()
+    }
+
+    async clickStudyWordsBtn() {
+        await this.studyWordsBtn.click()
     }
 
     async clickCrossBtn() {
