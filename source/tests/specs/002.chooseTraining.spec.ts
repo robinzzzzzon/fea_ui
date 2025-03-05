@@ -6,6 +6,7 @@ import { DictionaryDecksPage } from '../pageObjects/pages/dictionaryDecksPage'
 import { InitWordCardsPage } from '../pageObjects/pages/initWordCardsPage'
 import { TrainingListPage} from '../pageObjects/pages/trainingListPage'
 import { ChooseTrainingPage } from '../pageObjects/pages/chooseTrainingPage'
+import { StudyDecksPage } from '../pageObjects/pages/studyDecksPage'
 import { domain } from '../../utils/constants'
 
 let testWordList = [
@@ -105,13 +106,68 @@ test('Check positive way of "choose" training', async ({page}) => {
 
                 await expect(chooseTrainingPage.wordItem).not.toHaveText(`${currentWord}`)
 
-                if (await chooseTrainingPage.wordItem.textContent() === 'It was great!') return;
+                if (await chooseTrainingPage.wordItem.textContent() === 'It was great!') break
             }
         }
     }
 
     await expect(chooseTrainingPage.newWordsBtn).toBeEnabled()
     await expect(chooseTrainingPage.repeatBtn).toBeEnabled()
+})
+
+test('Check negative way of "choose" training', async ({page, request}) => {
+    const mainPage = new MainPage(page)
+    const snippets = new VocabularySnippets()
+
+    await snippets.checkMainPageStaticContent(page)
+
+    await mainPage.clickVocabularySectionBtn()
+
+    const vocabularyOptionsPage = new VocabularyOptionsPage(page)
+
+    await expect(vocabularyOptionsPage.optionsList.first()).toBeInViewport()
+    await expect(vocabularyOptionsPage.optionsList.first()).toBeEnabled()
+
+    await vocabularyOptionsPage.clickAnySection(2)
+
+    const studyDecksPage = new StudyDecksPage(page)
+
+    await expect(studyDecksPage.allWordsBtn).toBeInViewport()
+    await expect(studyDecksPage.allWordsBtn).toBeEnabled()
+
+    await studyDecksPage.clickAllWordsBtn()
+
+    const trainingListPage = new TrainingListPage(page)
+
+    await expect(trainingListPage.trainingListRoot).toBeInViewport()
+    await expect(trainingListPage.chooseTrainingIcon).toBeEnabled()
+
+    await trainingListPage.clickChooseTraining()
+
+    const chooseTrainingPage = new ChooseTrainingPage(page)
+
+    await expect(chooseTrainingPage.trainArea).toBeInViewport()
+    const neededWordText = await chooseTrainingPage.wordItem.textContent()
+
+    const initResponse = await request.get(`${domain}/words/study`, {params: { word: `${neededWordText}` }})
+    const neededWord = await initResponse.json()
+    
+    expect(neededWord[0].studyLevel).toEqual(1)
+
+    for (const translationBtn of await chooseTrainingPage.translationList.all()) {
+        if (await translationBtn.textContent() !== neededWord[0].translate) {
+            await translationBtn.click()
+            await expect(translationBtn).toHaveCSS('background-color', 'rgb(255, 140, 140)')
+            await expect(translationBtn).toHaveCSS('background-color', 'rgb(242, 242, 253)')
+            break
+        }
+    }
+
+    const finalResponse = await request.get(`${domain}/words/study`, { params: { word: `${neededWordText}`} })
+
+    const testWord = await finalResponse.json()
+
+    expect(testWord[0].studyLevel).toEqual(0)
 })
 
 test.afterAll('Delete generated words after run', async ({ request }) => {
