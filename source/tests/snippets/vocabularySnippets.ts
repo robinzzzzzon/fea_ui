@@ -1,6 +1,7 @@
-import { MainPage } from "../pageObjects/pages/mainPage";
-import { VocabularyOptionsPage } from "../pageObjects/pages/vocabularyOptionsPage";
 import { Page, expect } from '@playwright/test'
+import { MainPage } from "../pageObjects/pages/mainPage";
+import { InitWordCardsPage } from "../pageObjects/pages/initWordCardsPage";
+import { VocabularyOptionsPage } from "../pageObjects/pages/vocabularyOptionsPage";
 
 export class VocabularySnippets {
 
@@ -43,5 +44,14 @@ export class VocabularySnippets {
             expect(optionsList.nth(i)).toHaveText(referenceValueList[i].text)
             expect(optionsList.nth(i)).toHaveAttribute('data-name', referenceValueList[i].dataName)
         }
+    }
+
+    async checkWordCardContent(page: Page) {
+        const initCardsPage = new InitWordCardsPage(page)
+
+        await expect(initCardsPage.cardRoot).toBeInViewport()
+        await expect(initCardsPage.alreadyKnowBtn).toBeAttached()
+        await expect(initCardsPage.alreadyKnowBtn).toBeEnabled()
+        await expect(initCardsPage.addToListBtn).toBeEnabled()
     }
 }

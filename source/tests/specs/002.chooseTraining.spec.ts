@@ -8,28 +8,25 @@ import { TrainingListPage} from '../pageObjects/pages/trainingListPage'
 import { ChooseTrainingPage } from '../pageObjects/pages/chooseTrainingPage'
 import { StudyDecksPage } from '../pageObjects/pages/studyDecksPage'
 import { domain } from '../../utils/constants'
+import { faker } from '@faker-js/faker'
 
-let testWordList = [
-    // TODO: change implementation by using faker:
-    { word: 'definition', translate: 'определение', wordType: 'nouns' },
-    { word: 'climate', translate: 'климат', wordType: 'nouns' },
-    { word: 'agency', translate: 'агенство', wordType: 'nouns' },
-    { word: 'choice', translate: 'выбор', wordType: 'nouns' },
-]
+let testWordList : any[] = []
 
+// TODO: refactor hooks' logic as now I use fullfilling database only at the beginning of the spec. 
+// But for more idependency I should fullfill db before every single AT.
 test.beforeAll(async ({ request }) => {
-    testWordList = testWordList.sort((a, b) => a.word.localeCompare(b.word))
-
-    for (let index = 0; index < testWordList.length; index++) {
-        await request.post(`${domain}/words/init`, { data: testWordList[index]})
+    for (let index = 0; index < 4; index++) {
+        const item = { word: faker.word.sample(), translate: faker.word.words(), wordType: 'nouns' }
+        await request.post(`${domain}/words/init`, { data: item })
+        testWordList.push(item)
     }
+
+    testWordList = testWordList.sort((a, b) => a.word.localeCompare(b.word))
 })
 
 test.beforeEach(async ({ page }) => {
     await page.goto('/')
-})
 
-test('Check positive way of "choose" training', async ({page}) => {
     const mainPage = new MainPage(page)
     const snippets = new VocabularySnippets()
 
@@ -37,12 +34,15 @@ test('Check positive way of "choose" training', async ({page}) => {
 
     await mainPage.clickVocabularySectionBtn()
 
-    await snippets.checkVocabularyPageStaticContent(page)
-
     const vocabularyOptionsPage = new VocabularyOptionsPage(page)
 
     await expect(vocabularyOptionsPage.optionsList.first()).toBeInViewport()
     await expect(vocabularyOptionsPage.optionsList.first()).toBeEnabled()
+})
+
+test('Check positive way of "choose" training', async ({page, request}) => {
+    const vocabularyOptionsPage = new VocabularyOptionsPage(page)
+    const snippets = new VocabularySnippets()
 
     await vocabularyOptionsPage.clickAnySection(1)
 
@@ -55,30 +55,12 @@ test('Check positive way of "choose" training', async ({page}) => {
 
     const initCardsPage = new InitWordCardsPage(page)
 
-    await expect(initCardsPage.cardRoot).toBeInViewport()
-    await expect(initCardsPage.wordDiv).toHaveText('agency')
-    await expect(initCardsPage.alreadyKnowBtn).toBeAttached()
-    await expect(initCardsPage.alreadyKnowBtn).toBeEnabled()
-    await expect(initCardsPage.addToListBtn).toBeAttached()
-    await expect(initCardsPage.addToListBtn).toBeEnabled()
-
-    // Add 1st word for practicing:
-    await initCardsPage.addWordToStudyList()
-
-    await expect(initCardsPage.wordDiv).toHaveText('choice')
-
-    // Add 2nd word:
-    await initCardsPage.addWordToStudyList()
-
-    await expect(initCardsPage.wordDiv).toHaveText('climate')
-
-    // Add 3rd word:
-    await initCardsPage.addWordToStudyList()
-
-    await expect(initCardsPage.wordDiv).toHaveText('definition')
-
-    // Add the last word:
-    await initCardsPage.addWordToStudyList()
+    // Add a few words for practicing:
+    for (let i = 0; i < testWordList.length; i++) {
+        await snippets.checkWordCardContent(page)
+        await expect(initCardsPage.wordDiv).toHaveText(testWordList[i].word)
+        await initCardsPage.addWordToStudyList()
+    }
 
     await initCardsPage.addToListBtn.waitFor({ state: 'hidden'})
     await expect(initCardsPage.studyWordsBtn).toBeInViewport()
@@ -95,8 +77,15 @@ test('Check positive way of "choose" training', async ({page}) => {
     const chooseTrainingPage = new ChooseTrainingPage(page)
 
     await expect(chooseTrainingPage.trainArea).toBeInViewport()
-    await expect(chooseTrainingPage.wordItem).toHaveText('agency')
+    await expect(chooseTrainingPage.wordItem).toHaveText(testWordList[0].word)
 
+    // Verify that initial studyLevel is 0:
+    const initResponse = await request.get(`${domain}/words/study`, { params: { word: testWordList[0].word }})
+    const initWord = await initResponse.json()
+
+    expect(initWord[0].studyLevel).toEqual(0)
+
+    // Go through each word by choosing only correct option:
     for (let i = 0; i < testWordList.length; i++) {
         for (const option of await chooseTrainingPage.translationList.all()) {
             if ((await option.textContent() === testWordList[i].translate) && (await chooseTrainingPage.wordItem.textContent() === testWordList[i].word)) {
@@ -113,20 +102,16 @@ test('Check positive way of "choose" training', async ({page}) => {
 
     await expect(chooseTrainingPage.newWordsBtn).toBeEnabled()
     await expect(chooseTrainingPage.repeatBtn).toBeEnabled()
+
+    // Make sure that studyLevel is 1 after getting success:
+    const finalResponse = await request.get(`${domain}/words/study`, { params: { word: testWordList[0].word }})
+    const finalList = await finalResponse.json()
+
+    expect(finalList[0].studyLevel).toEqual(1)
 })
 
 test('Check negative way of "choose" training', async ({page, request}) => {
-    const mainPage = new MainPage(page)
-    const snippets = new VocabularySnippets()
-
-    await snippets.checkMainPageStaticContent(page)
-
-    await mainPage.clickVocabularySectionBtn()
-
     const vocabularyOptionsPage = new VocabularyOptionsPage(page)
-
-    await expect(vocabularyOptionsPage.optionsList.first()).toBeInViewport()
-    await expect(vocabularyOptionsPage.optionsList.first()).toBeEnabled()
 
     await vocabularyOptionsPage.clickAnySection(2)
 
