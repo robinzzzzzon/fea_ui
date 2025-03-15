@@ -10,7 +10,7 @@ export class StudyWordsPage {
 
     constructor (page: Page) {
         this.page = page
-        this.wordsList = page.locator('.actualDictionaryRoot .actualItem')
+        this.wordsList = page.locator('.actualDictionaryRoot .actualItem > #word')
         this.resetBtnList = page.getByRole('button', {name: 'Reset'})
         this.deleteBtnList = page.getByRole('button', {name: 'Delete'})
         this.gotItBtn = page.getByRole('button', { name: 'Got it'})
