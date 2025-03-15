@@ -10,7 +10,7 @@ import { StudyDecksPage } from '../pageObjects/pages/studyDecksPage'
 import { domain } from '../../utils/constants'
 import { faker } from '@faker-js/faker'
 
-let testWordList : any[] = []
+let testWordsList : any[] = []
 
 test.beforeEach(async ({ page, request }) => {
     // generate testing items:
@@ -21,10 +21,10 @@ test.beforeEach(async ({ page, request }) => {
             wordType: 'nouns',
         }})
 
-        testWordList.push(await item.json())
+        testWordsList.push(await item.json())
     }
 
-    testWordList = testWordList.sort((a, b) => a.word.localeCompare(b.word))
+    testWordsList = testWordsList.sort((a, b) => a.word.localeCompare(b.word))
 
     await page.goto('/')
 
@@ -56,9 +56,9 @@ test('Check full positive way of "choose" training', async ({page, request}) => 
     const initCardsPage = new InitWordCardsPage(page)
 
     // Add a few words for practicing:
-    for (let i = 0; i < testWordList.length; i++) {
+    for (let i = 0; i < testWordsList.length; i++) {
         await snippets.checkWordCardContent(page)
-        await expect(initCardsPage.wordDiv).toHaveText(testWordList[i].word)
+        await expect(initCardsPage.wordDiv).toHaveText(testWordsList[i].word)
         await initCardsPage.addWordToStudyList()
     }
 
@@ -77,18 +77,18 @@ test('Check full positive way of "choose" training', async ({page, request}) => 
     const chooseTrainingPage = new ChooseTrainingPage(page)
 
     await expect(chooseTrainingPage.trainArea).toBeInViewport()
-    await expect(chooseTrainingPage.wordItem).toHaveText(testWordList[0].word)
+    await expect(chooseTrainingPage.wordItem).toHaveText(testWordsList[0].word)
 
-    // Verify that initial studyLevel of each word is 0:
-    const initialStudyWord = await request.get(`${domain}/words/study`, { params: { word: testWordList[0].word }})
+    // Verify that initial studyLevel of word is 0:
+    const initialStudyWord = await request.get(`${domain}/words/study`, { params: { word: testWordsList[0].word }})
     const studyWord = await initialStudyWord.json()
         
     expect(studyWord[0].studyLevel).toEqual(0)
 
     // Go through each word by choosing only correct option:
-    for (let i = 0; i < testWordList.length; i++) {
+    for (let i = 0; i < testWordsList.length; i++) {
         for (const option of await chooseTrainingPage.translationList.all()) {
-            if ((await option.textContent() === testWordList[i].translate) && (await chooseTrainingPage.wordItem.textContent() === testWordList[i].word)) {
+            if ((await option.textContent() === testWordsList[i].translate) && (await chooseTrainingPage.wordItem.textContent() === testWordsList[i].word)) {
                 const currentWord = await chooseTrainingPage.wordItem.textContent()
 
                 await option.click()
@@ -104,7 +104,7 @@ test('Check full positive way of "choose" training', async ({page, request}) => 
     await expect(chooseTrainingPage.repeatBtn).toBeEnabled()
 
     // Make sure that studyLevel is 1 after getting success:
-    const finalStudyWord = await request.get(`${domain}/words/study`, { params: { word: testWordList[0].word }})
+    const finalStudyWord = await request.get(`${domain}/words/study`, { params: { word: testWordsList[0].word }})
     const finalWord = await finalStudyWord.json()
 
     expect(finalWord[0].studyLevel).toEqual(1)
@@ -112,11 +112,11 @@ test('Check full positive way of "choose" training', async ({page, request}) => 
 
 test('Check negative way of "choose" training', async ({page, request}) => {
     // setup study words list with needed condition of studyLevel:
-    for (let i = 0; i < testWordList.length; i++) {
+    for (let i = 0; i < testWordsList.length; i++) {
         await request.post(`${domain}/words/study`, { data: { 
-            word: testWordList[i].word, 
-            translate: testWordList[i].translate, 
-            wordType: testWordList[i].wordType,
+            word: testWordsList[i].word, 
+            translate: testWordsList[i].translate, 
+            wordType: testWordsList[i].wordType,
             studyLevel: 1,
         }})
     }
@@ -173,14 +173,14 @@ test.afterEach('Delete generated words after running', async ({ request }) => {
 
     let studyIdList : any[] = []
 
-    for (let i = 0; i < testWordList.length; i++) {
-        const studyWord = await request.get(`${domain}/words/study`, { params: { word: testWordList[i].word }})
+    for (let i = 0; i < testWordsList.length; i++) {
+        const studyWord = await request.get(`${domain}/words/study`, { params: { word: testWordsList[i].word }})
 
         studyIdList.push((await studyWord.json())[0])
     }
 
-    for (let i = 0; i < testWordList.length; i++) {
-        await request.delete(`${domain}/words/init/${testWordList[i]._id}`)
+    for (let i = 0; i < testWordsList.length; i++) {
+        await request.delete(`${domain}/words/init/${testWordsList[i]._id}`)
         await request.delete(`${domain}/words/study/${studyIdList[i]._id}`)
     }
 })
