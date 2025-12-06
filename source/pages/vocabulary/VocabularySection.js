@@ -13,14 +13,20 @@ class VocabularySection {
   
     this.actionRoot.innerHTML = spinner
   
+    const initList = await makeRequest({ methodType: 'GET', getUrl: `${domain}/words/init`})
     const studyList = await makeRequest({ methodType: 'GET', getUrl: `${domain}/words/study` })
-  
+
     this.actionRoot.innerHTML = `
       <button class="dictionary initItem shadow-lg" data-name="seekNew">CHOOSE WORDS</button>
       <button class="dictionary initItem shadow-lg" data-name="getTraining">STUDY WORDS</button>
       <button class="dictionary initItem shadow-lg" data-name="seeActual">ACTUAL DICTIONARY</button>
       <button class="dictionary initItem shadow-lg" data-name="addNew">ADD NEW WORD</button>
     `
+
+    if (!initList.data.length) {
+      const seekNewBtn = document.querySelector('[data-name="seekNew"]')
+      seekNewBtn.disabled = true
+    }
   
     if (!studyList.data.length) {
       const trainingBtn = document.querySelector('[data-name="getTraining"]')
