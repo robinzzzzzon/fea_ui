@@ -22,6 +22,7 @@ class WriteTraining {
   
     if (!currentDictionary) {
       currentDictionary = await fillArray(speechPart)
+      currentDictionary.data = currentDictionary.data.sort(() => Math.random() - 0.5)
     }
 
     renderPage()

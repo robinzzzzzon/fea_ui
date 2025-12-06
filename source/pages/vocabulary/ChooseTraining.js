@@ -22,6 +22,7 @@ class ChooseTraining {
   
     if (!currentDictionary) {
       currentDictionary = await fillArray(speechPart)
+      currentDictionary.data = currentDictionary.data.sort(() => Math.random() - 0.5)
     }
   
     renderPage()
@@ -60,12 +61,11 @@ async function getRandomTranslateArray(studyWord) {
     })
   }
 
-  let translateArray = []
   const getTranslate = studyWord.translate
+  let translateArray = []
 
   for (let index = 0; translateArray.length < 3; index++) {
-    const translate =
-      fullDictionary.data[Math.floor(Math.random() * fullDictionary.data.length)].translate
+    const translate = fullDictionary.data[Math.floor(Math.random() * fullDictionary.data.length)].translate
     if (!translateArray.includes(translate) && translate !== getTranslate) {
       translateArray.push(translate)
     }
