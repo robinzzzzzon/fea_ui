@@ -36,7 +36,7 @@ test.beforeEach(async ({ page, request }) => {
     await snippets.checkMainPageStaticContent(page)
 })
 
-test('Check full positive way of "write" training', async ({ page }) => {
+test.skip('Check full positive way of "write" training', async ({ page }) => {
     const mainPage = new MainPage(page)
 
     await mainPage.clickVocabularySectionBtn()

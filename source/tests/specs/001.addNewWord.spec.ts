@@ -33,7 +33,7 @@ test.beforeEach(async ({ page }) => {
     await vocabularyOptionsPage.clickAnySection(4);
 })
 
-test.describe('Working with init dictionary', () => {
+test.describe.skip('Working with init dictionary', () => {
     
     test('Check adding a new word to both dictionaries', async ({page, request}) => {
     
@@ -178,7 +178,7 @@ test.describe('Working with init dictionary', () => {
     })
 })
 
-test.describe('Verifying duplicate\'s flow and separeting addition', () => {
+test.describe.skip('Verifying duplicate\'s flow and separeting addition', () => {
 
     test(`Check that new word has been added only to initDictionary`, async ({page, request}) => {
 

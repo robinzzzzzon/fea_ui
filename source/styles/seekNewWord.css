@@ -40,12 +40,11 @@
   cursor: zoom-in;
 }
 
-#knowBtn {
-  background-color: #caffca;
-}
-
-#knowBtn:hover {
-  background-color: #b7fcb7;
+.cardBtnDiv {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  margin-bottom: 10px;
 }
 
 #studyBtn {
