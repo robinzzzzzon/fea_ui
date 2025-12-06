@@ -3,7 +3,6 @@
   width: 135px;
   border-radius: 10px;
   border: 1px solid rgb(118, 129, 145);
-  margin-top: 15px;
   margin-left: 5px;
   margin-right: 5px;
   font-size: 19px;
@@ -13,6 +12,22 @@
 
 .myBtn:hover {
   cursor: pointer;
+}
+
+.arrowBtn {
+  height: 45px;
+  width: 80px;
+  margin-left: 25px;
+  margin-right: 25px;
+  border-radius: 10px;
+  border: 1px solid rgb(118, 129, 145);
+  background-color: #f6fbd9;
+
+}
+
+.arrowBtn:hover {
+  cursor: pointer;
+  background-color: #f1fbb0;
 }
 
 #findNewBtn {

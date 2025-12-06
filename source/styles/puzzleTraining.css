@@ -76,12 +76,8 @@
 }
 
 .btnDiv {
+  height: 75px;
   display: flex;
   justify-content: center;
-  height: 75px;
-  border-radius: 10px;
-  margin-top: 5px;
-  margin-right: 1px;
-  margin-left: 1px;
-  margin-bottom: 5px;
+  align-items: center;
 }

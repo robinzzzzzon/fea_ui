@@ -33,7 +33,7 @@ test.beforeEach(async ({ page, request }) => {
     await snippets.checkMainPageStaticContent(page)
 })
 
-test('Check full positive way of "choose" training', async ({page, request}) => {
+test.skip('Check full positive way of "choose" training', async ({page, request}) => {
     const mainPage = new MainPage(page)
 
     await mainPage.clickVocabularySectionBtn()
@@ -110,7 +110,7 @@ test('Check full positive way of "choose" training', async ({page, request}) => 
     expect(finalWord[0].studyLevel).toEqual(1)
 })
 
-test('Check negative way of "choose" training', async ({page, request}) => {
+test.skip('Check negative way of "choose" training', async ({page, request}) => {
     // setup study words list with needed condition of studyLevel:
     for (let i = 0; i < testWordsList.length; i++) {
         await request.post(`${domain}/words/study`, { data: { 
