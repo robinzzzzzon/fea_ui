@@ -1,6 +1,8 @@
 module.exports = {
   domain: 'http://127.0.0.1:3001/api',
 
+  alphabetList: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ',
+
   speechList: [
     { dataName: 'verbs', color: '#DDA0DD' },
     { dataName: 'phrasal verbs', color: '#D1FFFF' },

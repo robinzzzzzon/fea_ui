@@ -1,10 +1,39 @@
+.cardWrapper {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.alphabetRoot {
+  display: grid;
+  grid-template-rows: 1fr 1fr;
+  grid-template-columns: repeat(13, 1fr);
+  grid-gap: 10px;
+  margin-bottom: 20px;
+  align-items: center;
+  justify-content: center;
+}
+
+.alphaChar {
+  background-color: #f9ecec;
+  border: 1px solid lightcoral;
+  border-radius: 5px;
+  text-align: center;
+  font-weight: 400;
+}
+
+.alphaChar:hover {
+  cursor: pointer;
+  background-color: #f2d9d9;
+  font-weight: 600;
+}
+
 .cardRoot {
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
   height: 400px;
   width: 600px;
-  background: #e6e6fa;
+  background: #e6e6ff;
   border: 1px solid lightslategray;
   border-radius: 3px;
 }
@@ -15,7 +44,7 @@
   align-items: center;
   height: 300px;
   width: 500px;
-  background: #fbebf1;
+  background: #F5FFFA;
   border: 1px solid lightslategray;
   border-radius: 3px;
   text-align: center;
