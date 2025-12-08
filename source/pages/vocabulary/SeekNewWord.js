@@ -2,7 +2,7 @@ import '../../styles/seekNewWord.css'
 import NewDictionary from './NewDictionary'
 import TrainingList from './TrainingList'
 import { makeRequest, filterCurrentDictionary } from '../../utils/utils'
-import { domain, spinner, modalHtml } from '../../utils/constants'
+import { domain, spinner, modalHtml, alphabetList } from '../../utils/constants'
 
 const content = document.querySelector('.content')
 
@@ -38,42 +38,49 @@ class SeekNewWord {
  */
 function renderPage() {
   content.innerHTML = `
-    <div class="cardRoot shadow">
-        <div class="cardWordArea" id="wordArea">
-          <div>
-            <b>${currentDictionary.data[wordIndex].word}</b>
+    <div class="cardWrapper">
+      <div class="alphabetRoot"></div>
+      <div class="cardRoot shadow">
+          <div class="cardWordArea" id="wordArea">
+            <div>
+              <b>${currentDictionary.data[wordIndex].word}</b>
+            </div>
+            <div>${currentDictionary.data[wordIndex].translate}</div>
           </div>
-          <div>${currentDictionary.data[wordIndex].translate}</div>
-        </div>
-        <button type="button" class="btn-close" id="deleteBtn"></button>
-        <div class="cardBtnDiv">
-            <button class="arrowBtn" id="backBtn">
-              <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" class="bi bi-caret-left-square" viewBox="0 0 16 16">
-                <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2z"/>
-                <path d="M10.205 12.456A.5.5 0 0 0 10.5 12V4a.5.5 0 0 0-.832-.374l-4.5 4a.5.5 0 0 0 0 .748l4.5 4a.5.5 0 0 0 .537.082"/>
-              </svg>
-            </button>
-            <button class="myBtn" id="studyBtn">Add to list</button>
-            <button class="arrowBtn" id="nextBtn">
-              <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" class="bi bi-caret-right-square" viewBox="0 0 16 16">
-                <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2z"/>
-                <path d="M5.795 12.456A.5.5 0 0 1 5.5 12V4a.5.5 0 0 1 .832-.374l4.5 4a.5.5 0 0 1 0 .748l-4.5 4a.5.5 0 0 1-.537.082"/>
-              </svg>
-            </button> 
-        </div>
+          <button type="button" class="btn-close" id="deleteBtn"></button>
+          <div class="cardBtnDiv">
+              <button class="arrowBtn" id="backBtn">
+                <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" class="bi bi-caret-left-square" viewBox="0 0 16 16">
+                  <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2z"/>
+                  <path d="M10.205 12.456A.5.5 0 0 0 10.5 12V4a.5.5 0 0 0-.832-.374l-4.5 4a.5.5 0 0 0 0 .748l4.5 4a.5.5 0 0 0 .537.082"/>
+                </svg>
+              </button>
+              <button class="myBtn" id="studyBtn">Add to list</button>
+              <button class="arrowBtn" id="nextBtn">
+                <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" class="bi bi-caret-right-square" viewBox="0 0 16 16">
+                  <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2z"/>
+                  <path d="M5.795 12.456A.5.5 0 0 1 5.5 12V4a.5.5 0 0 1 .832-.374l4.5 4a.5.5 0 0 1 0 .748l-4.5 4a.5.5 0 0 1-.537.082"/>
+                </svg>
+              </button> 
+          </div>
+      </div>
     </div>
     `
 
+  const alphabetRoot = document.querySelector('.alphabetRoot')
   const wordArea = document.querySelector('#wordArea')
   const studyBtn = document.querySelector('#studyBtn')
   const deleteBtn = document.querySelector('#deleteBtn')
   const nextBtn = document.querySelector('#nextBtn')
   const backBtn = document.querySelector('#backBtn')
 
+  analizeCharAbility()
+
   if (wordIndex === 0) {
     backBtn.disabled = true
   }
 
+  alphabetRoot.addEventListener('click', chooseNeededLetter)
   deleteBtn.addEventListener('click', deleteWord)
   wordArea.addEventListener('click', changeWord)
   studyBtn.addEventListener('click', studyThisWord)
@@ -129,19 +136,19 @@ async function studyThisWord(event) {
 function changeWord(event) {
   event.preventDefault()
 
-  content.innerHTML = `
-  <div class="cardRoot shadow">
-        <div class="cardWordArea" id="wordArea">
-            <div><input></input></div>
-            <div><input></input></div> 
-        </div>
-        <button type="button" class="btn-close" id="deleteBtn"></button>
-        <div class="cardBtnDiv">
-            <button class="myBtn btn-lg" id="changeBtn">Change</button> 
-            <button class="myBtn btn-lg" id="cancelBtn">Cancel</button> 
-        </div>
+  const cardRoot = document.querySelector('.cardRoot')
+
+  cardRoot.innerHTML = `
+    <div class="cardWordArea" id="wordArea">
+      <div><input></input></div>
+      <div><input></input></div> 
     </div>
-  `
+      <button type="button" class="btn-close" id="deleteBtn"></button>
+      <div class="cardBtnDiv">
+        <button class="myBtn btn-lg" id="changeBtn">Change</button> 
+        <button class="myBtn btn-lg" id="cancelBtn">Cancel</button> 
+      </div>
+    `
 
   const changeBtn = document.querySelector('#changeBtn')
   const cancelBtn = document.querySelector('#cancelBtn')
@@ -276,6 +283,40 @@ function showTrainingSuggest() {
     studyWordCounter = 0
     wordIndex === currentDictionary.data.length ? renderEndDeck() : renderPage()
   })
+}
+
+function analizeCharAbility() {
+  const charRoot = document.querySelector('.alphabetRoot')
+  const alphabet = alphabetList.split('');
+
+  const referenceChars = [...new Set(currentDictionary.data.map(el => el.word.substring(0,1).toUpperCase()))]
+
+  for (let i = 0; i < alphabet.length; i++) {
+    const char = document.createElement('button')
+    char.classList.add('alphaChar')
+    char.classList.add('shadow')
+    char.textContent = alphabet[i]
+    charRoot.appendChild(char)
+
+    if (!referenceChars.includes(char.textContent)) {
+      char.style.backgroundColor = '#FFFAFA'
+      char.disabled = true
+    }
+  }
+}
+
+function chooseNeededLetter(event) {
+  event.preventDefault()
+
+  if (event.target.tagName !== 'BUTTON') return
+
+  const targetBtn = event.target.closest('button')
+
+  if (targetBtn.classList.contains('alphaChar')) {
+    wordIndex = currentDictionary.data.findIndex(el => el.word.startsWith(targetBtn.textContent.trim().toLowerCase()))
+
+    renderPage()
+  }
 }
 
 export default new SeekNewWord()
