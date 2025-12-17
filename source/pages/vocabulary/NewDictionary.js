@@ -32,8 +32,11 @@ class NewDictionary {
       })
   
       if (dictionaryList.data.length === studyList.data.length) item.disabled = 'true'
-  
-      dictionaryRoot.append(item)
+
+      const dictionaryWrapper = document.createElement('div')
+      dictionaryWrapper.classList.add('dictionary-wrap')
+      dictionaryWrapper.append(item)
+      dictionaryRoot.append(dictionaryWrapper)
     }
   
     content.innerHTML = ''

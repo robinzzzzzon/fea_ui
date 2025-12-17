@@ -17,25 +17,27 @@ module.exports = {
     { dataName: 'it phrases', color: '#FFFF4D' },
   ],
 
-  modalHtml: `
-  <div class="c-modal">
-      <div class="c-overlay">
-        <div class="c-window">
-          <div class="c-modal-header">
-            <span class="c-modal-title">Do you really want to delete this word?</span>
-            <span class="c-modal-close" id="modalBtn">&times;</span>
-          </div>
-          <div class="c-modal-body">
-            <p>After confirmation this word will be permanently deleted from this dictionary!</p>
-          </div>
-          <div class="c-modal-footer">
-            <button class="c-modal-delete" id="modalBtn">Delete</button>
-            <button class="c-modal-cancel" id="modalBtn">Cancel</button>
+  getModalWindow({ title, description, actionBtnText }) {
+    return `
+    <div class="c-modal">
+        <div class="c-overlay">
+          <div class="c-window">
+            <div class="c-modal-header">
+              <span class="c-modal-title">${title}</span>
+              <button class="c-modal-close" data-action="closeWindow">&times;</button>
+            </div>
+            <div class="c-modal-body">
+              <p>${description}</p>
+            </div>
+            <div class="c-modal-footer">
+              <button class="c-modal-delete" data-action="doAction">${actionBtnText}</button>
+              <button class="c-modal-cancel" data-action="cancelAction">Cancel</button>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-  `,
+    `
+  },
 
   spinner: `
     <div class="d-flex justify-content-center">
@@ -49,4 +51,15 @@ module.exports = {
     success: '#94FF94',
     failed: '#FF8C8C',
   },
+
+  clear_icon: `
+    <button class="dictionary-clear" aria-label="Clear chosen word list">
+      <svg viewBox="0 0 24 24" class="icon-trash">
+        <path d="M3 6h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        <path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" stroke="currentColor" stroke-width="2"/>
+        <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6" stroke="currentColor" stroke-width="2" fill="none"/>
+        <path d="M10 11v6M14 11v6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+    </button>
+  `
 }
