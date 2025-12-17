@@ -6,6 +6,8 @@
   align-content: start;
   grid-auto-rows: 40px;
   grid-gap: 8px;
+  margin-top: 20px;
+  margin-bottom: 20px;
 }
 
 .actualItem {

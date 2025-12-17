@@ -2,7 +2,7 @@ import '../../styles/seekNewWord.css'
 import NewDictionary from './NewDictionary'
 import TrainingList from './TrainingList'
 import { makeRequest, filterCurrentDictionary } from '../../utils/utils'
-import { domain, spinner, modalHtml, alphabetList } from '../../utils/constants'
+import { domain, spinner, alphabetList, getModalWindow } from '../../utils/constants'
 
 const content = document.querySelector('.content')
 
@@ -184,20 +184,24 @@ function changeWord(event) {
 async function deleteWord(event) {
   event.preventDefault()
 
-  content.insertAdjacentHTML('afterbegin', modalHtml)
+  content.insertAdjacentHTML('afterbegin', getModalWindow({ 
+    title: 'Do you really want to delete this word?',
+    description: 'After confirmation this word will be permanently deleted from this dictionary!',
+    actionBtnText: 'Delete'
+  }))
 
   const modalRoot = document.querySelector('.c-modal')
 
   modalRoot.addEventListener('click', async (event) => {
     event.preventDefault()
 
-    const target = event.target
+    if (!event.target.dataset.action) return
 
-    if (target.id !== 'modalBtn') return
+    const target = event.target.closest('[data-action]')
 
-    if (target.classList.contains('c-modal-close') || target.classList.contains('c-modal-cancel')) {
+    if (target.dataset.action === 'closeWindow' || target.dataset.action === 'cancelAction') {
       modalRoot.remove()
-    } else if (target.classList.contains('c-modal-delete')) {
+    } else if (target.dataset.action === 'doAction') {
       const deletedInitWord = await makeRequest({
         methodType: 'GET',
         getUrl: `${domain}/words/init`,
