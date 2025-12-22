@@ -121,7 +121,7 @@ async function checkWord(event) {
 
       await checkAvailableStudyWords(speechPart)
 
-      newBtn.addEventListener('click', NewDictionary.renderPage)
+      newBtn.addEventListener('click', async () => NewDictionary.renderPage())
       oneMoreBtn.addEventListener('click', () => new WriteTraining().initPage(speechPart))
     } else {
       setTimeout(() => {

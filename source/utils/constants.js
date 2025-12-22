@@ -53,7 +53,7 @@ module.exports = {
   },
 
   clear_icon: `
-    <button class="dictionary-clear" aria-label="Clear chosen word list">
+    <button class="dictionary-icon" aria-label="Clear chosen word list">
       <svg viewBox="0 0 24 24" class="icon-trash">
         <path d="M3 6h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
         <path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" stroke="currentColor" stroke-width="2"/>
@@ -61,5 +61,14 @@ module.exports = {
         <path d="M10 11v6M14 11v6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
       </svg>
     </button>
+  `,
+
+  add_icon: `
+    <button class="dictionary-icon" data-action="addAllDeck" aria-label="Add all deck">
+      <svg viewBox="0 0 24 24" class="icon-plus">
+        <path d="M12 5v14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        <path d="M5 12h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+   </button>
   `
 }

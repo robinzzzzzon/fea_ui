@@ -114,7 +114,7 @@ async function checkChooseWord(event) {
 
     await checkAvailableStudyWords(speechPart)
 
-    findNewBtn.addEventListener('click', NewDictionary.renderPage)
+    findNewBtn.addEventListener('click', async () => NewDictionary.renderPage())
     repeatBtn.addEventListener('click', () => new ChooseTraining().initPage(speechPart))
   } else {
     setTimeout(() => {

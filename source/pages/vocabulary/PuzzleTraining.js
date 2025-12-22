@@ -238,7 +238,7 @@ async function checkEnterWord(event) {
 
       await checkAvailableStudyWords(speechPart)
 
-      newBtn.addEventListener('click', NewDictionary.renderPage)
+      newBtn.addEventListener('click', async () => NewDictionary.renderPage())
       repeatBtn.addEventListener('click', () => new PuzzleTraining().initPage(speechPart))
     } else {
       toggleClassForChar(resultChars)
