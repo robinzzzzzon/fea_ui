@@ -107,7 +107,7 @@
   opacity: 0.9;
 }
 
-.dictionary-clear {
+.dictionary-icon {
   position: absolute;
   top: 8px;
   right: 16px;
@@ -132,18 +132,24 @@
 }
 
 .icon-trash {
-  width: 16px;
-  height: 16px;
+  width: 20px;
+  height: 20px;
   stroke: #252525;
 }
 
-.dictionary-wrap:hover .dictionary-clear {
+.icon-plus {
+  width: 20px;
+  height: 20px;
+  stroke: #252525;
+}
+
+.dictionary-wrap:hover .dictionary-icon {
   opacity: 1;
   pointer-events: auto;
   transform: translateY(0);
 }
 
-.dictionary-clear:hover {
+.dictionary-icon:hover {
   background: rgba(0, 0, 0, 0.12);
 }
 

@@ -241,6 +241,7 @@ function renderEndDeck() {
   wordIndex = 0
 
   muteWordInteractions()
+  analizeCharAbility()
 
   wordArea.innerHTML = '<p>This is the end of the deck!<br>Are you ready for studying new? :)</p>'
   cardBtnDiv.innerHTML = `
@@ -249,7 +250,7 @@ function renderEndDeck() {
     `
 
   const findNewBtn = document.querySelector('#findNewBtn')
-  findNewBtn.addEventListener('click', NewDictionary.renderPage)
+  findNewBtn.addEventListener('click', async () => NewDictionary.renderPage())
 
   checkTrainAvailable()
 }
@@ -290,8 +291,11 @@ function showTrainingSuggest() {
 }
 
 function analizeCharAbility() {
-  const charRoot = document.querySelector('.alphabetRoot')
   const alphabet = alphabetList.split('');
+  const charRoot = document.querySelector('.alphabetRoot')
+  const currentChars = charRoot.querySelectorAll('button')
+
+  if (currentChars.length) charRoot.innerHTML = ''
 
   const referenceChars = [...new Set(currentDictionary.data.map(el => el.word.substring(0,1).toUpperCase()))]
 

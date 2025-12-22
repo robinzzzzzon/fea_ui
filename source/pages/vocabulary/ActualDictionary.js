@@ -1,5 +1,5 @@
 import '../../styles/actualDictionary.css'
-import NewDictionary from'./NewDictionary'
+import NewDictionary from './NewDictionary'
 import { domain, spinner } from '../../utils/constants'
 import { makeRequest } from '../../utils/utils'
 
@@ -32,7 +32,7 @@ function renderPage(itemIndex) {
 
     const understandBtn = document.querySelector('#understandBtn')
     
-    understandBtn.addEventListener('click', NewDictionary.renderPage)
+    understandBtn.addEventListener('click', async () => NewDictionary.renderPage())
   }
 
   for (let index = 0; index < studyList.data.length; index++) {
