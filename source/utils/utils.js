@@ -2,6 +2,7 @@ import axios from 'axios'
 import { domain } from './constants'
 import initDictionary from './dictionary.json'
 
+
 export async function filterCurrentDictionary(dictionary, speechPart) {
   let studyArray = await makeRequest({
     methodType: 'GET',
@@ -37,47 +38,41 @@ export async function fillArray(speechPart) {
   return array
 }
 
-export async function modifyStudyLevel(getWord, isRight) {
+export async function modifyStudyLevel({ studyWord, resolution }) {
   let currentWord = await makeRequest({
     methodType: 'GET',
     getUrl: `${domain}/words/study/`,
-    getParams: { word: getWord },
+    getParams: { word: studyWord },
   })
 
   currentWord = currentWord.data[0]
+  currentWord.resolution = resolution
 
-  if (isRight) {
-    if (currentWord.studyLevel === 4) {
-      await makeRequest({
-        methodType: 'DELETE',
-        getUrl: `${domain}/words/study/${currentWord._id}`,
-      })
+  await makeRequest({
+    methodType: 'UPDATE',
+    getUrl: `${domain}/words/study/${currentWord._id}`,
+    getBody: currentWord,
+  })
+}
 
-      return
-    }
+export async function checkAvailableStudyWords({ studyList, speechPart }) {
+  let wordList = studyList;
 
-    currentWord.studyLevel++
-
-    await makeRequest({
-      methodType: 'UPDATE',
-      getUrl: `${domain}/words/study/${currentWord._id}`,
-      getBody: currentWord,
-    })
-  } else {
-    if (currentWord.studyLevel === 0) return
-
-    currentWord.studyLevel--
-
-    await makeRequest({
-      methodType: 'UPDATE',
-      getUrl: `${domain}/words/study/${currentWord._id}`,
-      getBody: currentWord,
-    })
+  if (!wordList) {
+    wordList = await fillArray(speechPart)
   }
+
+  wordList.data = wordList.data.filter(word => word.studyInterval === 1 || new Date(word.nextShowDate).getTime() <= Date.now())
+
+  return wordList
 }
 
 export function fillProgressBar(initDictionary, currentDictionary, selector = '.myProgressBar') {
   const progressBar = document.querySelector(selector)
+  const progressDivList = progressBar.querySelectorAll('div')
+
+  if (progressDivList.length) progressBar.innerHTML = ''
+
   progressBar.style.gridTemplateColumns = `repeat(${initDictionary.data.length}, 1fr)`
 
   for (let index = 0; index < initDictionary.data.length; index++) {
@@ -93,12 +88,6 @@ export function fillProgressBar(initDictionary, currentDictionary, selector = '.
   for (let index = 0; index < colorizeLength; index++) {
     itemList[index].style.backgroundColor = '#98FB98'
   }
-}
-
-export async function checkAvailableStudyWords(speechPart) {
-  let studyList = await fillArray(speechPart)
-
-  if (!studyList.data.length) repeatBtn.disabled = 'true'
 }
 
 export function getRandomListBySpeechPart(dictionary, speechPart, size) {
@@ -211,20 +200,17 @@ export async function makeRequest({ methodType, getUrl, getBody, getParams }) {
       res = await axios.get(getUrl, { params: getParams })
       break
 
-    case 'POST': {
+    case 'POST': 
       res = await axios.post(getUrl, getBody)
       break
-    }
-
-    case 'UPDATE': {
+    
+    case 'UPDATE': 
       res = await axios.put(getUrl, getBody)
       break
-    }
-
-    case 'DELETE': {
+    
+    case 'DELETE': 
       res = await axios.delete(getUrl)
       break
-    }
   }
 
   return res

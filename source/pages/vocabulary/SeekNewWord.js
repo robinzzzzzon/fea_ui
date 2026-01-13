@@ -113,7 +113,6 @@ async function studyThisWord(event) {
     word: currentDictionary.data[wordIndex].word,
     translate: currentDictionary.data[wordIndex].translate,
     wordType: currentDictionary.data[wordIndex].wordType,
-    studyLevel: 0,
   }
 
   await makeRequest({

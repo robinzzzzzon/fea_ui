@@ -1,7 +1,7 @@
 import '../../styles/chooseTraining.css'
 import NewDictionary from './NewDictionary'
 import { makeRequest, fillArray, fillProgressBar, modifyStudyLevel, checkAvailableStudyWords } from '../../utils/utils'
-import { domain, spinner, system_colors } from '../../utils/constants'
+import { domain, spinner, feedbackArea, system_colors } from '../../utils/constants'
 
 const content = document.querySelector('.content')
 
@@ -21,9 +21,22 @@ class ChooseTraining {
     }
   
     if (!currentDictionary) {
-      currentDictionary = await fillArray(speechPart)
+      currentDictionary = await checkAvailableStudyWords({ speechPart })
       currentDictionary.data = currentDictionary.data.sort(() => Math.random() - 0.5)
     }
+
+    content.innerHTML = `
+    <div class="wrapper">
+      <div class="myProgressBar shadow"></div>
+      <div class="trainArea shadow">
+        <div id="wordItem"></div>
+        <div class="itemArea"></div>
+      </div>
+    </div>
+    `
+
+    const trainArea = content.querySelector('.trainArea')
+    trainArea.addEventListener('click', validateChosenWord)
   
     renderPage()
   }
@@ -32,25 +45,27 @@ class ChooseTraining {
 async function renderPage() {
   const translateArray = await getRandomTranslateArray(currentDictionary.data[0])
   
-    content.innerHTML = `
-      <div class="wrapper">
-        <div class="myProgressBar shadow"></div>
-        <div class="trainArea shadow">
-          <div id="wordItem"><p>${currentDictionary.data[0].word}</p></div>
-          <div class="itemArea">
-              <div id="item"><p>${translateArray[0]}</p></div>
-              <div id="item"><p>${translateArray[1]}</p></div>
-              <div id="item"><p>${translateArray[2]}</p></div>
-              <div id="item"><p>${translateArray[3]}</p></div>
-          </div>
-        </div>
-      </div>
-      `
+  const wordItem = content.querySelector('#wordItem')
+  wordItem.innerHTML = `<p>${currentDictionary.data[0].word}</p>`
   
-    fillProgressBar(initDictionary, currentDictionary)
+  let itemArea = content.querySelector('.itemArea')
+
+  if (!itemArea) {
+    const feedbackBtnArea = content.querySelector('.feedbackBtnArea')
+    feedbackBtnArea.remove()
+    const trainArea = content.querySelector('.trainArea')
+    trainArea.insertAdjacentHTML('beforeend', `<div class="itemArea"></div>`)
+    itemArea = content.querySelector('.itemArea')
+  }
+
+  itemArea.innerHTML = `
+    <div id="item"><p>${translateArray[0]}</p></div>
+    <div id="item"><p>${translateArray[1]}</p></div>
+    <div id="item"><p>${translateArray[2]}</p></div>
+    <div id="item"><p>${translateArray[3]}</p></div>
+  `
   
-    const itemArea = document.querySelector('.itemArea')
-    itemArea.addEventListener('click', checkChooseWord)
+  fillProgressBar(initDictionary, currentDictionary)
 }
 
 async function getRandomTranslateArray(studyWord) {
@@ -76,7 +91,7 @@ async function getRandomTranslateArray(studyWord) {
   return translateArray.sort(() => Math.random() - 0.5)
 }
 
-async function checkChooseWord(event) {
+async function validateChosenWord(event) {
   event.preventDefault()
 
   const chooseWord = event.target.closest('div')
@@ -85,42 +100,75 @@ async function checkChooseWord(event) {
 
   if (chooseWord.textContent === currentDictionary.data[0].translate) {
     chooseWord.style.backgroundColor = system_colors.success
-    await modifyStudyLevel(currentDictionary.data[0].word, true)
-    currentDictionary.data.shift()
+
+    await new Promise(r => setTimeout(r, 300));
+
+    await askForRepetitionFeedback()
   } else {
     chooseWord.style.backgroundColor = system_colors.failed
-    await modifyStudyLevel(currentDictionary.data[0].word)
+
+    await new Promise(r => setTimeout(r, 300));
+
+    await modifyStudyLevel({ studyWord: currentDictionary.data[0].word, resolution: 'FAIL' })
+
+    await renderPage()
   }
+}
 
-  if (!currentDictionary.data.length) {
-    currentDictionary = null
-    initDictionary = null
+// TODO: refactor and replace as a pure fn a bit later.
+async function askForRepetitionFeedback() {
+  const wordItem = document.querySelector('#wordItem')
+  wordItem.textContent = 'How easy it was?'
 
-    content.innerHTML = `
-            <div class="wrapper">
-              <div class="myProgressBar shadow"></div>
-              <div class="trainArea shadow">
-                <div id="wordItem"><p>It was great!</p></div>
-                <div class="finishBtnArea">
-                    <button type="button" class="myBtn btn-lg" id="findNewBtn">New words</button>
-                    <button type="button" class="myBtn btn-lg" id="repeatBtn">Repeat</button>
-                </div>
-              </div>
+  const itemArea = document.querySelector('.itemArea')
+  itemArea.remove()
+
+  const trainArea = content.querySelector('.trainArea')
+  trainArea.insertAdjacentHTML('beforeend', feedbackArea)
+
+  const feedbackBtnArea = trainArea.querySelector('.feedbackBtnArea')
+
+  feedbackBtnArea.addEventListener('click', async (event) => {
+    event.preventDefault()
+
+    if (!event.target.dataset.action) return
+
+    const target = event.target.closest('[data-action]')
+
+    await modifyStudyLevel({ studyWord: currentDictionary.data[0].word, resolution: target.textContent })
+
+    currentDictionary.data.shift()
+
+    if (currentDictionary.data.length) {
+      await renderPage()
+    } else {
+      currentDictionary = null
+      initDictionary = null
+    
+      content.innerHTML = `
+        <div class="wrapper">
+          <div class="myProgressBar shadow"></div>
+          <div class="trainArea shadow">
+            <div id="wordItem"><p>It was great! Try again?</p></div>
+            <div class="feedbackBtnArea">
+              <button type="button" class="myBtn" id="findNewBtn">New words</button>
+              <button type="button" class="myBtn" id="repeatBtn">Repeat</button>
             </div>
-            `
+          </div>
+        </div>
+        `
 
-    const findNewBtn = document.querySelector('#findNewBtn')
-    const repeatBtn = document.querySelector('#repeatBtn')
+      const findNewBtn = document.querySelector('#findNewBtn')
+      const repeatBtn = document.querySelector('#repeatBtn')
+    
+      const remainedStudyList = await checkAvailableStudyWords({ speechPart })
 
-    await checkAvailableStudyWords(speechPart)
-
-    findNewBtn.addEventListener('click', async () => NewDictionary.renderPage())
-    repeatBtn.addEventListener('click', () => new ChooseTraining().initPage(speechPart))
-  } else {
-    setTimeout(() => {
-      renderPage()
-    }, 200)
-  }
+      if (!remainedStudyList.data.length) repeatBtn.disabled = 'true'
+    
+      findNewBtn.addEventListener('click', async () => NewDictionary.renderPage())
+      repeatBtn.addEventListener('click', () => new ChooseTraining().initPage(speechPart))
+    }
+  })
 }
 
 export default new ChooseTraining()

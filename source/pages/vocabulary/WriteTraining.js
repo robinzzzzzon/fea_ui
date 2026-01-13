@@ -1,7 +1,7 @@
 import '../../styles/writeTraining.css'
 import NewDictionary from './NewDictionary'
 import { fillArray, fillProgressBar, modifyStudyLevel, checkAvailableStudyWords } from '../../utils/utils'
-import { spinner, system_colors } from '../../utils/constants'
+import { spinner, feedbackArea, system_colors } from '../../utils/constants'
 
 const content = document.querySelector('.content')
 
@@ -21,28 +21,34 @@ class WriteTraining {
     }
   
     if (!currentDictionary) {
-      currentDictionary = await fillArray(speechPart)
+      currentDictionary = await checkAvailableStudyWords({ speechPart })
       currentDictionary.data = currentDictionary.data.sort(() => Math.random() - 0.5)
     }
+
+    content.innerHTML = `
+      <div class="wrapper">
+        <div class="myProgressBar shadow"></div>
+        <div class="rootDiv shadow"></div>
+      </div>
+    `
 
     renderPage()
   }
 }
 
 function renderPage() {
-  content.innerHTML = `
-      <div class="wrapper">
-        <div class="myProgressBar shadow"></div>
-        <div class="rootDiv shadow">
-          <div class="translateDiv"><p>${currentDictionary.data[0].translate}</p></div>
-          <input type="text" class="writeInput" placeholder=" Write here...">
-          <div class="btnDiv">
-              <button class="myBtn" id="suggestBtn">Get a cue</button>
-              <button class="myBtn" id="checkBtn">Check</button>
-          </div>
-        </div>
+    const rootDiv = content.querySelector('.rootDiv')
+
+    if (rootDiv.innerHTML) rootDiv.innerHTML = ''
+
+    rootDiv.insertAdjacentHTML('afterbegin', `
+      <div class="translateDiv"><p>${currentDictionary.data[0].translate}</p></div>
+      <input type="text" class="writeInput" placeholder=" Write here...">
+      <div class="btnDiv">
+        <button class="myBtn" id="suggestBtn">Get a cue</button>
+        <button class="myBtn" id="checkBtn">Check</button>
       </div>
-      `
+    `)
   
     fillProgressBar(initDictionary, currentDictionary)
   
@@ -90,52 +96,20 @@ async function checkWord(event) {
   const enterWord = input.value.toLowerCase().trim()
 
   if (enterWord === currentDictionary.data[0].word || 'to'.concat(' ', enterWord) === currentDictionary.data[0].word) {
-    await modifyStudyLevel(currentDictionary.data[0].word, true)
-
-    currentDictionary.data.shift()
-
     input.style.backgroundColor = system_colors.success
     charIndex = 0
 
-    if (!currentDictionary.data.length) {
-      currentDictionary = null
-      initDictionary = null
+    await new Promise(r => setTimeout(r, 300));
 
-      const progressBar = document.querySelector('.myProgressBar')
-      progressBar.innerHTML = ''
-      input.outerHTML = ''
-      const translateDiv = document.querySelector('.translateDiv')
-      translateDiv.textContent = 'Great job! Try again?'
-      const btnDiv = document.querySelector('.btnDiv')
-      btnDiv.innerHTML = ''
-      const newBtn = document.createElement('button')
-      newBtn.classList.add('myBtn')
-      newBtn.setAttribute('id', 'findNewBtn')
-      newBtn.textContent = 'New words'
-      const oneMoreBtn = document.createElement('button')
-      oneMoreBtn.classList.add('myBtn')
-      oneMoreBtn.setAttribute('id', 'repeatBtn')
-      oneMoreBtn.textContent = 'Repeat'
-      btnDiv.append(newBtn)
-      btnDiv.append(oneMoreBtn)
-
-      await checkAvailableStudyWords(speechPart)
-
-      newBtn.addEventListener('click', async () => NewDictionary.renderPage())
-      oneMoreBtn.addEventListener('click', () => new WriteTraining().initPage(speechPart))
-    } else {
-      setTimeout(() => {
-        renderPage()
-      }, 200)
-    }
+    await askForRepetitionFeedback()
   } else {
-    await modifyStudyLevel(currentDictionary.data[0].word)
-
     input.style.backgroundColor = system_colors.failed
 
-    setTimeout(() => {
-      clearProgress()
-    }, 200)
+    await new Promise(r => setTimeout(r, 300));
+
+    await modifyStudyLevel({ studyWord: currentDictionary.data[0].word, resolution: 'FAIL' })
+
+    clearProgress()
   }
 }
 
@@ -155,6 +129,68 @@ function checkCharCount() {
 
   input.value.length > 1 ? checkBtn.disabled = false : checkBtn.disabled = true
   input.value === currentDictionary.data[0].word ? suggestBtn.disabled = true : suggestBtn.disabled = false
+}
+
+// TODO: refactor and replace as a pure fn a bit later.
+async function askForRepetitionFeedback() {
+  const translationText = content.querySelector('.translateDiv > p')
+  translationText.textContent = 'How easy it was?'
+
+  const wordInput = content.querySelector('.writeInput')
+  wordInput.removeAttribute('placeholder')
+  wordInput.value = null
+  wordInput.style.backgroundColor = system_colors.muted
+  wordInput.disabled = true
+
+  const btnArea = content.querySelector('.btnDiv')
+  btnArea.remove()
+
+  const rootDiv = content.querySelector('.rootDiv')
+  rootDiv.insertAdjacentHTML('beforeend', feedbackArea)
+
+  const feedbackBtnArea = rootDiv.querySelector('.feedbackBtnArea')
+
+  feedbackBtnArea.addEventListener('click', async (event) => {
+    event.preventDefault()
+
+    if (!event.target.dataset.action) return
+
+    const target = event.target.closest('[data-action]')
+
+    await modifyStudyLevel({ studyWord: currentDictionary.data[0].word, resolution: target.textContent })
+
+    currentDictionary.data.shift()
+
+    if (currentDictionary.data.length) {
+      renderPage()
+    } else {
+      currentDictionary = null
+      initDictionary = null
+    
+      content.innerHTML = `
+        <div class="wrapper">
+          <div class="myProgressBar shadow"></div>
+          <div class="trainArea shadow">
+            <div id="wordItem"><p>It was great! Try again?</p></div>
+            <div class="feedbackBtnArea">
+              <button type="button" class="myBtn" id="findNewBtn">New words</button>
+              <button type="button" class="myBtn" id="repeatBtn">Repeat</button>
+            </div>
+          </div>
+        </div>
+        `
+
+      const findNewBtn = document.querySelector('#findNewBtn')
+      const repeatBtn = document.querySelector('#repeatBtn')
+    
+      const remainedStudyList = await checkAvailableStudyWords({ speechPart })
+
+      if (!remainedStudyList.data.length) repeatBtn.disabled = 'true'
+    
+      findNewBtn.addEventListener('click', async () => NewDictionary.renderPage())
+      repeatBtn.addEventListener('click', () => new WriteTraining().initPage(speechPart))
+    }
+  })
 }
 
 export default new WriteTraining()

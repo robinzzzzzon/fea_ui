@@ -95,10 +95,6 @@ class NewDictionary {
           getParams: { wordType: deckBtn.dataset.name },
         })
 
-        deckWordList = deckWordList.data.map(el => { 
-          return { word: el.word, translate: el.translate, wordType: el.wordType, studyLevel: 0 } 
-        });
-
         await makeRequest({
           methodType: 'POST',
           getUrl: `${domain}/words/study/deck`,

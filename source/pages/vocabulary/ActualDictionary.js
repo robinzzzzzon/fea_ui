@@ -93,7 +93,8 @@ async function clearWordProgress(event) {
 
   const word = getWordList.data[0]
 
-  word.studyLevel = 0
+  word.studyInterval = 1
+  word.coefficient = 2.5
 
   await makeRequest({
     methodType: 'UPDATE',

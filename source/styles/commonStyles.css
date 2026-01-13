@@ -11,7 +11,32 @@
 }
 
 .myBtn:hover {
+  border: 1.5px solid rgb(113, 122, 136);;
   cursor: pointer;
+}
+
+.hardBtn {
+  background-color: #ff9c9c;
+}
+
+.hardBtn:hover {
+  opacity: 0.8;
+}
+
+.goodBtn {
+  background-color: #ffff8c;
+}
+
+.goodBtn:hover {
+  opacity: 0.8;
+}
+
+.easyBtn {
+  background-color: #99e699;
+}
+
+.easyBtn:hover {
+  opacity: 0.8;
 }
 
 .arrowBtn {
