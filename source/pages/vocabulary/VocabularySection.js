@@ -3,7 +3,7 @@ import ActualDictionary from './ActualDictionary'
 import NewDictionary from './NewDictionary'
 import StudyDictionary from './StudyDictionary'
 import { domain, spinner, clear_icon, getModalWindow } from '../../utils/constants'
-import { makeRequest } from '../../utils/utils'
+import { makeRequest, checkAvailableStudyWords } from '../../utils/utils'
 
 class VocabularySection {
   actionRoot = document.querySelector('.actionRoot')
@@ -14,7 +14,7 @@ class VocabularySection {
     this.actionRoot.innerHTML = spinner
   
     const initList = await makeRequest({ methodType: 'GET', getUrl: `${domain}/words/init`})
-    const studyList = await makeRequest({ methodType: 'GET', getUrl: `${domain}/words/study` })
+    let studyList = await makeRequest({ methodType: 'GET', getUrl: `${domain}/words/study` })
 
     this.actionRoot.innerHTML = `
       <div class="dictionary-wrap">
@@ -40,10 +40,17 @@ class VocabularySection {
     if (!studyList.data.length) {
       const trainingBtn = document.querySelector('[data-name="getTraining"]')
       trainingBtn.disabled = 'true'
-  
+
       const seeActualBtn = document.querySelector('[data-name="seeActual"]')
       seeActualBtn.disabled = 'true'
     } else {
+      studyList = await checkAvailableStudyWords({ studyList })
+
+      if (!studyList.data.length) {
+        const trainingBtn = document.querySelector('[data-name="getTraining"]')
+        trainingBtn.disabled = 'true'
+      }
+
       this.addClearBtn({ wrapperListIndex: 2, dataName: 'removeStudyList' })
     }
   

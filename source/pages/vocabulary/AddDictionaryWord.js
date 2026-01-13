@@ -73,8 +73,6 @@ class AddDictionaryWord {
       await makeRequest({ methodType: 'POST', getUrl: `${domain}/words/init/`, getBody: newWord })
   
       if (studyCb.checked) {
-        newWord.studyLevel = 0
-    
         await makeRequest({
           methodType: 'POST',
           getUrl: `${domain}/words/study/`,

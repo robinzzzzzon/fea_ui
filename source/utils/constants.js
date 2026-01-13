@@ -50,6 +50,7 @@ module.exports = {
   system_colors: {
     success: '#94FF94',
     failed: '#FF8C8C',
+    muted: '#E6E6E6',
   },
 
   clear_icon: `
@@ -70,5 +71,13 @@ module.exports = {
         <path d="M5 12h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
       </svg>
    </button>
-  `
+  `,
+
+  feedbackArea: `
+    <div class="feedbackBtnArea">
+      <button type="button" data-action="sendResolution" class="myBtn hardBtn">HARD</button>
+      <button type="button" data-action="sendResolution" class="myBtn goodBtn">GOOD</button>
+      <button type="button" data-action="sendResolution" class="myBtn easyBtn">EASY</button>
+    </div>
+  `,
 }

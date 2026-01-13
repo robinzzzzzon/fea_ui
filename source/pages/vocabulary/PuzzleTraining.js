@@ -1,7 +1,7 @@
 import '../../styles/puzzleTraining.css'
 import NewDictionary from'./NewDictionary'
 import { fillArray, fillProgressBar, optimizeCharacters, modifyStudyLevel, checkAvailableStudyWords } from '../../utils/utils'
-import { spinner } from '../../utils/constants'
+import { spinner, feedbackArea } from '../../utils/constants'
 
 const content = document.querySelector('.content')
 
@@ -22,54 +22,62 @@ class PuzzleTraining {
     }
   
     if (!currentDictionary) {
-      currentDictionary = await fillArray(speechPart)
+      currentDictionary = await checkAvailableStudyWords({ speechPart })
       currentDictionary.data = currentDictionary.data.sort(() => Math.random() - 0.5)
     }
-  
+
+    content.innerHTML = `
+        <div class="wrapper">
+          <div class="myProgressBar shadow"></div>
+          <div class="rootArea shadow"></div>
+        </div>
+      `
+    
     renderPage()
   }
 }
 
 function renderPage() {
-  content.innerHTML = `
-        <div class="wrapper">
-          <div class="myProgressBar shadow"></div>
-          <div class="rootArea shadow">
-            <div class="spellArea">
-              <div id="translateDiv">${currentDictionary.data[0].translate}</div>
-                <div id="wordDiv"></div>
-              </div>
-              <div id="charArea" tabindex="0"></div>
-              <div class="btnDiv">
-                  <button class="myBtn" id="suggestBtn" disabled>Get a cue</button>
-                  <button class="myBtn" id="checkBtn" disabled>Check</button>
-                  <button class="myBtn" id="clearBtn">Reset</button>
-              </div>
-            </div>
-        </div>
-      `
-  
-    fillProgressBar(initDictionary, currentDictionary)
-  
-    genCharacters(currentDictionary.data[0])
-  
-    const suggestBtn = document.querySelector('#suggestBtn')
-    const checkBtn = document.querySelector('#checkBtn')
-    const clearBtn = document.querySelector('#clearBtn')
-    suggestBtn.addEventListener('click', showAnswer)
-    checkBtn.addEventListener('click', checkEnterWord)
-    clearBtn.addEventListener('click', clearWordProgress)
-    clearBtn.disabled = false
+  const rootArea = content.querySelector('.rootArea')
 
-    const charArea = document.querySelector('#charArea')
-    charArea.addEventListener('click', moveCharToWordArea)
-    charArea.addEventListener('keydown', moveCharToWordArea)
+  if (rootArea.innerHTML) rootArea.innerHTML = ''
+
+  rootArea.innerHTML = `
+      <div class="spellArea">
+        <div id="translateDiv"><p>${currentDictionary.data[0].translate}</p></div>
+        <div id="wordDiv"></div>
+      </div>
+      <div id="charArea" tabindex="0"></div>
+      <div class="btnDiv">
+        <button class="myBtn" id="suggestBtn" disabled>Get a cue</button>
+        <button class="myBtn" id="checkBtn" disabled>Check</button>
+        <button class="myBtn" id="clearBtn">Reset</button>
+      </div>
+    `
+  
+  genRandomChars()
+  
+  fillProgressBar(initDictionary, currentDictionary)
+  
+  const suggestBtn = rootArea.querySelector('#suggestBtn')
+  const checkBtn = rootArea.querySelector('#checkBtn')
+  const clearBtn = rootArea.querySelector('#clearBtn')
+  suggestBtn.addEventListener('click', showAnswer)
+  checkBtn.addEventListener('click', checkEnterWord)
+  clearBtn.addEventListener('click', clearWordProgress)
+  clearBtn.disabled = false
+
+  const charArea = rootArea.querySelector('#charArea')
+  charArea.addEventListener('click', moveCharToWordArea)
+  charArea.addEventListener('keydown', moveCharToWordArea)
 }
 
-function genCharacters(getWord) {
+function genRandomChars() {
+  const currentWord = currentDictionary.data[0].word
+
   do {
-    chars = getWord.word.split('').sort(() => Math.random() - 0.5)
-  } while (chars.join('') === getWord.word)
+    chars = currentWord.split('').sort(() => Math.random() - 0.5)
+  } while (chars.join('') === currentWord)
 
   const optimizeChars = optimizeCharacters(chars)
 
@@ -95,7 +103,7 @@ function genCharacters(getWord) {
   charArea.focus()
 }
 
-function clearWordProgress(event, word = currentDictionary.data[0]) {
+function clearWordProgress(event) {
   event.preventDefault()
 
   const suggestBtn = document.querySelector('#suggestBtn')
@@ -105,7 +113,7 @@ function clearWordProgress(event, word = currentDictionary.data[0]) {
   charArea.innerHTML = ''
   wordDiv.innerHTML = ''
 
-  genCharacters(word)
+  genRandomChars()
 }
 
 function showAnswer(event) {
@@ -195,11 +203,6 @@ function handleKeyboardEvent(getChar, getKey) {
 async function checkEnterWord(event) {
   event.preventDefault()
 
-  const translateDiv = document.querySelector('#translateDiv')
-  const wordDiv = document.querySelector('#wordDiv')
-  const btnDiv = document.querySelector('.btnDiv')
-  const checkBtn = document.querySelector('#checkBtn')
-  const clearBtn = document.querySelector('#clearBtn')
   const resultChars = document.querySelectorAll('#wordDiv > .char')
 
   let resultWord = ''
@@ -210,55 +213,85 @@ async function checkEnterWord(event) {
   }
 
   if (resultWord === currentDictionary.data[0].word) {
-    await modifyStudyLevel(currentDictionary.data[0].word, true)
+    toggleClassForChar(resultChars)
+
+    await new Promise(r => setTimeout(r, 300));
+
+    await askForRepetitionFeedback()
+  } else {
+    toggleClassForChar(resultChars, 'wrongChar')
+
+    await new Promise(r => setTimeout(r, 300));
+
+    await modifyStudyLevel({ studyWord: currentDictionary.data[0].word, resolution: 'FAIL' })
+
+    clearWordProgress(event)
+
+    const checkBtn = document.querySelector('#checkBtn')
+    const clearBtn = document.querySelector('#clearBtn')
+
+    checkBtn.disabled = true
+    clearBtn.disabled = false
+  }
+}
+
+// TODO: refactor and replace as a pure fn a bit later.
+async function askForRepetitionFeedback() {
+  const translationText = content.querySelector('#translateDiv > p')
+  translationText.textContent = 'How easy it was?'
+
+  const wordDiv = content.querySelector('#wordDiv')
+  wordDiv.innerHTML = ''
+
+  const btnArea = content.querySelector('.btnDiv')
+  btnArea.remove()
+
+  const rootArea = content.querySelector('.rootArea')
+  rootArea.insertAdjacentHTML('beforeend', feedbackArea)
+
+  const feedbackBtnArea = rootArea.querySelector('.feedbackBtnArea')
+
+  feedbackBtnArea.addEventListener('click', async (event) => {
+    event.preventDefault()
+
+    if (!event.target.dataset.action) return
+
+    const target = event.target.closest('[data-action]')
+
+    await modifyStudyLevel({ studyWord: currentDictionary.data[0].word, resolution: target.textContent })
 
     currentDictionary.data.shift()
 
-    if (!currentDictionary.data.length) {
+    if (currentDictionary.data.length) {
+      renderPage()
+    } else {
       currentDictionary = null
       initDictionary = null
+    
+      content.innerHTML = `
+        <div class="wrapper">
+          <div class="myProgressBar shadow"></div>
+          <div class="trainArea shadow">
+            <div id="wordItem"><p>It was great! Try again?</p></div>
+            <div class="feedbackBtnArea">
+              <button type="button" class="myBtn" id="findNewBtn">New words</button>
+              <button type="button" class="myBtn" id="repeatBtn">Repeat</button>
+            </div>
+          </div>
+        </div>
+        `
 
-      toggleClassForChar(resultChars)
+      const findNewBtn = document.querySelector('#findNewBtn')
+      const repeatBtn = document.querySelector('#repeatBtn')
+    
+      const remainedStudyList = await checkAvailableStudyWords({ speechPart })
 
-      const progressBar = document.querySelector('.myProgressBar')
-      progressBar.innerHTML = ''
-      translateDiv.textContent = 'It was great!'
-      wordDiv.innerHTML = ''
-      btnDiv.innerHTML = ''
-      const newBtn = document.createElement('button')
-      newBtn.classList.add('myBtn')
-      newBtn.setAttribute('id', 'findNewBtn')
-      newBtn.textContent = 'New words'
-      const repeatBtn = document.createElement('button')
-      repeatBtn.classList.add('myBtn')
-      repeatBtn.setAttribute('id', 'repeatBtn')
-      repeatBtn.textContent = 'Repeat'
-      btnDiv.append(newBtn)
-      btnDiv.append(repeatBtn)
-
-      await checkAvailableStudyWords(speechPart)
-
-      newBtn.addEventListener('click', async () => NewDictionary.renderPage())
+      if (!remainedStudyList.data.length) repeatBtn.disabled = 'true'
+    
+      findNewBtn.addEventListener('click', async () => NewDictionary.renderPage())
       repeatBtn.addEventListener('click', () => new PuzzleTraining().initPage(speechPart))
-    } else {
-      toggleClassForChar(resultChars)
-
-      setTimeout(() => {
-        renderPage()
-      }, 300)
     }
-  } else {
-    await modifyStudyLevel(currentDictionary.data[0].word)
-
-    toggleClassForChar(resultChars, 'wrongChar')
-
-    setTimeout(() => {
-      clearWordProgress(event)
-
-      checkBtn.disabled = true
-      clearBtn.disabled = false
-    }, 300)
-  }
+  })
 }
 
 function toggleClassForChar(charArray, className = 'accessChar') {
