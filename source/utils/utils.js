@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { domain } from './constants'
+import { domain, speechList } from './constants'
 import initDictionary from './dictionary.json'
 
 
@@ -101,6 +101,52 @@ export function getRandomListBySpeechPart(dictionary, speechPart, size) {
   }
 
   return randomList
+}
+
+export function colorizeDeck() {
+  const HUE_REGEX = /hsl\(\s*(\d{1,3})/;
+  const hueList = speechList
+  .map(el => {
+    const match = el.color?.match(HUE_REGEX);
+    return match ? Number(match[1]) : null;
+  })
+  .filter(Number.isFinite);
+
+  let generatedColor = null;
+
+  if (hueList.length) {
+    let generatedHue = null;
+    let genIndex = 0;
+
+    do {
+      generatedHue = Math.floor(Math.random() * 360)
+
+      const condition = hueList.some(hue => {
+        const difference = Math.abs(hue - generatedHue)
+        const distance = Math.min(difference, 360 - difference);
+
+        return distance <= 5
+      })
+
+      if (condition) {
+        genIndex++;
+      } else {
+        const saturation = (25 + Math.random() * 15).toFixed(0)
+        const lightness = (75 + Math.random() * 7).toFixed(0)
+
+        generatedColor = `hsl(${generatedHue}, ${saturation}%, ${lightness}%)`
+      }
+
+    } while (!generatedColor && genIndex < 50);
+  } else {
+    const hue = Math.floor(Math.random() * 360)
+    const saturation = (25 + Math.random() * 15).toFixed(0)
+    const lightness = (75 + Math.random() * 7).toFixed(0)
+    
+    return `hsl(${hue}, ${saturation}%, ${lightness}%)`;
+  }
+
+  return generatedColor;
 }
 
 export function optimizeCharacters(chars) {

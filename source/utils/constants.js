@@ -4,17 +4,17 @@ module.exports = {
   alphabetList: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ',
 
   speechList: [
-    { dataName: 'verbs', color: '#DDA0DD' },
-    { dataName: 'phrasal verbs', color: '#D1FFFF' },
-    { dataName: 'nouns', color: '#6A90FF' },
-    { dataName: 'adjectives', color: '#FFB6C1' },
-    { dataName: 'adverbs', color: '#CE6A5C' },
-    { dataName: 'pronouns', color: '#CDFF2F' },
-    { dataName: 'numerals', color: '#FFA500' },
-    { dataName: 'other parts', color: '#AFEEEE' },
-    { dataName: 'idioms', color: '#FFDAB9' },
-    { dataName: 'useful phrases', color: '#9ACD32' },
-    { dataName: 'it phrases', color: '#FFFF4D' },
+    { dataName: 'verbs' },
+    { dataName: 'phrasal verbs' },
+    { dataName: 'nouns' },
+    { dataName: 'adjectives' },
+    { dataName: 'adverbs' },
+    { dataName: 'pronouns' },
+    { dataName: 'numerals' },
+    { dataName: 'other parts' },
+    { dataName: 'idioms' },
+    { dataName: 'useful phrases' },
+    { dataName: 'it phrases' },
   ],
 
   getModalWindow({ title, description, actionBtnText }) {
