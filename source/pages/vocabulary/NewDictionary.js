@@ -1,6 +1,6 @@
 import SeekNewWord from './SeekNewWord'
 import { speechList, domain, spinner, add_icon, getModalWindow } from '../../utils/constants'
-import { makeRequest } from '../../utils/utils'
+import { colorizeDeck, makeRequest } from '../../utils/utils'
 
 const content = document.querySelector('.content')
 
@@ -10,33 +10,46 @@ class NewDictionary {
 
     let dictionaryRoot = document.createElement('div')
     dictionaryRoot.classList.add('actionRoot')
+
+    let dbInitDeckList = await makeRequest({
+      methodType: 'GET',
+      getUrl: `${domain}/decks/init/`,
+    })
+
+    const deckList = dbInitDeckList.data.length ? dbInitDeckList.data : speechList
   
-    for (let index = 0; index < speechList.length; index++) {
-      const item = document.createElement('button')
-      item.classList.add('dictionary')
-      item.classList.add('shadow-lg')
-      item.style.backgroundColor = speechList[index].color
-      item.setAttribute('data-name', speechList[index].dataName)
-      item.textContent = speechList[index].dataName.toUpperCase()
+    for (let index = 0; index < deckList.length; index++) {
+      const deck = document.createElement('button')
+      deck.classList.add('dictionary')
+      deck.classList.add('shadow-lg')
+
+      if (deckList[index].color) {
+        deck.style.backgroundColor = deckList[index].color
+      } else {
+        deckList[index].color = deck.style.backgroundColor = colorizeDeck()
+      }
+      
+      deck.setAttribute('data-name', deckList[index].dataName)
+      deck.textContent = deckList[index].dataName.toUpperCase()
   
       const initList = await makeRequest({
         methodType: 'GET',
         getUrl: `${domain}/words/init/`,
-        getParams: { wordType: speechList[index].dataName },
+        getParams: { wordType: deckList[index].dataName },
       })
   
       const studyList = await makeRequest({
         methodType: 'GET',
         getUrl: `${domain}/words/study/`,
-        getParams: { wordType: speechList[index].dataName },
+        getParams: { wordType: deckList[index].dataName },
       })
 
       const dictionaryWrapper = document.createElement('div')
       dictionaryWrapper.classList.add('dictionary-wrap')
-      dictionaryWrapper.append(item)
+      dictionaryWrapper.append(deck)
   
       if (initList.data.length === studyList.data.length) {
-        item.disabled = 'true'
+        deck.disabled = 'true'
       } else {
         dictionaryWrapper.insertAdjacentHTML('beforeend', add_icon)
         const addDeckBtn = dictionaryWrapper.querySelectorAll('button')[1]
@@ -44,6 +57,14 @@ class NewDictionary {
       }
 
       dictionaryRoot.append(dictionaryWrapper)
+    }
+
+    if (!dbInitDeckList.data.length) {
+      await makeRequest({
+        methodType: 'POST',
+        getUrl: `${domain}/decks/init/all`,
+        getBody: { deckList }
+      })
     }
   
     content.innerHTML = ''
