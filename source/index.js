@@ -1,6 +1,4 @@
-import './styles/indexStyles.css'
-import './styles/commonStyles.css'
-import './bootstrap/btstrp_css/bootstrap.min.css'
+import './styles/main.css'
 import VocabularySection from './pages/vocabulary/VocabularySection'
 import SpeakingSection from './pages/speaking/SpeakingSection'
 

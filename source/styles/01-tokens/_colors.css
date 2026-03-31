@@ -1,0 +1,28 @@
+/* Design System Color Tokens */
+
+:root {
+  /* Backgrounds */
+  --color-bg:          #F5EDE4;   /* warm cream — main page background */
+  --color-surface:     #FFFFFF;   /* cards, components */
+  --color-surface-alt: #EDE5DC;   /* hover states, secondary areas */
+  --color-border:      #D4C9BE;   /* universal border */
+
+  /* Text */
+  --color-text-primary:   #1D1916;  /* almost black with warm tone */
+  --color-text-secondary: #6B5F58;  /* muted */
+  --color-text-muted:     #A89E97;  /* very muted */
+
+  /* Accent */
+  --color-accent:       #E0613D;   /* coral/terracotta — CTA, links */
+  --color-accent-hover: #C9522F;
+
+  /* SRS buttons (semantic preserved) */
+  --color-srs-hard: #D95A4A;
+  --color-srs-good: #E6A840;
+  --color-srs-easy: #5CAD82;
+
+  /* System (compatibility with current code) */
+  --color-success: #94FF94;
+  --color-failed:  #FF8C8C;
+  --color-muted:   #E6E6E6;
+}

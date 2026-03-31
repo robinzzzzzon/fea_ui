@@ -1,0 +1,36 @@
+/* ITCSS Architecture — Master Stylesheet */
+
+/* 01-tokens: Design System */
+@import './01-tokens/_colors.css';
+@import './01-tokens/_typography.css';
+@import './01-tokens/_spacing.css';
+@import './01-tokens/_effects.css';
+
+/* 02-reset: CSS Reset & Normalization */
+/* @import './02-reset/_reset.css'; */
+
+/* 03-base: Bare HTML Elements */
+/* @import './03-base/_base.css'; */
+
+/* 04-layout: Page Structure */
+/* @import './04-layout/_layout.css'; */
+
+/* 05-components: Reusable Components (BEM) */
+/* @import './05-components/_btn.css'; */
+/* @import './05-components/_card.css'; */
+/* @import './05-components/_word-card.css'; */
+/* @import './05-components/_modal.css'; */
+/* @import './05-components/_form.css'; */
+/* @import './05-components/_progress.css'; */
+/* @import './05-components/_spinner.css'; */
+/* @import './05-components/_alphabet.css'; */
+
+/* 06-pages: Page-Specific Styles */
+/* @import './06-pages/_vocabulary.css'; */
+/* @import './06-pages/_training.css'; */
+/* @import './06-pages/_speaking.css'; */
+
+/* Legacy styles (to be removed in task-042) */
+@import './indexStyles.css';
+@import './commonStyles.css';
+@import '../bootstrap/btstrp_css/bootstrap.min.css';
