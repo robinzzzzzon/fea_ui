@@ -7,10 +7,10 @@
 @import './01-tokens/_effects.css';
 
 /* 02-reset: CSS Reset & Normalization */
-/* @import './02-reset/_reset.css'; */
+@import './02-reset/_reset.css';
 
 /* 03-base: Bare HTML Elements */
-/* @import './03-base/_base.css'; */
+@import './03-base/_base.css';
 
 /* 04-layout: Page Structure */
 /* @import './04-layout/_layout.css'; */
