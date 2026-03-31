@@ -1,0 +1,14 @@
+/* Border Radius & Shadows */
+
+:root {
+  /* Border radius */
+  --radius-sm:   6px;
+  --radius-md:   10px;
+  --radius-lg:   16px;
+  --radius-full: 9999px;
+
+  /* Shadows */
+  --shadow-sm: 0 1px 3px rgba(29, 25, 22, .08);
+  --shadow-md: 0 4px 12px rgba(29, 25, 22, .10);
+  --shadow-lg: 0 8px 24px rgba(29, 25, 22, .12);
+}
