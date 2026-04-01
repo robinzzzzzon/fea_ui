@@ -5,14 +5,14 @@ class SpeakingSection {
   renderPage(event) {
     event.preventDefault()
 
-    const actionRoot = document.querySelector('.actionRoot')
+    const lContainer = document.querySelector('.l-container')
 
-    actionRoot.innerHTML = `
+    lContainer.innerHTML = `
       <button class="dictionary initItem shadow-lg" data-name="speaking">FREE SPEAKING</button>
       <button class="dictionary initItem shadow-lg" data-name="essay">ESSAY WRITING</button>
     `
 
-    actionRoot.addEventListener('click', this.renderNextPage)
+    lContainer.addEventListener('click', this.renderNextPage)
   }
 
   renderNextPage(event) {

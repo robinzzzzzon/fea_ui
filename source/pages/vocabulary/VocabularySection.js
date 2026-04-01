@@ -6,17 +6,17 @@ import { domain, spinner, clear_icon, getModalWindow } from '../../utils/constan
 import { makeRequest, checkAvailableStudyWords } from '../../utils/utils'
 
 class VocabularySection {
-  actionRoot = document.querySelector('.actionRoot')
+  lContainer = document.querySelector('.l-container')
 
   async renderPage(event) {
     event.preventDefault()
   
-    this.actionRoot.innerHTML = spinner
+    this.lContainer.innerHTML = spinner
   
     const initList = await makeRequest({ methodType: 'GET', getUrl: `${domain}/words/init`})
     let studyList = await makeRequest({ methodType: 'GET', getUrl: `${domain}/words/study` })
 
-    this.actionRoot.innerHTML = `
+    this.lContainer.innerHTML = `
       <div class="dictionary-wrap">
         <button class="dictionary initItem shadow-lg" data-name="seekNew">CHOOSE WORDS</button>
       </div>
@@ -54,7 +54,7 @@ class VocabularySection {
       this.addClearBtn({ wrapperListIndex: 2, dataName: 'removeStudyList' })
     }
   
-    this.actionRoot.addEventListener('click', this.renderNextPage)
+    this.lContainer.addEventListener('click', this.renderNextPage)
   }
 
   async renderNextPage(event) {
@@ -83,9 +83,9 @@ class VocabularySection {
 
   async removeDictionary(event) {
     const dictionaryTarget = event.target.closest('button')
-    const actionRoot = document.querySelector('.actionRoot')
-    
-    actionRoot.insertAdjacentHTML('afterbegin', getModalWindow({ 
+    const lContainer = document.querySelector('.l-container')
+
+    lContainer.insertAdjacentHTML('afterbegin', getModalWindow({ 
       title: 'Do you really want to delete this dictionary?',
       description: 'After confirmation this dictionary will be permanently deleted!',
       actionBtnText: 'Delete'

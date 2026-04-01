@@ -13,7 +13,7 @@
 @import './03-base/_base.css';
 
 /* 04-layout: Page Structure */
-/* @import './04-layout/_layout.css'; */
+@import './04-layout/_layout.css';
 
 /* 05-components: Reusable Components (BEM) */
 /* @import './05-components/_btn.css'; */
