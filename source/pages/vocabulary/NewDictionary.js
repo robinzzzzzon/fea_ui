@@ -9,7 +9,7 @@ class NewDictionary {
     content.innerHTML = spinner
 
     let dictionaryRoot = document.createElement('div')
-    dictionaryRoot.classList.add('actionRoot')
+    dictionaryRoot.classList.add('l-container')
 
     let dbInitDeckList = await makeRequest({
       methodType: 'GET',
@@ -90,9 +90,9 @@ class NewDictionary {
 
     const deckBtn = wrapper.querySelector('button[data-name]');
 
-    const actionRoot = document.querySelector('.actionRoot')
-    
-    actionRoot.insertAdjacentHTML('afterbegin', getModalWindow({ 
+    const lContainer = document.querySelector('.l-container')
+
+    lContainer.insertAdjacentHTML('afterbegin', getModalWindow({ 
       title: 'Do you really want to start studying all words of this dictionary?',
       description: 'After confirmation this deck will be added to your current study list!',
       actionBtnText: 'Add'

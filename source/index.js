@@ -2,9 +2,9 @@ import './styles/main.css'
 import VocabularySection from './pages/vocabulary/VocabularySection'
 import SpeakingSection from './pages/speaking/SpeakingSection'
 
-const actionRoot = document.querySelector('.actionRoot')
+const lContainer = document.querySelector('.l-container')
 
-actionRoot.addEventListener('click', renderNextPage)
+lContainer.addEventListener('click', renderNextPage)
 
 async function renderNextPage(event) {
   event.preventDefault()
