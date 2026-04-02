@@ -46,3 +46,10 @@
 .writeInput:focus {
   border: 1px solid #aaaaaa;
 }
+
+.btnDiv {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: var(--space-4);
+}

@@ -28,8 +28,8 @@ class PuzzleTraining {
 
     content.innerHTML = `
         <div class="wrapper">
-          <div class="myProgressBar shadow"></div>
-          <div class="rootArea shadow"></div>
+          <div class="myProgressBar"></div>
+          <div class="rootArea"></div>
         </div>
       `
     
@@ -49,9 +49,9 @@ function renderPage() {
       </div>
       <div id="charArea" tabindex="0"></div>
       <div class="btnDiv">
-        <button class="myBtn" id="suggestBtn" disabled>Get a cue</button>
-        <button class="myBtn" id="checkBtn" disabled>Check</button>
-        <button class="myBtn" id="clearBtn">Reset</button>
+        <button class="btn btn--hint" id="suggestBtn" disabled>Get a cue</button>
+        <button class="btn btn--primary" id="checkBtn" disabled>Check</button>
+        <button class="btn btn--neutral" id="clearBtn">Reset</button>
       </div>
     `
   
@@ -249,7 +249,7 @@ async function askForRepetitionFeedback() {
   const rootArea = content.querySelector('.rootArea')
   rootArea.insertAdjacentHTML('beforeend', feedbackArea)
 
-  const feedbackBtnArea = rootArea.querySelector('.feedbackBtnArea')
+  const feedbackBtnArea = rootArea.querySelector('.srs-panel')
 
   feedbackBtnArea.addEventListener('click', async (event) => {
     event.preventDefault()
@@ -270,12 +270,12 @@ async function askForRepetitionFeedback() {
     
       content.innerHTML = `
         <div class="wrapper">
-          <div class="myProgressBar shadow"></div>
-          <div class="trainArea shadow">
+          <div class="myProgressBar"></div>
+          <div class="trainArea">
             <div id="wordItem"><p>It was great! Try again?</p></div>
-            <div class="feedbackBtnArea">
-              <button type="button" class="myBtn" id="findNewBtn">New words</button>
-              <button type="button" class="myBtn" id="repeatBtn">Repeat</button>
+            <div class="srs-panel">
+              <button type="button" class="btn btn--hint" id="findNewBtn">New words</button>
+              <button type="button" class="btn btn--sage" id="repeatBtn">Repeat</button>
             </div>
           </div>
         </div>

@@ -40,7 +40,7 @@ function renderPage() {
   content.innerHTML = `
     <div class="cardWrapper">
       <div class="alphabetRoot"></div>
-      <div class="cardRoot shadow">
+      <div class="cardRoot">
           <div class="cardWordArea" id="wordArea">
             <div>
               <b>${currentDictionary.data[wordIndex].word}</b>
@@ -49,14 +49,14 @@ function renderPage() {
           </div>
           <button type="button" class="btn-close" id="deleteBtn"></button>
           <div class="cardBtnDiv">
-              <button class="arrowBtn" id="backBtn">
+              <button class="btn btn--lemon btn--icon" id="backBtn">
                 <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" class="bi bi-caret-left-square" viewBox="0 0 16 16">
                   <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2z"/>
                   <path d="M10.205 12.456A.5.5 0 0 0 10.5 12V4a.5.5 0 0 0-.832-.374l-4.5 4a.5.5 0 0 0 0 .748l4.5 4a.5.5 0 0 0 .537.082"/>
                 </svg>
               </button>
-              <button class="myBtn" id="studyBtn">Add to list</button>
-              <button class="arrowBtn" id="nextBtn">
+              <button class="btn btn--primary" id="studyBtn">Add to list</button>
+              <button class="btn btn--lemon btn--icon" id="nextBtn">
                 <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" class="bi bi-caret-right-square" viewBox="0 0 16 16">
                   <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2z"/>
                   <path d="M5.795 12.456A.5.5 0 0 1 5.5 12V4a.5.5 0 0 1 .832-.374l4.5 4a.5.5 0 0 1 0 .748l-4.5 4a.5.5 0 0 1-.537.082"/>
@@ -98,7 +98,25 @@ function renderPage() {
 function showNewWord(event) {
   event.preventDefault()
 
-  wordIndex === currentDictionary.data.length ? renderEndDeck() : renderPage()
+  if (wordIndex === currentDictionary.data.length) {
+    renderEndDeck()
+    return
+  }
+
+  const wordArea = document.querySelector('#wordArea')
+  
+  if (wordArea) {
+    wordArea.innerHTML = `
+      <div><b>${currentDictionary.data[wordIndex].word}</b></div>
+      <div>${currentDictionary.data[wordIndex].translate}</div>
+    `
+    document.querySelector('#backBtn').disabled = wordIndex === 0
+    document.querySelector('#nextBtn').disabled = false
+    
+    analizeCharAbility()
+  } else {
+    renderPage()
+  }
 }
 
 async function studyThisWord(event) {
@@ -144,8 +162,8 @@ function changeWord(event) {
     </div>
       <button type="button" class="btn-close" id="deleteBtn"></button>
       <div class="cardBtnDiv">
-        <button class="myBtn btn-lg" id="changeBtn">Change</button> 
-        <button class="myBtn btn-lg" id="cancelBtn">Cancel</button> 
+        <button class="btn btn--primary" id="changeBtn">Change</button>
+        <button class="btn btn--ghost" id="cancelBtn">Cancel</button>
       </div>
     `
 
@@ -244,8 +262,8 @@ function renderEndDeck() {
 
   wordArea.innerHTML = '<p>This is the end of the deck!<br>Are you ready for studying new? :)</p>'
   cardBtnDiv.innerHTML = `
-      <button class="myBtn btn-lg" id="findNewBtn">New words</button>
-      <button class="myBtn btn-lg" id="studyBtn">Study words</button>
+      <button class="btn btn--hint" id="findNewBtn">New words</button>
+      <button class="btn btn--sage" id="studyBtn">Study words</button>
     `
 
   const findNewBtn = document.querySelector('#findNewBtn')
@@ -276,8 +294,8 @@ function showTrainingSuggest() {
 
   wordArea.innerHTML = '<p>Excellent supply of added words! <br>Ready for training?</p>'
   cardBtnDiv.innerHTML = `
-      <button class="myBtn btn-lg" id="startTrainBtn">Let's study!</button>
-      <button class="myBtn btn-lg" id="goOnBtn">Not yet</button>
+      <button class="btn btn--primary" id="startTrainBtn">Let's study!</button>
+      <button class="btn btn--secondary" id="goOnBtn">Not yet</button>
     `
 
   const trainBtn = document.querySelector('#startTrainBtn')
@@ -301,7 +319,6 @@ function analizeCharAbility() {
   for (let i = 0; i < alphabet.length; i++) {
     const char = document.createElement('button')
     char.classList.add('alphaChar')
-    char.classList.add('shadow')
     char.textContent = alphabet[i]
     charRoot.appendChild(char)
 

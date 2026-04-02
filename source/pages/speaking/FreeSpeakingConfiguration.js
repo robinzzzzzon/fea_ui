@@ -53,7 +53,7 @@ class FreeSpeakingConfiguration {
         <label class="form-check-label" for="needTimer">Do you need a timer?</label>
       </div>
   
-      <button class="myBtn" id="confirmBtn">Confirm</button>
+      <button class="btn btn--primary" id="confirmBtn">Confirm</button>
     </div>
     `
 

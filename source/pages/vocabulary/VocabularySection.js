@@ -18,16 +18,16 @@ class VocabularySection {
 
     this.lContainer.innerHTML = `
       <div class="dictionary-wrap">
-        <button class="dictionary initItem shadow-lg" data-name="seekNew">CHOOSE WORDS</button>
+        <button class="dictionary initItem" data-name="seekNew">CHOOSE WORDS</button>
       </div>
       <div class="dictionary-wrap">
-        <button class="dictionary initItem shadow-lg" data-name="getTraining">STUDY WORDS</button>
+        <button class="dictionary initItem" data-name="getTraining">STUDY WORDS</button>
       </div>
       <div class="dictionary-wrap">
-        <button class="dictionary initItem shadow-lg" data-name="seeActual">ACTUAL DICTIONARY</button>
+        <button class="dictionary initItem" data-name="seeActual">ACTUAL DICTIONARY</button>
       </div>
       <div class="dictionary-wrap">
-        <button class="dictionary initItem shadow-lg" data-name="addNew">ADD NEW WORD</button>
+        <button class="dictionary initItem" data-name="addNew">ADD NEW WORD</button>
       </div>
     `
     if (!initList.data.length) {

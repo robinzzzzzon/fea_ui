@@ -27,11 +27,11 @@ class EssayTraining {
       <p>You should use these words or phrases:</p>
       <div class="phrasesRoot"></div>
       <div id="essayArea">
-        <textarea class="shadow-sm" placeholder="Write your essay here..."></textarea>
+        <textarea placeholder="Write your essay here..."></textarea>
       </div>
       <div class="btnContainer">
-        <button class="myBtn checkBtn">Check it</button>
-        <button class="myBtn nextBtn">Next topic</button>
+        <button class="btn btn--primary checkBtn">Check it</button>
+        <button class="btn btn--secondary nextBtn">Next topic</button>
       </div>
     </div>
     `

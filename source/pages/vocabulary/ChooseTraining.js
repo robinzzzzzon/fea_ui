@@ -27,8 +27,8 @@ class ChooseTraining {
 
     content.innerHTML = `
     <div class="wrapper">
-      <div class="myProgressBar shadow"></div>
-      <div class="trainArea shadow">
+      <div class="myProgressBar"></div>
+      <div class="trainArea">
         <div id="wordItem"></div>
         <div class="itemArea"></div>
       </div>
@@ -51,7 +51,7 @@ async function renderPage() {
   let itemArea = content.querySelector('.itemArea')
 
   if (!itemArea) {
-    const feedbackBtnArea = content.querySelector('.feedbackBtnArea')
+    const feedbackBtnArea = content.querySelector('.srs-panel')
     feedbackBtnArea.remove()
     const trainArea = content.querySelector('.trainArea')
     trainArea.insertAdjacentHTML('beforeend', `<div class="itemArea"></div>`)
@@ -126,7 +126,7 @@ async function askForRepetitionFeedback() {
   const trainArea = content.querySelector('.trainArea')
   trainArea.insertAdjacentHTML('beforeend', feedbackArea)
 
-  const feedbackBtnArea = trainArea.querySelector('.feedbackBtnArea')
+  const feedbackBtnArea = trainArea.querySelector('.srs-panel')
 
   feedbackBtnArea.addEventListener('click', async (event) => {
     event.preventDefault()
@@ -147,12 +147,12 @@ async function askForRepetitionFeedback() {
     
       content.innerHTML = `
         <div class="wrapper">
-          <div class="myProgressBar shadow"></div>
-          <div class="trainArea shadow">
+          <div class="myProgressBar"></div>
+          <div class="trainArea">
             <div id="wordItem"><p>It was great! Try again?</p></div>
-            <div class="feedbackBtnArea">
-              <button type="button" class="myBtn" id="findNewBtn">New words</button>
-              <button type="button" class="myBtn" id="repeatBtn">Repeat</button>
+            <div class="srs-panel">
+              <button type="button" class="btn btn--hint" id="findNewBtn">New words</button>
+              <button type="button" class="btn btn--sage" id="repeatBtn">Repeat</button>
             </div>
           </div>
         </div>

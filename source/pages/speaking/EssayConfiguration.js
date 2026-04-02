@@ -56,7 +56,7 @@ class EssayConfiguration {
         <label class="form-check-label" for="behavior">Should it normilize an informal way of your essay?</label>
       </div>
   
-      <button class="myBtn" id="confirmBtn">Confirm</button>
+      <button class="btn btn--primary" id="confirmBtn">Confirm</button>
     </div>
     `
 

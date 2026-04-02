@@ -39,26 +39,16 @@
 
 .wordBtnRoot {
   justify-self: end;
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding-right: var(--space-2);
 }
 
-.wordBtnRoot button {
-  border: 1px solid rgb(118, 129, 145);
-  border-radius: 5px;
-  background-color: #fff;
-  height: 30px;
-  width: 60px;
-  margin-bottom: 2px;
-}
-
-.wordBtnRoot button:hover {
-  cursor: pointer;
-  opacity: 0.8;
-}
-
-#understandBtn {
-  background-color: lightcyan;
-}
-
-#understandBtn:hover {
-  background-color: #d0fcfc;
+/* Compact button size for the 40px dictionary row */
+.wordBtnRoot .btn {
+  height: 28px;
+  padding: 0 var(--space-3);
+  font-size: var(--text-sm);
+  border-radius: var(--radius-full);
 }

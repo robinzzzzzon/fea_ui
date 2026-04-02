@@ -61,7 +61,6 @@ class StudyDictionary {
 function createStudyDictionary(speechListItem) {
   const dictionary = document.createElement('button')
   dictionary.classList.add('dictionary')
-  dictionary.classList.add('shadow-lg')
 
   if (speechListItem) {
     dictionary.setAttribute('data-name', `${speechListItem.dataName}`)

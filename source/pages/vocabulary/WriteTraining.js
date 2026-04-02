@@ -27,8 +27,8 @@ class WriteTraining {
 
     content.innerHTML = `
       <div class="wrapper">
-        <div class="myProgressBar shadow"></div>
-        <div class="rootDiv shadow"></div>
+        <div class="myProgressBar"></div>
+        <div class="rootDiv"></div>
       </div>
     `
 
@@ -45,8 +45,8 @@ function renderPage() {
       <div class="translateDiv"><p>${currentDictionary.data[0].translate}</p></div>
       <input type="text" class="writeInput" placeholder=" Write here...">
       <div class="btnDiv">
-        <button class="myBtn" id="suggestBtn">Get a cue</button>
-        <button class="myBtn" id="checkBtn">Check</button>
+        <button class="btn btn--hint" id="suggestBtn">Get a cue</button>
+        <button class="btn btn--primary" id="checkBtn">Check</button>
       </div>
     `)
   
@@ -148,7 +148,7 @@ async function askForRepetitionFeedback() {
   const rootDiv = content.querySelector('.rootDiv')
   rootDiv.insertAdjacentHTML('beforeend', feedbackArea)
 
-  const feedbackBtnArea = rootDiv.querySelector('.feedbackBtnArea')
+  const feedbackBtnArea = rootDiv.querySelector('.srs-panel')
 
   feedbackBtnArea.addEventListener('click', async (event) => {
     event.preventDefault()
@@ -169,12 +169,12 @@ async function askForRepetitionFeedback() {
     
       content.innerHTML = `
         <div class="wrapper">
-          <div class="myProgressBar shadow"></div>
-          <div class="trainArea shadow">
+          <div class="myProgressBar"></div>
+          <div class="trainArea">
             <div id="wordItem"><p>It was great! Try again?</p></div>
-            <div class="feedbackBtnArea">
-              <button type="button" class="myBtn" id="findNewBtn">New words</button>
-              <button type="button" class="myBtn" id="repeatBtn">Repeat</button>
+            <div class="srs-panel">
+              <button type="button" class="btn btn--hint" id="findNewBtn">New words</button>
+              <button type="button" class="btn btn--sage" id="repeatBtn">Repeat</button>
             </div>
           </div>
         </div>
