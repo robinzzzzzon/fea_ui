@@ -7,7 +7,7 @@ const content = document.querySelector('.content')
 class StudyDictionary {
   async renderPage() {
     let dictionaryRoot = document.createElement('div')
-    dictionaryRoot.classList.add('dictionaryRoot')
+    dictionaryRoot.classList.add('nav-grid')
   
     content.innerHTML = spinner
 
@@ -60,7 +60,7 @@ class StudyDictionary {
 
 function createStudyDictionary(speechListItem) {
   const dictionary = document.createElement('button')
-  dictionary.classList.add('dictionary')
+  dictionary.classList.add('nav-card')
 
   if (speechListItem) {
     dictionary.setAttribute('data-name', `${speechListItem.dataName}`)
