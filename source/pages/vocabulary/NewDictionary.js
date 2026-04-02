@@ -20,7 +20,7 @@ class NewDictionary {
   
     for (let index = 0; index < deckList.length; index++) {
       const deck = document.createElement('button')
-      deck.classList.add('dictionary')
+      deck.classList.add('nav-card')
 
       if (deckList[index].color) {
         deck.style.backgroundColor = deckList[index].color
@@ -44,7 +44,7 @@ class NewDictionary {
       })
 
       const dictionaryWrapper = document.createElement('div')
-      dictionaryWrapper.classList.add('dictionary-wrap')
+      dictionaryWrapper.classList.add('nav-card-wrap')
       dictionaryWrapper.append(deck)
   
       if (initList.data.length === studyList.data.length) {
@@ -85,7 +85,7 @@ class NewDictionary {
 
     if (!addDeckBtn) return;
 
-    const wrapper = addDeckBtn.closest('.dictionary-wrap');
+    const wrapper = addDeckBtn.closest('.nav-card-wrap');
 
     const deckBtn = wrapper.querySelector('button[data-name]');
 

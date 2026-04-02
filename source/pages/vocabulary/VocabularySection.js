@@ -17,17 +17,17 @@ class VocabularySection {
     let studyList = await makeRequest({ methodType: 'GET', getUrl: `${domain}/words/study` })
 
     this.lContainer.innerHTML = `
-      <div class="dictionary-wrap">
-        <button class="dictionary initItem" data-name="seekNew">CHOOSE WORDS</button>
+      <div class="nav-card-wrap">
+        <button class="nav-card" data-name="seekNew">CHOOSE WORDS</button>
       </div>
-      <div class="dictionary-wrap">
-        <button class="dictionary initItem" data-name="getTraining">STUDY WORDS</button>
+      <div class="nav-card-wrap">
+        <button class="nav-card" data-name="getTraining">STUDY WORDS</button>
       </div>
-      <div class="dictionary-wrap">
-        <button class="dictionary initItem" data-name="seeActual">ACTUAL DICTIONARY</button>
+      <div class="nav-card-wrap">
+        <button class="nav-card" data-name="seeActual">ACTUAL DICTIONARY</button>
       </div>
-      <div class="dictionary-wrap">
-        <button class="dictionary initItem" data-name="addNew">ADD NEW WORD</button>
+      <div class="nav-card-wrap">
+        <button class="nav-card" data-name="addNew">ADD NEW WORD</button>
       </div>
     `
     if (!initList.data.length) {
@@ -74,7 +74,7 @@ class VocabularySection {
   }
 
   addClearBtn({ wrapperListIndex, dataName }) {
-    const wrapperList = document.querySelectorAll('.dictionary-wrap')
+    const wrapperList = document.querySelectorAll('.nav-card-wrap')
     wrapperList[wrapperListIndex].insertAdjacentHTML('beforeend', clear_icon)
     const deleteDictionaryBtn = wrapperList[wrapperListIndex].querySelectorAll('button')[1]
     deleteDictionaryBtn.setAttribute('data-name', dataName)

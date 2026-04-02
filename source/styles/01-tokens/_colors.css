@@ -3,7 +3,8 @@
 :root {
   /* Backgrounds */
   --color-bg:          #F5EDE4;   /* warm cream — main page background */
-  --color-surface:     #FFFFFF;   /* cards, components */
+  --color-surface:     #FFFFFF;   /* header, footer, modal backgrounds */
+  --color-card:        #B8E4D4;   /* nav cards — pastel mint, pops against warm cream bg */
   --color-surface-alt: #EDE5DC;   /* hover states, secondary areas */
   --color-border:      #D4C9BE;   /* universal border */
 
