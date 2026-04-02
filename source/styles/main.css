@@ -15,8 +15,7 @@
 /* 04-layout: Page Structure */
 @import './04-layout/_layout.css';
 
-/* 05-components: Reusable Components (BEM) */
-/* @import './05-components/_btn.css'; */
+/* 05-components: Reusable Components (BEM) — placeholders, enabled after Bootstrap */
 /* @import './05-components/_card.css'; */
 /* @import './05-components/_word-card.css'; */
 /* @import './05-components/_modal.css'; */
@@ -34,3 +33,6 @@
 @import './indexStyles.css';
 @import './commonStyles.css';
 @import '../bootstrap/btstrp_css/bootstrap.min.css';
+
+/* 05-components: after Bootstrap so our styles win during transition */
+@import './05-components/_btn.css';

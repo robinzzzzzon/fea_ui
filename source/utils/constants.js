@@ -74,10 +74,10 @@ module.exports = {
   `,
 
   feedbackArea: `
-    <div class="feedbackBtnArea">
-      <button type="button" data-action="sendResolution" class="myBtn hardBtn">HARD</button>
-      <button type="button" data-action="sendResolution" class="myBtn goodBtn">GOOD</button>
-      <button type="button" data-action="sendResolution" class="myBtn easyBtn">EASY</button>
+    <div class="srs-panel">
+      <button type="button" data-action="sendResolution" class="btn btn--srs-hard">HARD</button>
+      <button type="button" data-action="sendResolution" class="btn btn--srs-good">GOOD</button>
+      <button type="button" data-action="sendResolution" class="btn btn--srs-easy">EASY</button>
     </div>
   `,
 }

@@ -42,7 +42,7 @@ class AddDictionaryWord {
               <label class="form-check-label" for="flexCheckDefault"><b>Add to study list</b></label>
             </div>
             <div>
-              <button class="myBtn" id="addBtn">Confirm</button>
+              <button class="btn btn--primary" id="addBtn">Confirm</button>
             </div>
           </div>
         </div>

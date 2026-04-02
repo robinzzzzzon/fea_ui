@@ -8,8 +8,8 @@ class SpeakingSection {
     const lContainer = document.querySelector('.l-container')
 
     lContainer.innerHTML = `
-      <button class="dictionary initItem shadow-lg" data-name="speaking">FREE SPEAKING</button>
-      <button class="dictionary initItem shadow-lg" data-name="essay">ESSAY WRITING</button>
+      <button class="dictionary initItem" data-name="speaking">FREE SPEAKING</button>
+      <button class="dictionary initItem" data-name="essay">ESSAY WRITING</button>
     `
 
     lContainer.addEventListener('click', this.renderNextPage)

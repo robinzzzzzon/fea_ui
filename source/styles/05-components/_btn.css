@@ -1,0 +1,165 @@
+/* Button Component
+   Default: transparent bg, colored border + text (border = currentColor)
+   Hover:   fills with that color, text → --color-bg (warm cream)
+*/
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 44px;
+  padding: 0 var(--space-6);
+  border-radius: var(--radius-lg);
+  border: 1.5px solid currentColor;
+  background-color: transparent;
+  font: 500 var(--text-base) var(--font-body);
+  letter-spacing: 0.015em;
+  cursor: pointer;
+  transition: background-color .3s ease, color .3s ease;
+}
+
+.btn:active {
+  transform: scale(0.97);
+}
+
+.btn:disabled {
+  opacity: 0.38;
+  cursor: not-allowed;
+}
+
+/* ── Variants ────────────────────────────────────────── */
+
+/* Primary — forest green */
+.btn--primary {
+  color: #52A876;
+}
+
+.btn--primary:hover {
+  background-color: #52A876;
+  color: var(--color-bg);
+}
+
+/* Secondary — warm taupe */
+.btn--secondary {
+  color: #9B8679;
+}
+
+.btn--secondary:hover {
+  background-color: #9B8679;
+  color: var(--color-bg);
+}
+
+/* Destructive — muted rust */
+.btn--destructive {
+  color: #BC5E52;
+}
+
+.btn--destructive:hover {
+  background-color: #BC5E52;
+  color: var(--color-bg);
+}
+
+/* Ghost — lighter taupe, for arrow/cancel actions */
+.btn--ghost {
+  color: var(--color-text-muted);
+}
+
+.btn--ghost:hover {
+  background-color: var(--color-text-muted);
+  color: var(--color-bg);
+}
+
+/* Icon-only button (SVG arrows) — wide pill */
+.btn--icon {
+  width: 72px;
+  padding: 0;
+  border-radius: var(--radius-lg);
+}
+
+/* Lemon — vivid lemon-yellow for navigation arrows */
+.btn--lemon {
+  color: #C4D000;
+}
+
+.btn--lemon:hover {
+  background-color: #D4E04A;
+  color: #3a3a00;
+}
+
+.btn--lemon:disabled {
+  color: #C4D000;
+}
+
+/* Sage — muted teal for repeat/secondary training actions */
+.btn--sage {
+  color: #5E9180;
+}
+
+.btn--sage:hover {
+  background-color: #5E9180;
+  color: var(--color-bg);
+}
+
+/* ── Training semantic variants ──────────────────────── */
+
+/* Hint — dusty lavender (Get a cue / suggest) */
+.btn--hint {
+  color: #8B7EC0;
+}
+
+.btn--hint:hover {
+  background-color: #8B7EC0;
+  color: var(--color-bg);
+}
+
+/* Neutral — warm sand (Reset in training) */
+.btn--neutral {
+  color: #A08C65;
+}
+
+.btn--neutral:hover {
+  background-color: #A08C65;
+  color: var(--color-bg);
+}
+
+/* ── SRS feedback buttons ────────────────────────────── */
+
+.btn--srs-hard {
+  color: var(--color-srs-hard);
+}
+
+.btn--srs-hard:hover {
+  background-color: var(--color-srs-hard);
+  color: var(--color-bg);
+}
+
+.btn--srs-good {
+  color: var(--color-srs-good);
+}
+
+.btn--srs-good:hover {
+  background-color: var(--color-srs-good);
+  color: var(--color-bg);
+}
+
+.btn--srs-easy {
+  color: var(--color-srs-easy);
+}
+
+.btn--srs-easy:hover {
+  background-color: var(--color-srs-easy);
+  color: var(--color-bg);
+}
+
+/* ── SRS feedback panel ──────────────────────────────── */
+
+.srs-panel {
+  display: flex;
+  justify-content: center;
+  gap: var(--space-4);
+  padding: var(--space-4) 0;
+}
+
+.srs-panel .btn {
+  min-width: 96px;
+}

@@ -71,50 +71,12 @@
 
 .cardBtnDiv {
   display: flex;
-  justify-content: space-around;
+  justify-content: center;
   align-items: center;
+  gap: var(--space-5);
   margin-bottom: 10px;
 }
 
-#studyBtn {
-  background: #bdf7f7;
-}
-
-#studyBtn:hover {
-  background-color: #a8f7f7;
-}
-
-#startTrainBtn {
-  background-color: #ffabe3;
-}
-
-#startTrainBtn:hover {
-  background-color: #ff9cde;
-}
-
-#goOnBtn {
-  background: #e0e0d1;
-}
-
-#goOnBtn:hover {
-  background-color: #d6d6c2;
-}
-
-#changeBtn {
-  background-color: #f8f8cc;
-}
-
-#changeBtn:hover {
-  background-color: #f5f5b1;
-}
-
-#cancelBtn {
-  background-color: #dcdcdc;
-}
-
-#cancelBtn:hover {
-  background-color: #d8d5d5;
-}
 
 #deleteBtn {
   position: relative;

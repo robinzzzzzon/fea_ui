@@ -26,7 +26,7 @@ function renderPage(itemIndex) {
     actualDictionaryRoot.innerHTML = `
     <div>
       <p>Your study list is empty. You might add new words for studying via decks.</p>
-      <button class="myBtn" id="understandBtn">Got it</button>
+      <button class="btn btn--primary" id="understandBtn">Got it</button>
     </div>
     `
 
@@ -38,13 +38,12 @@ function renderPage(itemIndex) {
   for (let index = 0; index < studyList.data.length; index++) {
     const item = document.createElement('div')
     item.classList.add('actualItem')
-    item.classList.add('shadow-sm')
     item.innerHTML = `
       <div id="word">${studyList.data[index].word}</div>
       <div id="translate">${studyList.data[index].translate}</div>
       <div class="wordBtnRoot">
-        <button class="btn btn-outline-secondary btn-sm" id="clearProgress">Reset</button>
-        <button class="btn btn-outline-warning btn-sm" id="removeWord">Delete</button>
+        <button class="btn btn--secondary" id="clearProgress">Reset</button>
+        <button class="btn btn--destructive" id="removeWord">Delete</button>
       </div>
     `
 

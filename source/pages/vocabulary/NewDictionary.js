@@ -21,7 +21,6 @@ class NewDictionary {
     for (let index = 0; index < deckList.length; index++) {
       const deck = document.createElement('button')
       deck.classList.add('dictionary')
-      deck.classList.add('shadow-lg')
 
       if (deckList[index].color) {
         deck.style.backgroundColor = deckList[index].color

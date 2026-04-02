@@ -27,7 +27,7 @@ class FreeSpeakingTraining {
       <p>You should use these words or phrases:</p>
       <div class="availablePhrases"></div>
       <div id="timer"></div>
-      <button class="myBtn nextBtn">Next</button>
+      <button class="btn btn--secondary nextBtn">Next</button>
     </div>
     `
 
