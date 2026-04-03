@@ -1,5 +1,5 @@
 import TrainingList from './TrainingList'
-import { domain, spinner } from '../../utils/constants'
+import { domain, spinner, speechList } from '../../utils/constants'
 import { makeRequest, checkAvailableStudyWords } from '../../utils/utils'
 
 const content = document.querySelector('.content')
@@ -23,22 +23,26 @@ class StudyDictionary {
 
     allStudyList = await checkAvailableStudyWords({ studyList: allStudyList })
   
+    const deckList = dbInitDeckList.data.length ? dbInitDeckList.data : speechList
+
+    let toneIndex = 0
+
     if (allStudyList.data.length) {
-      const dictionary = createStudyDictionary()
+      const dictionary = createStudyDictionary(undefined, toneIndex++)
       dictionaryRoot.append(dictionary)
     }
-  
-    for (let index = 0; index < dbInitDeckList.data.length; index++) {
+
+    for (let index = 0; index < deckList.length; index++) {
       let studyList = await makeRequest({
         methodType: 'GET',
         getUrl: `${domain}/words/study/`,
-        getParams: { wordType: dbInitDeckList.data[index].dataName },
+        getParams: { wordType: deckList[index].dataName },
       })
 
       studyList = await checkAvailableStudyWords({ studyList })
-  
+
       if (studyList.data.length) {
-        const dictionary = createStudyDictionary(dbInitDeckList.data[index])
+        const dictionary = createStudyDictionary(deckList[index], toneIndex++)
         dictionaryRoot.append(dictionary)
       }
     }
@@ -58,18 +62,16 @@ class StudyDictionary {
   }
 }
 
-function createStudyDictionary(speechListItem) {
+function createStudyDictionary(speechListItem, toneIndex) {
   const dictionary = document.createElement('button')
-  dictionary.classList.add('nav-card')
+  dictionary.classList.add('deck-card', `deck-card--tone-${(toneIndex % 6) + 1}`)
 
   if (speechListItem) {
     dictionary.setAttribute('data-name', `${speechListItem.dataName}`)
     dictionary.textContent = speechListItem.dataName.toUpperCase()
-    dictionary.style.backgroundColor = speechListItem.color
   } else {
     dictionary.setAttribute('data-name', 'all-study-words')
     dictionary.textContent = 'ALL WORDS'
-    dictionary.style.backgroundColor = '#2D9CA0'
   }
 
   return dictionary

@@ -1,6 +1,6 @@
 import SeekNewWord from './SeekNewWord'
 import { speechList, domain, spinner, add_icon, getModalWindow } from '../../utils/constants'
-import { colorizeDeck, makeRequest } from '../../utils/utils'
+import { makeRequest } from '../../utils/utils'
 
 const content = document.querySelector('.content')
 
@@ -20,13 +20,7 @@ class NewDictionary {
   
     for (let index = 0; index < deckList.length; index++) {
       const deck = document.createElement('button')
-      deck.classList.add('nav-card')
-
-      if (deckList[index].color) {
-        deck.style.backgroundColor = deckList[index].color
-      } else {
-        deckList[index].color = deck.style.backgroundColor = colorizeDeck()
-      }
+      deck.classList.add('deck-card', `deck-card--tone-${(index % 6) + 1}`)
       
       deck.setAttribute('data-name', deckList[index].dataName)
       deck.textContent = deckList[index].dataName.toUpperCase()
