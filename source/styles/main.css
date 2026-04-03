@@ -37,3 +37,4 @@
 /* 05-components: after Bootstrap so our styles win during transition */
 @import './05-components/_btn.css';
 @import './05-components/_card.css';
+@import './05-components/_modal.css';
