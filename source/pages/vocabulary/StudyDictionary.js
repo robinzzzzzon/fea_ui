@@ -1,5 +1,5 @@
 import TrainingList from './TrainingList'
-import { domain, spinner } from '../../utils/constants'
+import { domain, spinner, speechList } from '../../utils/constants'
 import { makeRequest, checkAvailableStudyWords } from '../../utils/utils'
 
 const content = document.querySelector('.content')
@@ -23,6 +23,8 @@ class StudyDictionary {
 
     allStudyList = await checkAvailableStudyWords({ studyList: allStudyList })
   
+    const deckList = dbInitDeckList.data.length ? dbInitDeckList.data : speechList
+
     let toneIndex = 0
 
     if (allStudyList.data.length) {
@@ -30,17 +32,17 @@ class StudyDictionary {
       dictionaryRoot.append(dictionary)
     }
 
-    for (let index = 0; index < dbInitDeckList.data.length; index++) {
+    for (let index = 0; index < deckList.length; index++) {
       let studyList = await makeRequest({
         methodType: 'GET',
         getUrl: `${domain}/words/study/`,
-        getParams: { wordType: dbInitDeckList.data[index].dataName },
+        getParams: { wordType: deckList[index].dataName },
       })
 
       studyList = await checkAvailableStudyWords({ studyList })
 
       if (studyList.data.length) {
-        const dictionary = createStudyDictionary(dbInitDeckList.data[index], toneIndex++)
+        const dictionary = createStudyDictionary(deckList[index], toneIndex++)
         dictionaryRoot.append(dictionary)
       }
     }
