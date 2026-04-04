@@ -28,7 +28,7 @@ class PuzzleTraining {
 
     content.innerHTML = `
         <div class="wrapper">
-          <div class="myProgressBar"></div>
+          <div class="progress-bar"></div>
           <div class="rootArea"></div>
         </div>
       `
@@ -270,7 +270,7 @@ async function askForRepetitionFeedback() {
     
       content.innerHTML = `
         <div class="wrapper">
-          <div class="myProgressBar"></div>
+          <div class="progress-bar"></div>
           <div class="trainArea">
             <div id="wordItem"><p>It was great! Try again?</p></div>
             <div class="srs-panel">

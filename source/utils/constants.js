@@ -40,10 +40,8 @@ module.exports = {
   },
 
   spinner: `
-    <div class="d-flex justify-content-center">
-      <div class="spinner-border" role="status">
-        <span class="visually-hidden">Loading...</span>
-      </div>
+    <div class="spinner">
+      <div class="spinner__ring"></div>
     </div>
     `,
 
