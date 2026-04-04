@@ -67,7 +67,7 @@ export async function checkAvailableStudyWords({ studyList, speechPart }) {
   return wordList
 }
 
-export function fillProgressBar(initDictionary, currentDictionary, selector = '.myProgressBar') {
+export function fillProgressBar(initDictionary, currentDictionary, selector = '.progress-bar') {
   const progressBar = document.querySelector(selector)
   const progressDivList = progressBar.querySelectorAll('div')
 
@@ -86,7 +86,7 @@ export function fillProgressBar(initDictionary, currentDictionary, selector = '.
   itemList = Array.from(itemList)
 
   for (let index = 0; index < colorizeLength; index++) {
-    itemList[index].style.backgroundColor = '#98FB98'
+    itemList[index].style.backgroundColor = 'var(--color-success)'
   }
 }
 

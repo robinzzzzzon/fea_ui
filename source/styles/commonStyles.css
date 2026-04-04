@@ -45,15 +45,6 @@
   background: rgba(0, 0, 0, 0.12);
 }
 
-.myProgressBar {
-  display: grid;
-  height: 12px;
-  min-width: auto;
-  margin-bottom: 40px;
-  background-color: #e6e6f0;
-  border: solid 1px lightslategray;
-  border-radius: 10px;
-}
 
 
 .gptInputs {

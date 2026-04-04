@@ -124,7 +124,7 @@ async function studyThisWord(event) {
 
   const studyBtn = document.querySelector('#studyBtn')
   studyBtn.textContent = ''
-  studyBtn.innerHTML = `<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>`
+  studyBtn.innerHTML = `<span class="spinner--sm"></span>`
   studyBtn.disabled = true
 
   const addedStudyWord = {
