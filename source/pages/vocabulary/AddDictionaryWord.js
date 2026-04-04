@@ -1,4 +1,3 @@
-import '../../styles/addDictionaryWord.css'
 import { domain } from '../../utils/constants'
 import { makeRequest } from '../../utils/utils'
 
@@ -7,22 +6,20 @@ class AddDictionaryWord {
 
   renderPage() {
     this.content.innerHTML = `
-        <div class="wordFormRoot">
-          <div class="newWordInfo alert alert-primary" role="alert">
-            Here you can add a new word to initial dictionary!
-          </div>
-          <div class="newWordContent">
-            <div>
-              <label for="word" class="form-label"><b>New Word</b></label>
-              <input type="text" class="wordInput form-control" id="word"></input>
+        <div class="word-form">
+          <p class="word-form__info">Here you can add a new word to initial dictionary!</p>
+          <div class="word-form__fields">
+            <div class="word-form__field">
+              <label for="word" class="word-form__label">New Word</label>
+              <input type="text" class="word-form__input wordInput" id="word">
             </div>
-            <div>
-              <label for="translation" class="form-label"><b>Translation</b></label>
-              <input type="text" class="translateInput form-control" id="translation"></input>
+            <div class="word-form__field">
+              <label for="translation" class="word-form__label">Translation</label>
+              <input type="text" class="word-form__input translateInput" id="translation">
             </div>
-            <div>
-              <label for="type" class="form-label"><b>Word type</b></label>
-              <select class="typeSelect form-select" id="type">
+            <div class="word-form__field">
+              <label for="type" class="word-form__label">Word type</label>
+              <select class="word-form__select typeSelect" id="type">
                 <option selected disabled value="">choose type...</option>
                 <option>nouns</option>
                 <option>verbs</option>
@@ -37,19 +34,22 @@ class AddDictionaryWord {
                 <option>it phrases</option>
               </select>
             </div>
-            <div id="studyCb">
-              <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-              <label class="form-check-label" for="flexCheckDefault"><b>Add to study list</b></label>
+            <div class="word-form__field">
+              <label class="word-form__label">&nbsp;</label>
+              <div class="word-form__check">
+                <input type="checkbox" value="" id="flexCheckDefault">
+                <label for="flexCheckDefault">Add to study list</label>
+              </div>
             </div>
-            <div>
+            <div class="word-form__actions">
               <button class="btn btn--primary" id="addBtn">Confirm</button>
             </div>
           </div>
         </div>
       `
-  
+
     const addBtn = document.querySelector('#addBtn')
-  
+
     addBtn.addEventListener('click', this.sendNewWord)
   }
 
@@ -58,9 +58,9 @@ class AddDictionaryWord {
     const translate = document.querySelector('.translateInput')
     const select = document.querySelector('.typeSelect')
     const studyCb = document.querySelector('#flexCheckDefault')
-  
+
     if (!word.value || !translate.value || select.options[0].selected) return
-  
+
     const newWord = {
       word: word.value.toLowerCase(),
       translate: translate.value.toLowerCase(),
@@ -71,7 +71,7 @@ class AddDictionaryWord {
 
     if (!duplicate.data.length) {
       await makeRequest({ methodType: 'POST', getUrl: `${domain}/words/init/`, getBody: newWord })
-  
+
       if (studyCb.checked) {
         await makeRequest({
           methodType: 'POST',
@@ -80,7 +80,7 @@ class AddDictionaryWord {
         })
       }
     }
-  
+
     new AddDictionaryWord().renderPage()
   }
 }
