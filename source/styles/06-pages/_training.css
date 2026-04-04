@@ -1,0 +1,250 @@
+/* ── Training List (deck type picker) ──────────────────── */
+
+.training-list {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: 300px;
+  height: 300px;
+  width: 900px;
+  gap: var(--space-2);
+}
+
+.training-card {
+  background: #FEFCFA;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-3);
+  cursor: pointer;
+  box-shadow: var(--shadow-sm);
+  transition: background-color .2s ease, transform .15s ease, box-shadow .2s ease;
+  color: var(--color-text-secondary);
+}
+
+.training-card:hover {
+  background: #E8856A;
+  color: #fff;
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.training-card__label {
+  font-size: var(--text-sm);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--color-text-secondary);
+}
+
+.training-card:hover .training-card__label {
+  color: #fff;
+}
+
+/* ── Shared training container ─────────────────────────── */
+
+.training-area {
+  display: grid;
+  height: 400px;
+  width: 700px;
+  background: #FAF3ED;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+}
+
+/* ── Choose training ───────────────────────────────────── */
+
+.training-area--choose {
+  grid-template-rows: 1fr 1fr;
+  background: #F0F0C8;  /* lemon pastel — L≈88% */
+}
+
+.training-area--write {
+  background: #F8DDD0;  /* peach pastel — L≈90% */
+  grid-template-rows: 2fr 1fr 1fr;
+}
+
+.training-area--puzzle {
+  background: #E2DEF8;  /* lavender pastel — L≈90% */
+  height: auto;
+  min-height: 400px;
+}
+
+.training-area--choose .srs-panel {
+  align-self: center;
+}
+
+.training-area__word {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.72);
+  border: none;
+  border-radius: var(--radius-md);
+  text-align: center;
+  font-size: var(--text-2xl);
+  font-weight: 600;
+  margin: var(--space-3);
+}
+
+.choice-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: 80px 80px;
+  gap: var(--space-2);
+  margin: var(--space-3);
+}
+
+.choice-item {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.68);
+  border: none;
+  border-radius: var(--radius-md);
+  text-align: center;
+  font-size: var(--text-base);
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color .15s;
+}
+
+.choice-item:hover {
+  background: rgba(255, 255, 255, 0.92);
+}
+
+.choice-item p {
+  margin-bottom: 0;
+}
+
+/* ── Write training ────────────────────────────────────── */
+
+.training-area__prompt {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.72);
+  border: none;
+  border-radius: var(--radius-md);
+  text-align: center;
+  font-size: var(--text-xl);
+  font-weight: 600;
+  margin: var(--space-3) var(--space-3) 0;
+}
+
+.training-area__prompt > p {
+  margin: 0 var(--space-3);
+}
+
+.training-input {
+  border: none;
+  border-radius: var(--radius-md);
+  height: 60px;
+  margin: var(--space-3);
+  padding: 0 var(--space-4);
+  font-size: var(--text-lg);
+  font-weight: 600;
+  font-family: var(--font-body);
+  background: rgba(255, 255, 255, 0.72);
+  outline: none;
+  transition: background-color .15s;
+}
+
+.training-input:focus {
+  background: rgba(255, 255, 255, 0.92);
+}
+
+.training-actions {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: var(--space-4);
+  padding: 0 var(--space-3) var(--space-3);
+}
+
+/* ── Puzzle training ───────────────────────────────────── */
+
+.training-area--puzzle .puzzle-spell-area {
+  height: auto;
+  min-height: 220px;
+  grid-auto-rows: auto;
+}
+
+#wordDiv {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(36px, 60px));
+  align-content: center;
+  justify-content: center;
+  gap: var(--space-1);
+  background: rgba(255, 255, 255, 0.45);
+  border: 2px dashed rgba(255, 255, 255, 0.8);
+  border-radius: var(--radius-md);
+  padding: var(--space-2);
+  margin: var(--space-2) var(--space-3) 0;
+  min-height: 70px;
+}
+
+#wordDiv .puzzle-char {
+  height: 56px;
+  line-height: 56px;
+}
+
+.puzzle-spell-area {
+  display: grid;
+  grid-auto-rows: 110px;
+  height: 220px;
+  margin: var(--space-3) var(--space-3) 0;
+}
+
+.puzzle-char-area {
+  display: grid;
+  height: 90px;
+  grid-auto-rows: 90px;
+  gap: var(--space-2);
+  line-height: 90px;
+  margin: var(--space-3) var(--space-6);
+  justify-content: center;
+}
+
+.puzzle-char {
+  position: relative;
+  background: rgba(255, 255, 255, 0.78);
+  border: none;
+  border-radius: var(--radius-md);
+  text-align: center;
+  font-size: var(--text-xl);
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color .1s;
+}
+
+.puzzle-char:hover {
+  background: rgba(255, 255, 255, 0.95);
+}
+
+.puzzle-char__badge {
+  position: absolute;
+  top: 2px;
+  right: 4px;
+  background: var(--color-accent);
+  color: #fff;
+  border-radius: var(--radius-full);
+  font-size: var(--text-xs);
+  font-weight: 600;
+  min-width: 16px;
+  height: 16px;
+  line-height: 16px;
+  text-align: center;
+  padding: 0 3px;
+}
+
+.puzzle-char--correct {
+  background: var(--color-success);
+}
+
+.puzzle-char--wrong {
+  background: var(--color-failed);
+}

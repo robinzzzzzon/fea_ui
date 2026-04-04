@@ -1,4 +1,3 @@
-import '../../styles/puzzleTraining.css'
 import NewDictionary from'./NewDictionary'
 import { fillArray, fillProgressBar, optimizeCharacters, modifyStudyLevel, checkAvailableStudyWords } from '../../utils/utils'
 import { spinner, feedbackArea } from '../../utils/constants'
@@ -9,7 +8,7 @@ let speechPart = null
 let initDictionary = null
 let currentDictionary = null
 let chars = null
-let badgeSpanClassList = 'position-absolute translate-middle badge rounded-pill charSpan'
+let badgeSpanClassList = 'puzzle-char__badge'
 
 class PuzzleTraining {
   async initPage(name) {
@@ -29,7 +28,7 @@ class PuzzleTraining {
     content.innerHTML = `
         <div class="wrapper">
           <div class="progress-bar"></div>
-          <div class="rootArea"></div>
+          <div class="training-area training-area--puzzle"></div>
         </div>
       `
     
@@ -38,17 +37,17 @@ class PuzzleTraining {
 }
 
 function renderPage() {
-  const rootArea = content.querySelector('.rootArea')
+  const rootArea = content.querySelector('.training-area')
 
   if (rootArea.innerHTML) rootArea.innerHTML = ''
 
   rootArea.innerHTML = `
-      <div class="spellArea">
-        <div id="translateDiv"><p>${currentDictionary.data[0].translate}</p></div>
+      <div class="puzzle-spell-area">
+        <div id="translateDiv" class="training-area__prompt"><p>${currentDictionary.data[0].translate}</p></div>
         <div id="wordDiv"></div>
       </div>
-      <div id="charArea" tabindex="0"></div>
-      <div class="btnDiv">
+      <div id="charArea" class="puzzle-char-area" tabindex="0"></div>
+      <div class="training-actions">
         <button class="btn btn--hint" id="suggestBtn" disabled>Get a cue</button>
         <button class="btn btn--primary" id="checkBtn" disabled>Check</button>
         <button class="btn btn--neutral" id="clearBtn">Reset</button>
@@ -82,11 +81,16 @@ function genRandomChars() {
   const optimizeChars = optimizeCharacters(chars)
 
   const charArea = document.querySelector('#charArea')
-  charArea.style.gridTemplateColumns = `repeat(${optimizeChars.length}, 1fr)`
+  charArea.style.gridTemplateColumns = `repeat(${optimizeChars.length}, minmax(40px, 80px))`
+
+  const neededWidth = Math.max(700, Math.min(1000,
+    optimizeChars.length * 40 + (optimizeChars.length - 1) * 8 + 80
+  ))
+  document.querySelector('.training-area--puzzle').style.width = neededWidth + 'px'
 
   for (let index = 0; index < optimizeChars.length; index++) {
     const charDiv = document.createElement('div')
-    charDiv.classList.add('char')
+    charDiv.classList.add('puzzle-char')
 
     if (optimizeChars[index].count > 1) {
       charDiv.innerHTML = `
@@ -128,7 +132,7 @@ function showAnswer(event) {
   for (let i = 0; i < currentDictionary.data[0].word.length; i++) {
     const letter = document.createElement('div')
     letter.textContent = currentDictionary.data[0].word[i]
-    letter.classList.add('char')
+    letter.classList.add('puzzle-char')
     letter.style.position = 'relative'
 
     wordDiv.append(letter)
@@ -145,12 +149,10 @@ function moveCharToWordArea(event) {
   const target = event.target
   const key = event.key === ' ' ? '_' : event.key
   const charArea = document.querySelector('#charArea')
-  const charsList = document.querySelectorAll('#charArea > .char')
-  const wordDiv = document.querySelector('#wordDiv')
+  const charsList = document.querySelectorAll('#charArea > .puzzle-char')
   const checkBtn = document.querySelector('#checkBtn')
   const clearBtn = document.querySelector('#clearBtn')
   const suggestBtn = document.querySelector('#suggestBtn')
-  wordDiv.style.gridTemplateColumns = `repeat(${currentDictionary.data[0].word.length}, 1fr)`
 
   if (key) {
     for (let i = 0; i < charsList.length; i++) {
@@ -161,7 +163,7 @@ function moveCharToWordArea(event) {
     }
   }
 
-  if (target.classList.contains('char')) {
+  if (target.classList.contains('puzzle-char')) {
     handleKeyboardEvent(target)
   }
 
@@ -189,7 +191,7 @@ function handleKeyboardEvent(getChar, getKey) {
 
   if (count > 1) {
     const charDiv = document.createElement('div')
-    charDiv.classList.add('char')
+    charDiv.classList.add('puzzle-char')
     charDiv.innerHTML = key
     wordDiv.append(charDiv)
 
@@ -203,7 +205,7 @@ function handleKeyboardEvent(getChar, getKey) {
 async function checkEnterWord(event) {
   event.preventDefault()
 
-  const resultChars = document.querySelectorAll('#wordDiv > .char')
+  const resultChars = document.querySelectorAll('#wordDiv > .puzzle-char')
 
   let resultWord = ''
 
@@ -219,7 +221,7 @@ async function checkEnterWord(event) {
 
     await askForRepetitionFeedback()
   } else {
-    toggleClassForChar(resultChars, 'wrongChar')
+    toggleClassForChar(resultChars, 'puzzle-char--wrong')
 
     await new Promise(r => setTimeout(r, 300));
 
@@ -242,11 +244,18 @@ async function askForRepetitionFeedback() {
 
   const wordDiv = content.querySelector('#wordDiv')
   wordDiv.innerHTML = ''
+  wordDiv.style.display = 'none'
 
-  const btnArea = content.querySelector('.btnDiv')
+  const charArea = content.querySelector('#charArea')
+  charArea.style.display = 'none'
+
+  const puzzleSpellArea = content.querySelector('.puzzle-spell-area')
+  puzzleSpellArea.style.height = 'auto'
+
+  const btnArea = content.querySelector('.training-actions')
   btnArea.remove()
 
-  const rootArea = content.querySelector('.rootArea')
+  const rootArea = content.querySelector('.training-area')
   rootArea.insertAdjacentHTML('beforeend', feedbackArea)
 
   const feedbackBtnArea = rootArea.querySelector('.srs-panel')
@@ -271,8 +280,8 @@ async function askForRepetitionFeedback() {
       content.innerHTML = `
         <div class="wrapper">
           <div class="progress-bar"></div>
-          <div class="trainArea">
-            <div id="wordItem"><p>It was great! Try again?</p></div>
+          <div class="training-area">
+            <div id="wordItem" class="training-area__word"><p>It was great! Try again?</p></div>
             <div class="srs-panel">
               <button type="button" class="btn btn--hint" id="findNewBtn">New words</button>
               <button type="button" class="btn btn--sage" id="repeatBtn">Repeat</button>
@@ -294,7 +303,7 @@ async function askForRepetitionFeedback() {
   })
 }
 
-function toggleClassForChar(charArray, className = 'accessChar') {
+function toggleClassForChar(charArray, className = 'puzzle-char--correct') {
   for (let index = 0; index < charArray.length; index++) {
     charArray[index].classList.toggle(className)
   }

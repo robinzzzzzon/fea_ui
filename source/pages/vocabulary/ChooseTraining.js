@@ -1,4 +1,3 @@
-import '../../styles/chooseTraining.css'
 import NewDictionary from './NewDictionary'
 import { makeRequest, fillArray, fillProgressBar, modifyStudyLevel, checkAvailableStudyWords } from '../../utils/utils'
 import { domain, spinner, feedbackArea, system_colors } from '../../utils/constants'
@@ -28,14 +27,14 @@ class ChooseTraining {
     content.innerHTML = `
     <div class="wrapper">
       <div class="progress-bar"></div>
-      <div class="trainArea">
-        <div id="wordItem"></div>
-        <div class="itemArea"></div>
+      <div class="training-area training-area--choose">
+        <div id="wordItem" class="training-area__word"></div>
+        <div class="choice-grid"></div>
       </div>
     </div>
     `
 
-    const trainArea = content.querySelector('.trainArea')
+    const trainArea = content.querySelector('.training-area')
     trainArea.addEventListener('click', validateChosenWord)
   
     renderPage()
@@ -48,21 +47,21 @@ async function renderPage() {
   const wordItem = content.querySelector('#wordItem')
   wordItem.innerHTML = `<p>${currentDictionary.data[0].word}</p>`
   
-  let itemArea = content.querySelector('.itemArea')
+  let itemArea = content.querySelector('.choice-grid')
 
   if (!itemArea) {
     const feedbackBtnArea = content.querySelector('.srs-panel')
     feedbackBtnArea.remove()
-    const trainArea = content.querySelector('.trainArea')
-    trainArea.insertAdjacentHTML('beforeend', `<div class="itemArea"></div>`)
-    itemArea = content.querySelector('.itemArea')
+    const trainArea = content.querySelector('.training-area')
+    trainArea.insertAdjacentHTML('beforeend', `<div class="choice-grid"></div>`)
+    itemArea = content.querySelector('.choice-grid')
   }
 
   itemArea.innerHTML = `
-    <div id="item"><p>${translateArray[0]}</p></div>
-    <div id="item"><p>${translateArray[1]}</p></div>
-    <div id="item"><p>${translateArray[2]}</p></div>
-    <div id="item"><p>${translateArray[3]}</p></div>
+    <div class="choice-item"><p>${translateArray[0]}</p></div>
+    <div class="choice-item"><p>${translateArray[1]}</p></div>
+    <div class="choice-item"><p>${translateArray[2]}</p></div>
+    <div class="choice-item"><p>${translateArray[3]}</p></div>
   `
   
   fillProgressBar(initDictionary, currentDictionary)
@@ -94,9 +93,9 @@ async function getRandomTranslateArray(studyWord) {
 async function validateChosenWord(event) {
   event.preventDefault()
 
-  const chooseWord = event.target.closest('div')
+  const chooseWord = event.target.closest('.choice-item')
 
-  if (chooseWord.id !== 'item') return
+  if (!chooseWord) return
 
   if (chooseWord.textContent === currentDictionary.data[0].translate) {
     chooseWord.style.backgroundColor = system_colors.success
@@ -120,10 +119,10 @@ async function askForRepetitionFeedback() {
   const wordItem = document.querySelector('#wordItem')
   wordItem.textContent = 'How easy it was?'
 
-  const itemArea = document.querySelector('.itemArea')
+  const itemArea = document.querySelector('.choice-grid')
   itemArea.remove()
 
-  const trainArea = content.querySelector('.trainArea')
+  const trainArea = content.querySelector('.training-area')
   trainArea.insertAdjacentHTML('beforeend', feedbackArea)
 
   const feedbackBtnArea = trainArea.querySelector('.srs-panel')
@@ -148,8 +147,8 @@ async function askForRepetitionFeedback() {
       content.innerHTML = `
         <div class="wrapper">
           <div class="progress-bar"></div>
-          <div class="trainArea">
-            <div id="wordItem"><p>It was great! Try again?</p></div>
+          <div class="training-area">
+            <div id="wordItem" class="training-area__word"><p>It was great! Try again?</p></div>
             <div class="srs-panel">
               <button type="button" class="btn btn--hint" id="findNewBtn">New words</button>
               <button type="button" class="btn btn--sage" id="repeatBtn">Repeat</button>
