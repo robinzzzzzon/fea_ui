@@ -26,7 +26,7 @@
 
 /* 06-pages: Page-Specific Styles */
 /* @import './06-pages/_vocabulary.css'; */
-/* @import './06-pages/_training.css'; */
+@import './06-pages/_training.css';
 /* @import './06-pages/_speaking.css'; */
 
 /* Legacy styles (to be removed in task-042) */

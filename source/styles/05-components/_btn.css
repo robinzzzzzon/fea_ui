@@ -155,11 +155,12 @@
 
 .srs-panel {
   display: flex;
+  align-items: center;
   justify-content: center;
   gap: var(--space-4);
   padding: var(--space-4) 0;
 }
 
 .srs-panel .btn {
-  min-width: 96px;
+  min-width: 110px;
 }

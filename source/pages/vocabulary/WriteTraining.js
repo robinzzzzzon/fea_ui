@@ -1,4 +1,3 @@
-import '../../styles/writeTraining.css'
 import NewDictionary from './NewDictionary'
 import { fillArray, fillProgressBar, modifyStudyLevel, checkAvailableStudyWords } from '../../utils/utils'
 import { spinner, feedbackArea, system_colors } from '../../utils/constants'
@@ -28,7 +27,7 @@ class WriteTraining {
     content.innerHTML = `
       <div class="wrapper">
         <div class="progress-bar"></div>
-        <div class="rootDiv"></div>
+        <div class="training-area training-area--write"></div>
       </div>
     `
 
@@ -37,14 +36,14 @@ class WriteTraining {
 }
 
 function renderPage() {
-    const rootDiv = content.querySelector('.rootDiv')
+    const rootDiv = content.querySelector('.training-area')
 
     if (rootDiv.innerHTML) rootDiv.innerHTML = ''
 
     rootDiv.insertAdjacentHTML('afterbegin', `
-      <div class="translateDiv"><p>${currentDictionary.data[0].translate}</p></div>
-      <input type="text" class="writeInput" placeholder=" Write here...">
-      <div class="btnDiv">
+      <div class="training-area__prompt"><p>${currentDictionary.data[0].translate}</p></div>
+      <input type="text" class="training-input" placeholder=" Write here...">
+      <div class="training-actions">
         <button class="btn btn--hint" id="suggestBtn">Get a cue</button>
         <button class="btn btn--primary" id="checkBtn">Check</button>
       </div>
@@ -52,15 +51,15 @@ function renderPage() {
   
     fillProgressBar(initDictionary, currentDictionary)
   
-    const input = document.querySelector('.writeInput')
+    const input = document.querySelector('.training-input')
     input.focus()
     input.addEventListener('keydown', (event) => {
       if (event.key === 'Enter') {
         checkWord(event)
       }
     })
-  
-    const writeInput = document.querySelector('.writeInput')
+
+    const writeInput = document.querySelector('.training-input')
     const suggestBtn = document.querySelector('#suggestBtn')
     const checkBtn = document.querySelector('#checkBtn')
     checkBtn.disabled = true
@@ -74,7 +73,7 @@ function suggestChar(event) {
 
   checkCharCount()
 
-  const input = document.querySelector('.writeInput')
+  const input = document.querySelector('.training-input')
   let chars = currentDictionary.data[0].word.split('')
 
   if (!currentDictionary.data[0].word.includes(input.value) || !chars[charIndex]) {
@@ -92,7 +91,7 @@ function suggestChar(event) {
 async function checkWord(event) {
   event.preventDefault()
 
-  const input = document.querySelector('.writeInput')
+  const input = document.querySelector('.training-input')
   const enterWord = input.value.toLowerCase().trim()
 
   if (enterWord === currentDictionary.data[0].word || 'to'.concat(' ', enterWord) === currentDictionary.data[0].word) {
@@ -114,7 +113,7 @@ async function checkWord(event) {
 }
 
 function clearProgress() {
-  const input = document.querySelector('.writeInput')
+  const input = document.querySelector('.training-input')
   input.style.backgroundColor = ''
   input.value = ''
   charIndex = 0
@@ -123,7 +122,7 @@ function clearProgress() {
 }
 
 function checkCharCount() {
-  const input = document.querySelector('.writeInput')
+  const input = document.querySelector('.training-input')
   const checkBtn = document.querySelector('#checkBtn')
   const suggestBtn = document.querySelector('#suggestBtn')
 
@@ -133,19 +132,19 @@ function checkCharCount() {
 
 // TODO: refactor and replace as a pure fn a bit later.
 async function askForRepetitionFeedback() {
-  const translationText = content.querySelector('.translateDiv > p')
+  const translationText = content.querySelector('.training-area__prompt > p')
   translationText.textContent = 'How easy it was?'
 
-  const wordInput = content.querySelector('.writeInput')
+  const wordInput = content.querySelector('.training-input')
   wordInput.removeAttribute('placeholder')
   wordInput.value = null
   wordInput.style.backgroundColor = system_colors.muted
   wordInput.disabled = true
 
-  const btnArea = content.querySelector('.btnDiv')
+  const btnArea = content.querySelector('.training-actions')
   btnArea.remove()
 
-  const rootDiv = content.querySelector('.rootDiv')
+  const rootDiv = content.querySelector('.training-area')
   rootDiv.insertAdjacentHTML('beforeend', feedbackArea)
 
   const feedbackBtnArea = rootDiv.querySelector('.srs-panel')
@@ -170,8 +169,8 @@ async function askForRepetitionFeedback() {
       content.innerHTML = `
         <div class="wrapper">
           <div class="progress-bar"></div>
-          <div class="trainArea">
-            <div id="wordItem"><p>It was great! Try again?</p></div>
+          <div class="training-area">
+            <div id="wordItem" class="training-area__word"><p>It was great! Try again?</p></div>
             <div class="srs-panel">
               <button type="button" class="btn btn--hint" id="findNewBtn">New words</button>
               <button type="button" class="btn btn--sage" id="repeatBtn">Repeat</button>

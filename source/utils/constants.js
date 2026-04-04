@@ -46,8 +46,8 @@ module.exports = {
     `,
 
   system_colors: {
-    success: '#94FF94',
-    failed: '#FF8C8C',
+    success: '#A8D8BA',
+    failed: '#F5B0A0',
     muted: '#E6E6E6',
   },
 
