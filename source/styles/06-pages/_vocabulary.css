@@ -1,0 +1,56 @@
+/* ── Actual Dictionary ───────────────────────────────── */
+
+.word-list {
+  display: grid;
+  min-height: calc(100vh - 250px);
+  min-width: 800px;
+  max-width: 1000px;
+  grid-auto-rows: 44px;
+  gap: var(--space-2);
+  align-content: start;
+  margin: var(--space-5) 0;
+}
+
+.word-item {
+  display: grid;
+  grid-template-columns: 1fr 2fr 1fr;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  box-shadow: 0 1px 4px rgba(29, 25, 22, .10);
+  transition: background-color .2s, box-shadow .2s;
+}
+
+.word-item:hover {
+  background: #EEE6DC;
+  box-shadow: 0 3px 10px rgba(29, 25, 22, .14);
+}
+
+.word-item__word,
+.word-item__translate {
+  line-height: 44px;
+  padding: 0 var(--space-3);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.word-item__word {
+  font-weight: 600;
+}
+
+.word-item__actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--space-2);
+  padding-right: var(--space-2);
+}
+
+/* Compact button size for the 40px dictionary row */
+.word-item__actions .btn {
+  height: 28px;
+  padding: 0 var(--space-3);
+  font-size: var(--text-sm);
+  border-radius: var(--radius-full);
+}
