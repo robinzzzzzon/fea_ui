@@ -1,4 +1,3 @@
-import '../../styles/seekNewWord.css'
 import NewDictionary from './NewDictionary'
 import TrainingList from './TrainingList'
 import { makeRequest, filterCurrentDictionary } from '../../utils/utils'
@@ -39,16 +38,16 @@ class SeekNewWord {
 function renderPage() {
   content.innerHTML = `
     <div class="cardWrapper">
-      <div class="alphabetRoot"></div>
-      <div class="cardRoot">
-          <div class="cardWordArea" id="wordArea">
+      <div class="alphabet-bar"></div>
+      <div class="word-card">
+          <div class="word-card__body" id="wordArea">
             <div>
               <b>${currentDictionary.data[wordIndex].word}</b>
             </div>
             <div>${currentDictionary.data[wordIndex].translate}</div>
           </div>
           <button type="button" class="btn-close" id="deleteBtn"></button>
-          <div class="cardBtnDiv">
+          <div class="word-card__actions">
               <button class="btn btn--lemon btn--icon" id="backBtn">
                 <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" class="bi bi-caret-left-square" viewBox="0 0 16 16">
                   <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2z"/>
@@ -67,7 +66,7 @@ function renderPage() {
     </div>
     `
 
-  const alphabetRoot = document.querySelector('.alphabetRoot')
+  const alphabetRoot = document.querySelector('.alphabet-bar')
   const wordArea = document.querySelector('#wordArea')
   const studyBtn = document.querySelector('#studyBtn')
   const deleteBtn = document.querySelector('#deleteBtn')
@@ -153,15 +152,15 @@ async function studyThisWord(event) {
 function changeWord(event) {
   event.preventDefault()
 
-  const cardRoot = document.querySelector('.cardRoot')
+  const cardRoot = document.querySelector('.word-card')
 
   cardRoot.innerHTML = `
-    <div class="cardWordArea" id="wordArea">
+    <div class="word-card__body" id="wordArea">
       <div><input></input></div>
-      <div><input></input></div> 
+      <div><input></input></div>
     </div>
       <button type="button" class="btn-close" id="deleteBtn"></button>
-      <div class="cardBtnDiv">
+      <div class="word-card__actions">
         <button class="btn btn--primary" id="changeBtn">Change</button>
         <button class="btn btn--ghost" id="cancelBtn">Cancel</button>
       </div>
@@ -254,7 +253,7 @@ function muteWordInteractions() {
 
 function renderEndDeck() {
   const wordArea = document.querySelector('#wordArea')
-  const cardBtnDiv = document.querySelector('.cardBtnDiv')
+  const cardBtnDiv = document.querySelector('.word-card__actions')
   wordIndex = 0
 
   muteWordInteractions()
@@ -288,7 +287,7 @@ async function checkTrainAvailable() {
 
 function showTrainingSuggest() {
   const wordArea = document.querySelector('#wordArea')
-  const cardBtnDiv = document.querySelector('.cardBtnDiv')
+  const cardBtnDiv = document.querySelector('.word-card__actions')
 
   muteWordInteractions()
 
@@ -309,7 +308,7 @@ function showTrainingSuggest() {
 
 function analizeCharAbility() {
   const alphabet = alphabetList.split('');
-  const charRoot = document.querySelector('.alphabetRoot')
+  const charRoot = document.querySelector('.alphabet-bar')
   const currentChars = charRoot.querySelectorAll('button')
 
   if (currentChars.length) charRoot.innerHTML = ''
@@ -318,12 +317,11 @@ function analizeCharAbility() {
 
   for (let i = 0; i < alphabet.length; i++) {
     const char = document.createElement('button')
-    char.classList.add('alphaChar')
+    char.classList.add('alpha-btn')
     char.textContent = alphabet[i]
     charRoot.appendChild(char)
 
     if (!referenceChars.includes(char.textContent)) {
-      char.style.backgroundColor = '#FFFAFA'
       char.disabled = true
     }
   }
@@ -336,7 +334,7 @@ function chooseNeededLetter(event) {
 
   const targetBtn = event.target.closest('button')
 
-  if (targetBtn.classList.contains('alphaChar')) {
+  if (targetBtn.classList.contains('alpha-btn')) {
     wordIndex = currentDictionary.data.findIndex(el => el.word.startsWith(targetBtn.textContent.trim().toLowerCase()))
 
     renderPage()
