@@ -1,0 +1,58 @@
+.word-card {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  height: 400px;
+  width: 600px;
+  background: #FAF3ED;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  position: relative;
+}
+
+.word-card__body {
+  display: grid;
+  justify-content: center;
+  align-items: center;
+  height: 300px;
+  width: 500px;
+  background: #FFFBF8;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  text-align: center;
+  font-size: var(--text-xl);
+  margin: var(--space-5) auto 0;
+  cursor: zoom-in;
+}
+
+.word-card__body > div > input {
+  height: 30px;
+  background: inherit;
+  border: none;
+  text-align: center;
+  font-family: var(--font-body);
+  font-size: var(--text-xl);
+}
+
+.word-card__body > div > input:focus {
+  border: 1px solid var(--color-border);
+  outline: none;
+}
+
+.word-card__actions {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: var(--space-5);
+  margin-bottom: var(--space-4);
+  width: 100%;
+}
+
+#deleteBtn {
+  position: absolute;
+  top: var(--space-2);
+  right: var(--space-3);
+  height: 20px;
+  width: 20px;
+}

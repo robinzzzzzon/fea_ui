@@ -1,0 +1,32 @@
+.alphabet-bar {
+  display: grid;
+  grid-template-rows: 1fr 1fr;
+  grid-template-columns: repeat(13, 1fr);
+  gap: var(--space-2);
+  margin-bottom: var(--space-5);
+  align-items: center;
+  justify-content: center;
+}
+
+.alpha-btn {
+  background: #F7E2DE;
+  border: 1px solid rgba(224, 97, 61, 0.5);
+  border-radius: var(--radius-sm);
+  text-align: center;
+  font-weight: 400;
+  cursor: pointer;
+  transition: background-color .15s, color .15s;
+  padding: var(--space-1) 0;
+}
+
+.alpha-btn:hover:not(:disabled) {
+  background: var(--color-accent);
+  color: #fff;
+  font-weight: 600;
+}
+
+.alpha-btn:disabled {
+  background: #FFFAFA;
+  color: var(--color-text-muted);
+  cursor: default;
+}
