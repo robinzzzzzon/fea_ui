@@ -1,4 +1,3 @@
-import '../../styles/actualDictionary.css'
 import NewDictionary from './NewDictionary'
 import { domain, spinner } from '../../utils/constants'
 import { makeRequest } from '../../utils/utils'
@@ -10,20 +9,20 @@ let studyList = null
 class ActualDictionary {
   async initPage() {
     content.innerHTML = spinner
-  
+
     studyList = await makeRequest({ methodType: 'GET', getUrl: `${domain}/words/study` })
-  
+
     renderPage()
   }
 }
 
 function renderPage(itemIndex) {
-  content.innerHTML = `<div class="actualDictionaryRoot"></div>`
+  content.innerHTML = `<div class="word-list"></div>`
 
-  const actualDictionaryRoot = document.querySelector('.actualDictionaryRoot')
+  const wordList = document.querySelector('.word-list')
 
   if (!studyList.data.length) {
-    actualDictionaryRoot.innerHTML = `
+    wordList.innerHTML = `
     <div>
       <p>Your study list is empty. You might add new words for studying via decks.</p>
       <button class="btn btn--primary" id="understandBtn">Got it</button>
@@ -31,38 +30,38 @@ function renderPage(itemIndex) {
     `
 
     const understandBtn = document.querySelector('#understandBtn')
-    
+
     understandBtn.addEventListener('click', async () => NewDictionary.renderPage())
   }
 
   for (let index = 0; index < studyList.data.length; index++) {
     const item = document.createElement('div')
-    item.classList.add('actualItem')
+    item.classList.add('word-item')
     item.innerHTML = `
-      <div id="word">${studyList.data[index].word}</div>
-      <div id="translate">${studyList.data[index].translate}</div>
-      <div class="wordBtnRoot">
+      <div class="word-item__word">${studyList.data[index].word}</div>
+      <div class="word-item__translate">${studyList.data[index].translate}</div>
+      <div class="word-item__actions">
         <button class="btn btn--secondary" id="clearProgress">Reset</button>
         <button class="btn btn--destructive" id="removeWord">Delete</button>
       </div>
     `
 
-    actualDictionaryRoot.append(item)
+    wordList.append(item)
   }
 
   let windowInnerHeight = window.innerHeight - 250
-  let actualDictionaryRootHeight = getComputedStyle(actualDictionaryRoot).height.substring(0, 4)
+  let wordListHeight = getComputedStyle(wordList).height.substring(0, 4)
 
-  if (windowInnerHeight < +actualDictionaryRootHeight) {
-    actualDictionaryRoot.style.height = `${windowInnerHeight}px`
-    actualDictionaryRoot.style.overflow = 'scroll'
+  if (windowInnerHeight < +wordListHeight) {
+    wordList.style.height = `${windowInnerHeight}px`
+    wordList.style.overflow = 'scroll'
 
     if (itemIndex) {
-      document.querySelector(`.actualDictionaryRoot > div:nth-child(${itemIndex - 1})`).scrollIntoView()
+      document.querySelector(`.word-list > div:nth-child(${itemIndex - 1})`).scrollIntoView()
     }
   }
 
-  actualDictionaryRoot.addEventListener('click', async (event) => {
+  wordList.addEventListener('click', async (event) => {
     event.preventDefault()
 
     if (event.target.tagName !== 'BUTTON') return
@@ -82,7 +81,7 @@ async function clearWordProgress(event) {
 
   const itemRoot = event.target.parentNode.parentNode
 
-  const itemWordText = itemRoot.querySelector('#word').textContent
+  const itemWordText = itemRoot.querySelector('.word-item__word').textContent
 
   const getWordList = await makeRequest({
     methodType: 'GET',
@@ -107,7 +106,7 @@ async function removeWord(event) {
 
   const itemRoot = event.target.parentNode.parentNode
 
-  const itemWordText = itemRoot.querySelector('#word').textContent
+  const itemWordText = itemRoot.querySelector('.word-item__word').textContent
 
   let itemIndex
 
