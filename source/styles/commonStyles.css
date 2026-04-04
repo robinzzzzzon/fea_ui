@@ -46,19 +46,3 @@
 }
 
 
-
-.gptInputs {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  justify-content: space-between;
-}
-
-#gptKey {
-  height: 50px;
-  margin-right: 5px;
-}
-
-#gptModel {
-  height: 50px;
-  margin-left: 5px;
-}
