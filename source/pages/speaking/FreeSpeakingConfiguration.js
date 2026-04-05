@@ -1,4 +1,3 @@
-import '../../styles/speakingConfiguration.css'
 import FreeSpeakingTraining from './FreeSpeakingTraining'
 
 class FreeSpeakingConfiguration {
@@ -8,52 +7,56 @@ class FreeSpeakingConfiguration {
     const contentRoot = document.querySelector('.content')
 
     contentRoot.innerHTML = `
-    <div class="speakingConfRoot">
-      <div class="gptInputs">
-        <div class="input-group mb-3" id="gptKey">
-          <input type="text" class="form-control" placeholder="Enter your gpt-key">
+    <div class="speak-form">
+      <div class="gpt-inputs">
+        <input type="text" class="word-form__input" id="gptKey" placeholder="Enter your GPT key">
+        <input type="text" class="word-form__input" id="gptModel" placeholder="Enter GPT model">
+      </div>
+
+      <div class="speak-form__selects">
+        <div class="speak-form__field">
+          <label class="word-form__label" for="themes">Choose relevant topic:</label>
+          <select class="word-form__select" id="themes" aria-label="topic_themes">
+            <option selected value="1">Sport</option>
+            <option value="2">Education</option>
+            <option value="3">Relationship</option>
+            <option value="4">Travellings</option>
+            <option value="5">Politics</option>
+            <option value="6">Psychology</option>
+            <option value="7">IT</option>
+            <option value="8">Universe</option>
+            <option value="9">Economy</option>
+            <option value="10">Music</option>
+            <option value="11">Philosophy</option>
+            <option value="12">Cinema</option>
+            <option value="13">Family</option>
+            <option value="14">Random topic</option>
+          </select>
         </div>
-        <div class="input-group mb-3" id="gptModel">
-          <input type="text" class="form-control" placeholder="Enter gpt-model">
+        <div class="speak-form__field">
+          <label class="word-form__label" for="count">Choose count of topics:</label>
+          <select class="word-form__select" id="count" aria-label="topics_count">
+            <option selected value="1">5</option>
+            <option value="2">10</option>
+            <option value="3">20</option>
+          </select>
         </div>
       </div>
 
-      <label for="themes">Choose relevant topic:</label>
-      <select class="form-select form-select-lg" id="themes" aria-label="topic_themes">
-        <option selected value="1">Sport</option>
-        <option value="2">Education</option>
-        <option value="3">Relationship</option>
-        <option value="4">Travellings</option>
-        <option value="5">Politics</option>
-        <option value="6">Psychology</option>
-        <option value="7">IT</option>
-        <option value="8">Universe</option>
-        <option value="9">Economy</option>
-        <option value="10">Music</option>
-        <option value="11">Philosophy</option>
-        <option value="12">Cinema</option>
-        <option value="13">Family</option>
-        <option value="14">Random topic</option>
-      </select>
-  
-      <label for="count">Choose count of topics:</label>
-      <select class="form-select form-select-lg" id="count" aria-label="topics_count">
-        <option selected value="1">5</option>
-        <option value="2">10</option>
-        <option value="3">20</option>
-      </select>
-  
-      <div class="form-check form-switch">
-        <input class="form-check-input" type="checkbox" role="switch" id="idioms">
-        <label class="form-check-label" for="idioms">Should you use the idioms only?</label>
+      <div class="speak-form__toggles">
+        <label class="speak-form__toggle">
+          <input type="checkbox" id="idioms">
+          <span class="speak-form__toggle-label">Should you use the idioms only?</span>
+        </label>
+        <label class="speak-form__toggle">
+          <input type="checkbox" id="needTimer">
+          <span class="speak-form__toggle-label">Do you need a timer?</span>
+        </label>
       </div>
-  
-      <div class="form-check form-switch">
-        <input class="form-check-input" type="checkbox" role="switch" id="needTimer">
-        <label class="form-check-label" for="needTimer">Do you need a timer?</label>
+
+      <div class="speak-form__actions">
+        <button class="btn btn--primary" id="confirmBtn">Confirm</button>
       </div>
-  
-      <button class="btn btn--primary" id="confirmBtn">Confirm</button>
     </div>
     `
 
@@ -61,8 +64,8 @@ class FreeSpeakingConfiguration {
     confirmBtn.addEventListener('click', this.startTraining)
     confirmBtn.disabled = true
 
-    const keyInput = document.querySelector('#gptKey > input')
-    
+    const keyInput = document.querySelector('#gptKey')
+
     keyInput.addEventListener('input', () => {
       keyInput.value
         ? (confirmBtn.disabled = false)
@@ -75,10 +78,10 @@ class FreeSpeakingConfiguration {
 
     const config = {}
 
-    config.gptKey = document.querySelector('#gptKey > input').value
-    config.gptModel = document.querySelector('#gptModel > input').value
+    config.gptKey = document.querySelector('#gptKey').value
+    config.gptModel = document.querySelector('#gptModel').value
 
-    let selectList = document.querySelectorAll('.speakingConfRoot select')
+    let selectList = document.querySelectorAll('.speak-form select')
 
     selectList = Array.from(selectList).map(
       (select) => select.options[select.selectedIndex].text
