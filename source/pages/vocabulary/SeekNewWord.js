@@ -46,17 +46,17 @@ function renderPage() {
             </div>
             <div>${currentDictionary.data[wordIndex].translate}</div>
           </div>
-          <button type="button" class="btn-close" id="deleteBtn"></button>
+          <button type="button" class="word-card__close" id="deleteBtn"></button>
           <div class="word-card__actions">
               <button class="btn btn--lemon btn--icon" id="backBtn">
-                <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" class="bi bi-caret-left-square" viewBox="0 0 16 16">
+                <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" viewBox="0 0 16 16">
                   <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2z"/>
                   <path d="M10.205 12.456A.5.5 0 0 0 10.5 12V4a.5.5 0 0 0-.832-.374l-4.5 4a.5.5 0 0 0 0 .748l4.5 4a.5.5 0 0 0 .537.082"/>
                 </svg>
               </button>
               <button class="btn btn--primary" id="studyBtn">Add to list</button>
               <button class="btn btn--lemon btn--icon" id="nextBtn">
-                <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" class="bi bi-caret-right-square" viewBox="0 0 16 16">
+                <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" viewBox="0 0 16 16">
                   <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2z"/>
                   <path d="M5.795 12.456A.5.5 0 0 1 5.5 12V4a.5.5 0 0 1 .832-.374l4.5 4a.5.5 0 0 1 0 .748l-4.5 4a.5.5 0 0 1-.537.082"/>
                 </svg>
@@ -159,7 +159,7 @@ function changeWord(event) {
       <div><input></input></div>
       <div><input></input></div>
     </div>
-      <button type="button" class="btn-close" id="deleteBtn"></button>
+      <button type="button" class="word-card__close" id="deleteBtn"></button>
       <div class="word-card__actions">
         <button class="btn btn--primary" id="changeBtn">Change</button>
         <button class="btn btn--ghost" id="cancelBtn">Cancel</button>
