@@ -3,14 +3,19 @@
 .training-list {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  grid-template-rows: 300px;
-  height: 300px;
+  grid-template-rows: 160px;
+  height: 160px;
   width: 900px;
-  gap: var(--space-2);
+  gap: var(--space-3);
+}
+
+@keyframes cardSlideUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 
 .training-card {
-  background: #FEFCFA;
+  background: var(--color-surface);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-lg);
   display: flex;
@@ -20,15 +25,40 @@
   gap: var(--space-3);
   cursor: pointer;
   box-shadow: var(--shadow-sm);
-  transition: background-color .2s ease, transform .15s ease, box-shadow .2s ease;
+  transition: background-color .2s ease, transform .2s ease, box-shadow .2s ease;
   color: var(--color-text-secondary);
+  animation: cardSlideUp 0.25s ease forwards;
+  opacity: 0;
 }
 
-.training-card:hover {
-  background: #E8856A;
-  color: #fff;
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-md);
+.training-card:nth-child(1) { animation-delay: 0ms; }
+.training-card:nth-child(2) { animation-delay: 80ms; }
+.training-card:nth-child(3) { animation-delay: 160ms; }
+
+.training-card svg {
+  transition: transform .2s ease;
+}
+
+.training-card:hover svg {
+  transform: scale(1.15);
+}
+
+.training-card--write:hover {
+  background: var(--color-training-write);
+  box-shadow: 0 8px 28px rgba(248, 221, 208, 0.9);
+  transform: translateY(-4px) scale(1.02);
+}
+
+.training-card--choose:hover {
+  background: var(--color-training-choose);
+  box-shadow: 0 8px 28px rgba(240, 240, 200, 0.9);
+  transform: translateY(-4px) scale(1.02);
+}
+
+.training-card--puzzle:hover {
+  background: var(--color-training-puzzle);
+  box-shadow: 0 8px 28px rgba(226, 222, 248, 0.9);
+  transform: translateY(-4px) scale(1.02);
 }
 
 .training-card__label {
@@ -37,10 +67,6 @@
   letter-spacing: 0.04em;
   text-transform: uppercase;
   color: var(--color-text-secondary);
-}
-
-.training-card:hover .training-card__label {
-  color: #fff;
 }
 
 /* ── Shared training container ─────────────────────────── */
@@ -59,16 +85,16 @@
 
 .training-area--choose {
   grid-template-rows: 1fr 1fr;
-  background: #F0F0C8;  /* lemon pastel — L≈88% */
+  background: var(--color-training-choose);
 }
 
 .training-area--write {
-  background: #F8DDD0;  /* peach pastel — L≈90% */
+  background: var(--color-training-write);
   grid-template-rows: 2fr 1fr 1fr;
 }
 
 .training-area--puzzle {
-  background: #E2DEF8;  /* lavender pastel — L≈90% */
+  background: var(--color-training-puzzle);
   height: auto;
   min-height: 400px;
 }

@@ -22,6 +22,11 @@
   --color-srs-good: #E6A840;
   --color-srs-easy: #5CAD82;
 
+  /* Training card backgrounds */
+  --color-training-write:  #F8DDD0;   /* peach */
+  --color-training-choose: #F0F0C8;   /* lemon */
+  --color-training-puzzle: #E2DEF8;   /* lavender */
+
   /* System (compatibility with current code) */
   --color-success: #A8D8BA;
   --color-failed:  #FF8C8C;
