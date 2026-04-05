@@ -23,7 +23,7 @@
 
 .word-item:hover {
   background: #EEE6DC;
-  box-shadow: 0 3px 10px rgba(29, 25, 22, .14);
+  box-shadow: var(--shadow-md);
 }
 
 .word-item__word,
