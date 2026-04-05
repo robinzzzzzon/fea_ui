@@ -107,3 +107,48 @@
 .deck-card--tone-4 { background: #DCC8E8; }  /* soft lavender */
 .deck-card--tone-5 { background: #F2E0A4; }  /* warm honey */
 .deck-card--tone-6 { background: #A8D8D0; }  /* teal mint */
+
+/* ==========================================
+   Dictionary icon — hover-reveal on .nav-card-wrap
+   ========================================== */
+
+.dictionary-icon {
+  position: absolute;
+  top: 8px;
+  right: 16px;
+  width: 28px;
+  height: 28px;
+
+  border: none;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.05);
+  cursor: pointer;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(-4px);
+  transition:
+    opacity 0.2s ease,
+    transform 0.15s ease;
+}
+
+.icon-trash,
+.icon-plus {
+  width: 20px;
+  height: 20px;
+  stroke: #252525;
+}
+
+.nav-card-wrap:hover .dictionary-icon {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+
+.dictionary-icon:hover {
+  background: rgba(0, 0, 0, 0.12);
+}

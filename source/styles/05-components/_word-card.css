@@ -49,10 +49,38 @@
   width: 100%;
 }
 
-#deleteBtn {
+.word-card__close {
   position: absolute;
   top: var(--space-2);
   right: var(--space-3);
-  height: 20px;
-  width: 20px;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-text-muted);
+  transition: background 0.15s, color 0.15s;
+}
+
+.word-card__close::before,
+.word-card__close::after {
+  content: '';
+  position: absolute;
+  width: 14px;
+  height: 2px;
+  background: currentColor;
+  border-radius: 1px;
+}
+
+.word-card__close::before { transform: rotate(45deg); }
+.word-card__close::after  { transform: rotate(-45deg); }
+
+.word-card__close:hover {
+  background: rgba(0, 0, 0, 0.08);
+  color: var(--color-text-secondary);
 }
