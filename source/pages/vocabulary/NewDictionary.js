@@ -1,4 +1,5 @@
 import SeekNewWord from './SeekNewWord'
+import StudyDictionary from './StudyDictionary'
 import { speechList, domain, spinner, add_icon, getModalWindow } from '../../utils/constants'
 import { makeRequest } from '../../utils/utils'
 
@@ -17,7 +18,8 @@ class NewDictionary {
     })
 
     const deckList = dbInitDeckList.data.length ? dbInitDeckList.data : speechList
-  
+    let enabledCount = 0
+
     for (let index = 0; index < deckList.length; index++) {
       const deck = document.createElement('button')
       deck.classList.add('deck-card', `deck-card--tone-${(index % 6) + 1}`)
@@ -44,6 +46,7 @@ class NewDictionary {
       if (initList.data.length === studyList.data.length) {
         deck.disabled = 'true'
       } else {
+        enabledCount++
         dictionaryWrapper.insertAdjacentHTML('beforeend', add_icon)
         const addDeckBtn = dictionaryWrapper.querySelectorAll('button')[1]
         addDeckBtn.addEventListener('click', this.addDeckToStudyList)
@@ -60,6 +63,17 @@ class NewDictionary {
       })
     }
   
+    if (enabledCount === 0) {
+      content.innerHTML = `
+        <div class="empty-state-hero">
+          <p class="empty-state-hero__text">All words are in your study list :)</p>
+          <button class="btn btn--primary" id="goStudyBtn">Study words</button>
+        </div>
+      `
+      document.querySelector('#goStudyBtn').addEventListener('click', () => StudyDictionary.renderPage())
+      return
+    }
+
     content.innerHTML = ''
     content.append(dictionaryRoot)
   

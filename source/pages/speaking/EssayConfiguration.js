@@ -9,8 +9,8 @@ class EssayConfiguration {
     contentRoot.innerHTML = `
     <div class="speak-form">
       <div class="gpt-inputs">
-        <input type="text" class="word-form__input" id="gptKey" placeholder="Enter your GPT key">
-        <input type="text" class="word-form__input" id="gptModel" placeholder="Enter GPT model">
+        <input type="text" class="word-form__input" id="gptKey" placeholder="sk-...">
+        <input type="text" class="word-form__input" id="gptModel" placeholder="model name">
       </div>
 
       <div class="speak-form__selects">

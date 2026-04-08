@@ -22,16 +22,14 @@ function renderPage(itemIndex) {
   const wordList = document.querySelector('.word-list')
 
   if (!studyList.data.length) {
-    wordList.innerHTML = `
-    <div>
-      <p>Your study list is empty. You might add new words for studying via decks.</p>
-      <button class="btn btn--primary" id="understandBtn">Got it</button>
-    </div>
+    content.innerHTML = `
+      <div class="empty-state-hero">
+        <p class="empty-state-hero__text">Your study list is empty :)</p>
+        <button class="btn btn--primary" id="chooseWordsBtn">Choose words</button>
+      </div>
     `
-
-    const understandBtn = document.querySelector('#understandBtn')
-
-    understandBtn.addEventListener('click', async () => NewDictionary.renderPage())
+    document.querySelector('#chooseWordsBtn').addEventListener('click', () => NewDictionary.renderPage())
+    return
   }
 
   for (let index = 0; index < studyList.data.length; index++) {

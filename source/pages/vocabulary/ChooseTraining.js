@@ -26,6 +26,7 @@ class ChooseTraining {
 
     content.innerHTML = `
     <div class="wrapper">
+      <span class="training-counter"></span>
       <div class="progress-bar"></div>
       <div class="training-area training-area--choose">
         <div id="wordItem" class="training-area__word"></div>
@@ -63,7 +64,11 @@ async function renderPage() {
     <div class="choice-item"><p>${translateArray[2]}</p></div>
     <div class="choice-item"><p>${translateArray[3]}</p></div>
   `
-  
+
+  const counter = content.querySelector('.training-counter')
+  const completed = initDictionary.data.length - currentDictionary.data.length
+  counter.textContent = `${completed} / ${initDictionary.data.length}`
+
   fillProgressBar(initDictionary, currentDictionary)
 }
 
