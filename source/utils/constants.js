@@ -63,7 +63,7 @@ module.exports = {
   `,
 
   add_icon: `
-    <button class="dictionary-icon" data-action="addAllDeck" aria-label="Add all deck">
+    <button class="dictionary-icon" data-action="addAllDeck" aria-label="Add all deck" data-tooltip="Add all words to study list">
       <svg viewBox="0 0 24 24" class="icon-plus">
         <path d="M12 5v14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
         <path d="M5 12h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
