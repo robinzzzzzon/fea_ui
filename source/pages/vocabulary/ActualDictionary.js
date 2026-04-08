@@ -41,7 +41,7 @@ function renderPage(itemIndex) {
       <div class="word-item__word">${studyList.data[index].word}</div>
       <div class="word-item__translate">${studyList.data[index].translate}</div>
       <div class="word-item__actions">
-        <button class="btn btn--secondary" id="clearProgress">Reset</button>
+        <button class="btn btn--secondary" id="clearProgress" data-tooltip="Reset study progress">Reset</button>
         <button class="btn btn--destructive" id="removeWord">Delete</button>
       </div>
     `

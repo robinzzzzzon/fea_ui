@@ -78,6 +78,7 @@ class VocabularySection {
     wrapperList[wrapperListIndex].insertAdjacentHTML('beforeend', clear_icon)
     const deleteDictionaryBtn = wrapperList[wrapperListIndex].querySelectorAll('button')[1]
     deleteDictionaryBtn.setAttribute('data-name', dataName)
+    deleteDictionaryBtn.setAttribute('data-tooltip', dataName === 'removeInitList' ? 'Clear word list' : 'Clear study list')
     deleteDictionaryBtn.addEventListener('click', this.removeDictionary)
   }
 
