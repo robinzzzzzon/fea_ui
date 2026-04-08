@@ -27,6 +27,7 @@ class PuzzleTraining {
 
     content.innerHTML = `
         <div class="wrapper">
+          <span class="training-counter"></span>
           <div class="progress-bar"></div>
           <div class="training-area training-area--puzzle"></div>
         </div>
@@ -55,9 +56,13 @@ function renderPage() {
     `
   
   genRandomChars()
-  
+
+  const counter = content.querySelector('.training-counter')
+  const completed = initDictionary.data.length - currentDictionary.data.length
+  counter.textContent = `${completed} / ${initDictionary.data.length}`
+
   fillProgressBar(initDictionary, currentDictionary)
-  
+
   const suggestBtn = rootArea.querySelector('#suggestBtn')
   const checkBtn = rootArea.querySelector('#checkBtn')
   const clearBtn = rootArea.querySelector('#clearBtn')

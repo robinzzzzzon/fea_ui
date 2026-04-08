@@ -48,8 +48,17 @@ class StudyDictionary {
     }
   
     content.innerHTML = ''
+
+    if (!dictionaryRoot.children.length) {
+      const msg = document.createElement('p')
+      msg.className = 'empty-state'
+      msg.textContent = 'Your study list is empty. Find new words to start!'
+      content.appendChild(msg)
+      return
+    }
+
     content.append(dictionaryRoot)
-  
+
     dictionaryRoot.addEventListener('click', (event) => {
       event.preventDefault()
   

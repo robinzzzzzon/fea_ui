@@ -26,6 +26,7 @@ class WriteTraining {
 
     content.innerHTML = `
       <div class="wrapper">
+        <span class="training-counter"></span>
         <div class="progress-bar"></div>
         <div class="training-area training-area--write"></div>
       </div>
@@ -49,8 +50,12 @@ function renderPage() {
       </div>
     `)
   
+    const counter = content.querySelector('.training-counter')
+    const completed = initDictionary.data.length - currentDictionary.data.length
+    counter.textContent = `${completed} / ${initDictionary.data.length}`
+
     fillProgressBar(initDictionary, currentDictionary)
-  
+
     const input = document.querySelector('.training-input')
     input.focus()
     input.addEventListener('keydown', (event) => {
