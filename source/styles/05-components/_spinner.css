@@ -1,9 +1,10 @@
 /* ==========================================
-   Spinner — .spinner, .spinner__ring
+   Spinner — .spinner, .spinner__dot
    ========================================== */
 
-@keyframes spin {
-  to { transform: rotate(360deg); }
+@keyframes dotPulse {
+  0%, 80%, 100% { transform: scale(0.55); opacity: 0.35; }
+  40%           { transform: scale(1);    opacity: 1;    }
 }
 
 /* Page-level loading spinner */
@@ -11,26 +12,36 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  gap: 10px;
   padding: var(--space-8);
+  /* Span all columns when inside a CSS grid (e.g. .l-container) */
+  grid-column: 1 / -1;
 }
 
-.spinner__ring {
-  width: 36px;
-  height: 36px;
-  border: 3px solid var(--color-border);
-  border-top-color: var(--color-accent);
+.spinner__dot {
+  width: 12px;
+  height: 12px;
   border-radius: 50%;
-  animation: spin 0.7s linear infinite;
+  background: var(--dot-color, var(--color-accent));
+  animation: dotPulse 1.2s ease-in-out infinite;
 }
+
+/* Building-intensity wave: light → medium → full coral */
+.spinner__dot:nth-child(1) { --dot-color: #F0A885; }
+.spinner__dot:nth-child(2) { --dot-color: #E8774F; animation-delay: 0.2s; }
+.spinner__dot:nth-child(3) { --dot-color: #E0613D; animation-delay: 0.4s; }
 
 /* Inline variant — inside buttons */
 .spinner--sm {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
   vertical-align: middle;
-  width: 14px;
-  height: 14px;
-  border: 2px solid rgba(255, 255, 255, 0.4);
-  border-top-color: currentColor;
-  border-radius: 50%;
-  animation: spin 0.7s linear infinite;
+}
+
+.spinner--sm .spinner__dot {
+  width: 5px;
+  height: 5px;
+  background: currentColor;
+  --dot-color: currentColor;
 }
