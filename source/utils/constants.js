@@ -41,7 +41,9 @@ module.exports = {
 
   spinner: `
     <div class="spinner">
-      <div class="spinner__ring"></div>
+      <div class="spinner__dot"></div>
+      <div class="spinner__dot"></div>
+      <div class="spinner__dot"></div>
     </div>
     `,
 
