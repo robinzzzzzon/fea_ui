@@ -92,12 +92,42 @@
 .word-form__actions {
   grid-column: 1 / -1;
   display: flex;
+  align-items: center;
   justify-content: flex-end;
   padding-top: var(--space-3);
 }
 
 .word-form__actions .btn {
   min-width: 130px;
+}
+
+/* Required asterisk */
+.required {
+  color: var(--color-srs-hard);
+  margin-left: 2px;
+  font-weight: 700;
+}
+
+/* Error state on input */
+.word-form__input--error {
+  border-color: var(--color-srs-hard);
+}
+
+/* Feedback message */
+.word-form__message {
+  display: none;
+  font-size: var(--text-sm);
+  margin-right: auto;
+}
+
+.word-form__message--error {
+  display: block;
+  color: var(--color-srs-hard);
+}
+
+.word-form__message--success {
+  display: block;
+  color: var(--color-srs-easy);
 }
 
 /* ── GPT Inputs ──────────────────────────────────────── */

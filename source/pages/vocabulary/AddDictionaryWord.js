@@ -10,12 +10,12 @@ class AddDictionaryWord {
           <p class="word-form__info">Here you can add a new word to initial dictionary!</p>
           <div class="word-form__fields">
             <div class="word-form__field">
-              <label for="word" class="word-form__label">New Word</label>
-              <input type="text" class="word-form__input wordInput" id="word">
+              <label for="word" class="word-form__label">New Word <span class="required">*</span></label>
+              <input type="text" class="word-form__input wordInput" id="word" placeholder="e.g., red tape">
             </div>
             <div class="word-form__field">
-              <label for="translation" class="word-form__label">Translation</label>
-              <input type="text" class="word-form__input translateInput" id="translation">
+              <label for="translation" class="word-form__label">Translation <span class="required">*</span></label>
+              <input type="text" class="word-form__input translateInput" id="translation" placeholder="e.g., excessive bureaucracy">
             </div>
             <div class="word-form__field">
               <label for="type" class="word-form__label">Word type</label>
@@ -42,14 +42,23 @@ class AddDictionaryWord {
               </div>
             </div>
             <div class="word-form__actions">
-              <button class="btn btn--primary" id="addBtn">Confirm</button>
+              <p class="word-form__message" id="formMessage"></p>
+              <button class="btn btn--primary" id="addBtn" disabled>Confirm</button>
             </div>
           </div>
         </div>
       `
 
+    const wordInput = document.querySelector('.wordInput')
+    const translateInput = document.querySelector('.translateInput')
     const addBtn = document.querySelector('#addBtn')
 
+    const toggleBtn = () => {
+      addBtn.disabled = !wordInput.value.trim() || !translateInput.value.trim()
+    }
+
+    wordInput.addEventListener('input', toggleBtn)
+    translateInput.addEventListener('input', toggleBtn)
     addBtn.addEventListener('click', this.sendNewWord)
   }
 
@@ -58,30 +67,44 @@ class AddDictionaryWord {
     const translate = document.querySelector('.translateInput')
     const select = document.querySelector('.typeSelect')
     const studyCb = document.querySelector('#flexCheckDefault')
+    const msg = document.querySelector('#formMessage')
 
-    if (!word.value || !translate.value || select.options[0].selected) return
+    word.classList.remove('word-form__input--error')
+    translate.classList.remove('word-form__input--error')
+    msg.className = 'word-form__message'
+    msg.textContent = ''
+
+    if (select.options[0].selected) {
+      msg.textContent = 'Please select a word type.'
+      msg.classList.add('word-form__message--error')
+      return
+    }
 
     const newWord = {
-      word: word.value.toLowerCase(),
-      translate: translate.value.toLowerCase(),
+      word: word.value.trim().toLowerCase(),
+      translate: translate.value.trim().toLowerCase(),
       wordType: select.options[select.selectedIndex].text,
     }
 
-    const duplicate = await makeRequest({ methodType: 'GET', getUrl: `${domain}/words/init/`, getParams: { word: newWord.word }})
+    const duplicate = await makeRequest({ methodType: 'GET', getUrl: `${domain}/words/init/`, getParams: { word: newWord.word } })
 
-    if (!duplicate.data.length) {
-      await makeRequest({ methodType: 'POST', getUrl: `${domain}/words/init/`, getBody: newWord })
-
-      if (studyCb.checked) {
-        await makeRequest({
-          methodType: 'POST',
-          getUrl: `${domain}/words/study/`,
-          getBody: newWord,
-        })
-      }
+    if (duplicate.data.length) {
+      word.classList.add('word-form__input--error')
+      msg.textContent = 'This word already exists in the dictionary.'
+      msg.classList.add('word-form__message--error')
+      return
     }
 
-    new AddDictionaryWord().renderPage()
+    await makeRequest({ methodType: 'POST', getUrl: `${domain}/words/init/`, getBody: newWord })
+
+    if (studyCb.checked) {
+      await makeRequest({ methodType: 'POST', getUrl: `${domain}/words/study/`, getBody: newWord })
+    }
+
+    msg.textContent = `"${newWord.word}" added!`
+    msg.classList.add('word-form__message--success')
+
+    setTimeout(() => new AddDictionaryWord().renderPage(), 1500)
   }
 }
 
