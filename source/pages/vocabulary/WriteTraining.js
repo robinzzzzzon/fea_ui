@@ -1,5 +1,5 @@
 import NewDictionary from './NewDictionary'
-import { fillArray, fillProgressBar, modifyStudyLevel, checkAvailableStudyWords } from '../../utils/utils'
+import { fillArray, fillProgressBar, modifyStudyLevel, checkAvailableStudyWords, attachSrsKeyboard } from '../../utils/utils'
 import { spinner, feedbackArea, system_colors } from '../../utils/constants'
 
 const content = document.querySelector('.content')
@@ -153,11 +153,14 @@ async function askForRepetitionFeedback() {
   rootDiv.insertAdjacentHTML('beforeend', feedbackArea)
 
   const feedbackBtnArea = rootDiv.querySelector('.srs-panel')
+  const cleanupSrsKeys = attachSrsKeyboard(feedbackBtnArea)
 
   feedbackBtnArea.addEventListener('click', async (event) => {
     event.preventDefault()
 
     if (!event.target.dataset.action) return
+
+    cleanupSrsKeys()
 
     const target = event.target.closest('[data-action]')
 

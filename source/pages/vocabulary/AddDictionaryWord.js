@@ -60,6 +60,13 @@ class AddDictionaryWord {
     wordInput.addEventListener('input', toggleBtn)
     translateInput.addEventListener('input', toggleBtn)
     addBtn.addEventListener('click', this.sendNewWord)
+
+    const formInputs = this.content.querySelectorAll('.word-form__input, .word-form__select')
+    formInputs.forEach(input => {
+      input.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' && !addBtn.disabled) addBtn.click()
+      })
+    })
   }
 
   async sendNewWord() {

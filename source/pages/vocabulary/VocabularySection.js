@@ -3,7 +3,7 @@ import ActualDictionary from './ActualDictionary'
 import NewDictionary from './NewDictionary'
 import StudyDictionary from './StudyDictionary'
 import { domain, spinner, clear_icon, getModalWindow } from '../../utils/constants'
-import { makeRequest, checkAvailableStudyWords } from '../../utils/utils'
+import { makeRequest, checkAvailableStudyWords, attachModalKeyboard } from '../../utils/utils'
 
 class VocabularySection {
   lContainer = document.querySelector('.l-container')
@@ -93,17 +93,20 @@ class VocabularySection {
     }))
   
     const modalRoot = document.querySelector('.c-modal')
-  
+    const cleanupModalKeys = attachModalKeyboard(modalRoot)
+
     modalRoot.addEventListener('click', async (event) => {
       event.preventDefault()
-  
+
       if (!event.target.dataset.action) return
-  
+
       const modalTarget = event.target.closest('[data-action]')
-  
+
       if (modalTarget.dataset.action === 'closeWindow' || modalTarget.dataset.action === 'cancelAction') {
+        cleanupModalKeys()
         modalRoot.remove()
       } else if (modalTarget.dataset.action === 'doAction') {
+        cleanupModalKeys()
         if (dictionaryTarget.dataset.name === 'removeInitList') {
           await makeRequest({ methodType: 'DELETE', getUrl: `${domain}/words/init` })
         }

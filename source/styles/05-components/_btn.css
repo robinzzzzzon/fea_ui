@@ -18,8 +18,11 @@
   transition: background-color .3s ease, color .3s ease;
 }
 
-.btn:active {
+.btn:active,
+.btn--kbd-active {
   transform: scale(0.97);
+  filter: brightness(0.8);
+  transition: none;
 }
 
 .btn:disabled {
