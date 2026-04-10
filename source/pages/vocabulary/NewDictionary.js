@@ -1,7 +1,7 @@
 import SeekNewWord from './SeekNewWord'
 import StudyDictionary from './StudyDictionary'
 import { speechList, domain, spinner, add_icon, getModalWindow } from '../../utils/constants'
-import { makeRequest } from '../../utils/utils'
+import { makeRequest, attachModalKeyboard } from '../../utils/utils'
 
 const content = document.querySelector('.content')
 
@@ -106,17 +106,21 @@ class NewDictionary {
     }))
   
     const modalRoot = document.querySelector('.c-modal')
-  
+    const cleanupModalKeys = attachModalKeyboard(modalRoot)
+
     modalRoot.addEventListener('click', async (event) => {
       event.preventDefault()
-  
+
       if (!event.target.dataset.action) return
-  
+
       const modalTarget = event.target.closest('[data-action]')
-  
+
       if (modalTarget.dataset.action === 'closeWindow' || modalTarget.dataset.action === 'cancelAction') {
+        cleanupModalKeys()
         modalRoot.remove()
       } else if (modalTarget.dataset.action === 'doAction') {
+        cleanupModalKeys()
+
         let deckWordList = await makeRequest({
           methodType: 'GET',
           getUrl: `${domain}/words/init/`,
@@ -128,7 +132,7 @@ class NewDictionary {
           getUrl: `${domain}/words/study/deck`,
           getBody: { wordList: deckWordList }
         })
-    
+
         await new NewDictionary().renderPage()
       }
     })

@@ -167,6 +167,39 @@ export function generateWords(options) {
   return words
 }
 
+function flashClick(btn) {
+  btn.classList.add('btn--kbd-active')
+  
+  setTimeout(() => {
+    btn.classList.remove('btn--kbd-active')
+    btn.click()
+  }, 150)
+}
+
+export function attachSrsKeyboard(feedbackBtnArea) {
+  const buttons = feedbackBtnArea.querySelectorAll('button')
+  
+  const handler = (e) => {
+    const idx = parseInt(e.key) - 1
+    if (idx >= 0 && idx < buttons.length) flashClick(buttons[idx])
+  }
+  
+  document.addEventListener('keydown', handler)
+
+  return () => document.removeEventListener('keydown', handler)
+}
+
+export function attachModalKeyboard(modalRoot) {
+  const handler = (e) => {
+    if (e.key === 'Escape') modalRoot.querySelector('[data-action="cancelAction"]')?.click()
+    if (e.key === 'Enter')  modalRoot.querySelector('[data-action="doAction"]')?.click()
+  }
+
+  document.addEventListener('keydown', handler)
+
+  return () => document.removeEventListener('keydown', handler)
+}
+
 export function setTimer(element, interval = 20) {
   interval--
   let seconds = 59

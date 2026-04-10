@@ -1,5 +1,5 @@
 import NewDictionary from './NewDictionary'
-import { makeRequest, fillArray, fillProgressBar, modifyStudyLevel, checkAvailableStudyWords } from '../../utils/utils'
+import { makeRequest, fillArray, fillProgressBar, modifyStudyLevel, checkAvailableStudyWords, attachSrsKeyboard } from '../../utils/utils'
 import { domain, spinner, feedbackArea, system_colors } from '../../utils/constants'
 
 const content = document.querySelector('.content')
@@ -8,6 +8,7 @@ let speechPart = null
 let initDictionary = null
 let currentDictionary = null
 let fullDictionary = null
+let choiceKeyHandler = null
 
 class ChooseTraining {
   async initPage(name) {
@@ -70,6 +71,13 @@ async function renderPage() {
   counter.textContent = `${completed} / ${initDictionary.data.length}`
 
   fillProgressBar(initDictionary, currentDictionary)
+
+  if (choiceKeyHandler) document.removeEventListener('keydown', choiceKeyHandler)
+  choiceKeyHandler = (e) => {
+    const idx = parseInt(e.key) - 1
+    if (idx >= 0 && idx <= 3) document.querySelectorAll('.choice-item')[idx]?.click()
+  }
+  document.addEventListener('keydown', choiceKeyHandler)
 }
 
 async function getRandomTranslateArray(studyWord) {
@@ -105,6 +113,9 @@ async function validateChosenWord(event) {
   if (chooseWord.textContent === currentDictionary.data[0].translate) {
     chooseWord.style.backgroundColor = system_colors.success
 
+    document.removeEventListener('keydown', choiceKeyHandler)
+    choiceKeyHandler = null
+
     await new Promise(r => setTimeout(r, 300));
 
     await askForRepetitionFeedback()
@@ -131,11 +142,14 @@ async function askForRepetitionFeedback() {
   trainArea.insertAdjacentHTML('beforeend', feedbackArea)
 
   const feedbackBtnArea = trainArea.querySelector('.srs-panel')
+  const cleanupSrsKeys = attachSrsKeyboard(feedbackBtnArea)
 
   feedbackBtnArea.addEventListener('click', async (event) => {
     event.preventDefault()
 
     if (!event.target.dataset.action) return
+
+    cleanupSrsKeys()
 
     const target = event.target.closest('[data-action]')
 
@@ -148,7 +162,7 @@ async function askForRepetitionFeedback() {
     } else {
       currentDictionary = null
       initDictionary = null
-    
+
       content.innerHTML = `
         <div class="wrapper">
           <div class="progress-bar"></div>
@@ -164,11 +178,11 @@ async function askForRepetitionFeedback() {
 
       const findNewBtn = document.querySelector('#findNewBtn')
       const repeatBtn = document.querySelector('#repeatBtn')
-    
+
       const remainedStudyList = await checkAvailableStudyWords({ speechPart })
 
       if (!remainedStudyList.data.length) repeatBtn.disabled = 'true'
-    
+
       findNewBtn.addEventListener('click', async () => NewDictionary.renderPage())
       repeatBtn.addEventListener('click', () => new ChooseTraining().initPage(speechPart))
     }

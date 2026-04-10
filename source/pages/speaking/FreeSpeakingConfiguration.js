@@ -71,6 +71,13 @@ class FreeSpeakingConfiguration {
         ? (confirmBtn.disabled = false)
         : (confirmBtn.disabled = true)
     })
+
+    const inputs = contentRoot.querySelectorAll('input, select')
+    inputs.forEach(input => {
+      input.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' && !confirmBtn.disabled) confirmBtn.click()
+      })
+    })
   }
 
   startTraining(event) {

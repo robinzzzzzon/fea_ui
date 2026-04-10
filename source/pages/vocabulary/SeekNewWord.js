@@ -1,6 +1,6 @@
 import NewDictionary from './NewDictionary'
 import TrainingList from './TrainingList'
-import { makeRequest, filterCurrentDictionary } from '../../utils/utils'
+import { makeRequest, filterCurrentDictionary, attachModalKeyboard } from '../../utils/utils'
 import { domain, spinner, alphabetList, getModalWindow } from '../../utils/constants'
 
 const content = document.querySelector('.content')
@@ -9,13 +9,25 @@ let speechPart = null;
 let currentDictionary = []
 let studyWordCounter = 0
 let wordIndex = 0
+let arrowKeyHandler = null
 
 class SeekNewWord {
   async initPage(name) {
     speechPart = name
-  
+
+    if (arrowKeyHandler) document.removeEventListener('keydown', arrowKeyHandler)
+    arrowKeyHandler = (e) => {
+      if (e.key === 'ArrowLeft')  document.querySelector('#backBtn')?.click()
+      if (e.key === 'ArrowRight') document.querySelector('#nextBtn')?.click()
+      if (e.key === 'Enter') {
+        const studyBtn = document.querySelector('#studyBtn')
+        if (studyBtn && !studyBtn.disabled) studyBtn.click()
+      }
+    }
+    document.addEventListener('keydown', arrowKeyHandler)
+
     content.innerHTML = spinner
-  
+
     if (!currentDictionary.length) {
       currentDictionary = await makeRequest({
         methodType: 'GET',
@@ -200,13 +212,16 @@ function changeWord(event) {
 async function deleteWord(event) {
   event.preventDefault()
 
-  content.insertAdjacentHTML('afterbegin', getModalWindow({ 
+  document.removeEventListener('keydown', arrowKeyHandler)
+
+  content.insertAdjacentHTML('afterbegin', getModalWindow({
     title: 'Do you really want to delete this word?',
     description: 'After confirmation this word will be permanently deleted from this dictionary!',
     actionBtnText: 'Delete'
   }))
 
   const modalRoot = document.querySelector('.c-modal')
+  const cleanupModalKeys = attachModalKeyboard(modalRoot)
 
   modalRoot.addEventListener('click', async (event) => {
     event.preventDefault()
@@ -216,8 +231,13 @@ async function deleteWord(event) {
     const target = event.target.closest('[data-action]')
 
     if (target.dataset.action === 'closeWindow' || target.dataset.action === 'cancelAction') {
+      cleanupModalKeys()
+      document.addEventListener('keydown', arrowKeyHandler)
       modalRoot.remove()
     } else if (target.dataset.action === 'doAction') {
+      cleanupModalKeys()
+      document.addEventListener('keydown', arrowKeyHandler)
+
       const deletedInitWord = await makeRequest({
         methodType: 'GET',
         getUrl: `${domain}/words/init`,
@@ -266,7 +286,11 @@ function renderEndDeck() {
     `
 
   const findNewBtn = document.querySelector('#findNewBtn')
-  findNewBtn.addEventListener('click', async () => NewDictionary.renderPage())
+  findNewBtn.addEventListener('click', () => {
+    document.removeEventListener('keydown', arrowKeyHandler)
+    arrowKeyHandler = null
+    NewDictionary.renderPage()
+  })
 
   checkTrainAvailable()
 }
@@ -280,9 +304,13 @@ async function checkTrainAvailable() {
 
   const studyBtn = document.querySelector('#studyBtn')
 
-  !studyList.data.length 
+  !studyList.data.length
     ? studyBtn.disabled = true
-    : studyBtn.addEventListener('click', () => TrainingList.renderPage(speechPart))
+    : studyBtn.addEventListener('click', () => {
+        document.removeEventListener('keydown', arrowKeyHandler)
+        arrowKeyHandler = null
+        TrainingList.renderPage(speechPart)
+      })
 }
 
 function showTrainingSuggest() {
@@ -298,7 +326,11 @@ function showTrainingSuggest() {
     `
 
   const trainBtn = document.querySelector('#startTrainBtn')
-  trainBtn.addEventListener('click', () => TrainingList.renderPage(speechPart))
+  trainBtn.addEventListener('click', () => {
+    document.removeEventListener('keydown', arrowKeyHandler)
+    arrowKeyHandler = null
+    TrainingList.renderPage(speechPart)
+  })
   const goOnBtn = document.querySelector('#goOnBtn')
   goOnBtn.addEventListener('click', () => {
     studyWordCounter = 0
