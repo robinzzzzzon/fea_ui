@@ -1,4 +1,3 @@
-import '../../styles/essayTraining.css'
 import { getTopicList, verifyRawEssayByGpt } from '../../utils/chatGptApi'
 import { spinner } from '../../utils/constants'
 import { generateWords } from '../../utils/utils'

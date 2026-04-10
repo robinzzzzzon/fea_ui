@@ -1,4 +1,3 @@
-import '../../styles/freeSpeakingTraining.css'
 import { setTimer, generateWords } from '../../utils/utils'
 import { getTopicList } from '../../utils/chatGptApi'
 import { spinner } from '../../utils/constants'
