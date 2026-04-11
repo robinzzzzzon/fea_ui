@@ -17,7 +17,7 @@ class ActualDictionary {
 }
 
 function renderPage(itemIndex) {
-  content.innerHTML = `<div class="word-list"></div>`
+  content.innerHTML = `<ul class="word-list"></ul>`
 
   const wordList = document.querySelector('.word-list')
 
@@ -33,7 +33,7 @@ function renderPage(itemIndex) {
   }
 
   for (let index = 0; index < studyList.data.length; index++) {
-    const item = document.createElement('div')
+    const item = document.createElement('li')
     item.classList.add('word-item')
     item.innerHTML = `
       <div class="word-item__word">${studyList.data[index].word}</div>
@@ -55,7 +55,7 @@ function renderPage(itemIndex) {
     wordList.style.overflow = 'scroll'
 
     if (itemIndex) {
-      document.querySelector(`.word-list > div:nth-child(${itemIndex - 1})`).scrollIntoView()
+      document.querySelector(`.word-list > li:nth-child(${itemIndex - 1})`).scrollIntoView()
     }
   }
 

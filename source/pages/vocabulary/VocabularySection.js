@@ -16,6 +16,7 @@ class VocabularySection {
     const initList = await makeRequest({ methodType: 'GET', getUrl: `${domain}/words/init`})
     let studyList = await makeRequest({ methodType: 'GET', getUrl: `${domain}/words/study` })
 
+    this.lContainer.setAttribute('aria-label', 'Vocabulary section')
     this.lContainer.innerHTML = `
       <div class="nav-card-wrap">
         <button class="nav-card" data-name="seekNew">CHOOSE WORDS</button>

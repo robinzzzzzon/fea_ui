@@ -47,7 +47,7 @@ function renderPage() {
         <div id="translateDiv" class="training-area__prompt"><p>${currentDictionary.data[0].translate}</p></div>
         <div id="wordDiv"></div>
       </div>
-      <div id="charArea" class="puzzle-char-area" tabindex="0"></div>
+      <div id="charArea" class="puzzle-char-area" role="group" aria-label="Letter tiles" tabindex="0"></div>
       <div class="training-actions">
         <button class="btn btn--hint" id="suggestBtn" disabled>Get a cue</button>
         <button class="btn btn--primary" id="checkBtn" disabled>Check</button>
