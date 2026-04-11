@@ -62,3 +62,29 @@
 .l-container button {
   font-size: 20px;
 }
+
+/* ── Mobile ────────────────────────────────────────────── */
+
+@media (max-width: 768px) {
+  .content {
+    padding: 0 var(--space-4);
+    box-sizing: border-box;
+  }
+
+  /* Prevent flex child from growing beyond content's inner area due to min-content-size */
+  .content > .wrapper {
+    width: 100%;
+    min-width: 0;
+  }
+}
+
+@media (max-width: 560px) {
+  .l-container {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  }
+
+  .l-container button {
+    font-size: var(--text-sm);
+    white-space: normal;
+  }
+}

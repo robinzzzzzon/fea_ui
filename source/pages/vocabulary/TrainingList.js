@@ -31,8 +31,17 @@ class TrainingList {
   
     const writingCard = document.querySelector('#writeTraining')
     writingCard.addEventListener('click', () => WriteTraining.initPage(speechPart))
+    
+    // TODO: Add mobile layout implementation later.
     const puzzleCard = document.querySelector('#puzzleTraining')
-    puzzleCard.addEventListener('click', () => PuzzleTraining.initPage(speechPart))
+    
+    if (window.matchMedia('(max-width: 560px)').matches) {
+      puzzleCard.classList.add('training-card--disabled')
+      puzzleCard.querySelector('.training-card__label').textContent = 'Puzzle (Soon)'
+    } else {
+      puzzleCard.addEventListener('click', () => PuzzleTraining.initPage(speechPart))
+    }
+    
     const chooseCard = document.querySelector('#chooseTraining')
     chooseCard.addEventListener('click', () => ChooseTraining.initPage(speechPart))
   }
