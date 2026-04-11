@@ -152,3 +152,12 @@
 .dictionary-icon:hover {
   background: rgba(0, 0, 0, 0.12);
 }
+
+/* ── Mobile ────────────────────────────────────────────── */
+
+@media (max-width: 560px) {
+  /* Hover-only button — no touch equivalent; tooltip bleeds outside card */
+  .dictionary-icon {
+    display: none;
+  }
+}

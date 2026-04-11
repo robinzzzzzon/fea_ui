@@ -142,3 +142,21 @@
 #gptModel {
   height: 44px;
 }
+
+/* ── Mobile ────────────────────────────────────────────── */
+
+@media (max-width: 768px) {
+  .word-form__fields {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .gpt-inputs {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .word-form__fields {
+    grid-template-columns: 1fr;
+  }
+}

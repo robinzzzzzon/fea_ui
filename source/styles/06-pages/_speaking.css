@@ -88,3 +88,11 @@
 .speak-form__actions .btn {
   min-width: 130px;
 }
+
+/* ── Mobile ────────────────────────────────────────────── */
+
+@media (max-width: 560px) {
+  .speak-form__selects {
+    grid-template-columns: 1fr;
+  }
+}

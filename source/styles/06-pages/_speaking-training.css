@@ -9,8 +9,7 @@
 
 #topicDiv {
   margin-bottom: 30px;
-  min-width: 1000px;
-  max-width: 1000px;
+  width: 100%;
 }
 
 #topicDiv h3 {
@@ -58,4 +57,21 @@
 
 .speakingAreaRoot .nextBtn:hover {
   background-color: var(--color-surface-alt);
+}
+
+/* ── Mobile ────────────────────────────────────────────── */
+
+@media (max-width: 768px) {
+  .availablePhrases {
+    margin-left: var(--space-2);
+    margin-right: var(--space-2);
+  }
+
+  #timer {
+    margin-left: var(--space-4);
+  }
+
+  .speakingAreaRoot .nextBtn {
+    margin-right: var(--space-4);
+  }
 }

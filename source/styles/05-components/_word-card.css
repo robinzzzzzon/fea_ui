@@ -84,3 +84,22 @@
   background: rgba(0, 0, 0, 0.08);
   color: var(--color-text-secondary);
 }
+
+/* ── Mobile ────────────────────────────────────────────── */
+
+@media (max-width: 630px) {
+  .word-card {
+    width: 100%;
+  }
+
+  .word-card__body {
+    width: calc(100% - var(--space-8));
+  }
+
+  /* At mobile the button center lands exactly at the white body top edge.
+     Move it clearly inside the white body box. */
+  .word-card__close {
+    top: var(--space-4);
+    right: var(--space-4);
+  }
+}

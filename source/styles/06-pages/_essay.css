@@ -47,7 +47,8 @@
   margin-top: 50px;
   margin-left: 50px;
   margin-right: 50px;
-  min-width: 1200px;
+  width: calc(100% - 100px);
+  min-width: unset;
   height: 300px;
   outline: none;
   font-family: var(--font-body);
@@ -73,4 +74,25 @@
 
 .btnContainer > button:hover {
   background-color: var(--color-surface-alt);
+}
+
+/* ── Mobile ────────────────────────────────────────────── */
+
+@media (max-width: 768px) {
+  .phrasesRoot {
+    margin-left: var(--space-2);
+    margin-right: var(--space-2);
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  #essayArea > textarea {
+    margin-left: var(--space-4);
+    margin-right: var(--space-4);
+    width: calc(100% - var(--space-8));
+  }
+
+  .btnContainer {
+    margin-left: var(--space-4);
+    margin-right: var(--space-4);
+  }
 }

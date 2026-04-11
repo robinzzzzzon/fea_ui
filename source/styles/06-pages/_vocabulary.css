@@ -3,7 +3,7 @@
 .word-list {
   display: grid;
   min-height: calc(100vh - 250px);
-  min-width: 800px;
+  width: 100%;
   max-width: 1000px;
   grid-auto-rows: 44px;
   gap: var(--space-2);

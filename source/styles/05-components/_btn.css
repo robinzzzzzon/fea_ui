@@ -167,3 +167,16 @@
 .srs-panel .btn {
   min-width: 110px;
 }
+
+/* ── Mobile ────────────────────────────────────────────── */
+
+@media (max-width: 630px) {
+  .srs-panel {
+    padding: var(--space-4) var(--space-4);
+  }
+
+  .srs-panel .btn {
+    min-width: 0;
+    flex: 1;
+  }
+}
