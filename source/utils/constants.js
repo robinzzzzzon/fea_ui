@@ -21,10 +21,10 @@ module.exports = {
     return `
     <div class="c-modal">
         <div class="c-overlay">
-          <div class="c-window">
+          <div class="c-window" role="dialog" aria-modal="true" aria-labelledby="c-modal-title">
             <div class="c-modal-header">
-              <span class="c-modal-title">${title}</span>
-              <button class="c-modal-close" data-action="closeWindow">&times;</button>
+              <span class="c-modal-title" id="c-modal-title">${title}</span>
+              <button class="c-modal-close" data-action="closeWindow" aria-label="Close">&times;</button>
             </div>
             <div class="c-modal-body">
               <p>${description}</p>

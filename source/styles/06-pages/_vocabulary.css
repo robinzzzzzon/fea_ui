@@ -1,6 +1,9 @@
 /* ── Actual Dictionary ───────────────────────────────── */
 
 .word-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
   display: grid;
   min-height: calc(100vh - 250px);
   width: 100%;
@@ -14,6 +17,8 @@
 .word-item {
   display: grid;
   grid-template-columns: 1fr 2fr 1fr;
+  align-items: center;
+  min-height: 44px;
   background: var(--color-surface);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-md);
@@ -28,7 +33,7 @@
 
 .word-item__word,
 .word-item__translate {
-  line-height: 44px;
+  line-height: normal;
   padding: 0 var(--space-3);
   white-space: nowrap;
   overflow: hidden;

@@ -6,12 +6,12 @@ class AddDictionaryWord {
 
   renderPage() {
     this.content.innerHTML = `
-        <div class="word-form">
+        <form class="word-form" novalidate>
           <p class="word-form__info">Here you can add a new word to initial dictionary!</p>
           <div class="word-form__fields">
             <div class="word-form__field">
               <label for="word" class="word-form__label">New Word <span class="required">*</span></label>
-              <input type="text" class="word-form__input wordInput" id="word" placeholder="e.g., red tape">
+              <input type="text" class="word-form__input wordInput" id="word" placeholder="e.g., red tape" aria-describedby="formMessage">
             </div>
             <div class="word-form__field">
               <label for="translation" class="word-form__label">Translation <span class="required">*</span></label>
@@ -42,11 +42,11 @@ class AddDictionaryWord {
               </div>
             </div>
             <div class="word-form__actions">
-              <p class="word-form__message" id="formMessage"></p>
-              <button class="btn btn--primary" id="addBtn" disabled>Confirm</button>
+              <p class="word-form__message" id="formMessage" role="alert" aria-live="polite"></p>
+              <button type="button" class="btn btn--primary" id="addBtn" disabled>Confirm</button>
             </div>
           </div>
-        </div>
+        </form>
       `
 
     const wordInput = document.querySelector('.wordInput')
