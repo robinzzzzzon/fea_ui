@@ -1,12 +1,12 @@
 /* Import Google Fonts */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=DM+Serif+Display&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Syne:wght@700;800&display=swap');
 
 /* Typography Tokens */
 
 :root {
   /* Font families */
   --font-body:    'Inter', system-ui, sans-serif;
-  --font-display: 'DM Serif Display', Georgia, serif;
+  --font-display: 'Syne', system-ui, sans-serif;
 
   /* Text size scale */
   --text-xs:   12px;
