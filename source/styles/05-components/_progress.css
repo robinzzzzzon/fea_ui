@@ -43,3 +43,8 @@
   color: var(--color-text-secondary);
   text-align: center;
 }
+
+.empty-state-hero .mascot-state__img {
+  width: 96px;
+  height: 96px;
+}
