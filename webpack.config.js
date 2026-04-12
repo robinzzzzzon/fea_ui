@@ -32,6 +32,7 @@ module.exports = {
       patterns: [
         { from: 'favicon.svg', to: 'favicon.svg' },
         { from: 'memonk-lineart.jpeg', to: 'memonk-lineart.jpeg' },
+        { from: 'mascot', to: 'mascot' },
       ],
     }),
   ],

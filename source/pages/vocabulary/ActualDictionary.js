@@ -1,5 +1,5 @@
 import NewDictionary from './NewDictionary'
-import { domain, spinner } from '../../utils/constants'
+import { domain, spinner, mascotThinking } from '../../utils/constants'
 import { makeRequest } from '../../utils/utils'
 
 const content = document.querySelector('.content')
@@ -24,6 +24,7 @@ function renderPage(itemIndex) {
   if (!studyList.data.length) {
     content.innerHTML = `
       <div class="empty-state-hero">
+        ${mascotThinking}
         <p class="empty-state-hero__text">Your study list is empty :)</p>
         <button class="btn btn--primary" id="chooseWordsBtn">Choose words</button>
       </div>

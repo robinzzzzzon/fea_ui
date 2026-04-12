@@ -80,4 +80,10 @@ module.exports = {
       <button type="button" data-action="sendResolution" class="btn btn--srs-easy">EASY</button>
     </div>
   `,
+
+  mascotThinking: `<img class="mascot-state__img" src="/mascot/memonk_thinking.png" alt="">`,
+  mascotCelebrate: `<img class="mascot-state__img" src="/mascot/memonk_celebrate.png" alt="">`,
+  mascotEncourage: `<img class="mascot-state__img" src="/mascot/memonk_encourage.png" alt="">`,
+  mascotAllDone: `<img class="mascot-state__img" src="/mascot/memonk_all_done.png" alt="">`,
+  mascotRest: `<img class="mascot-state__img" src="/mascot/memonk_rest.png" alt="">`,
 }
