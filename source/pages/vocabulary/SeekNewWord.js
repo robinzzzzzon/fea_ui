@@ -1,7 +1,7 @@
 import NewDictionary from './NewDictionary'
 import TrainingList from './TrainingList'
 import { makeRequest, filterCurrentDictionary, attachModalKeyboard } from '../../utils/utils'
-import { domain, spinner, alphabetList, getModalWindow } from '../../utils/constants'
+import { domain, spinner, alphabetList, getModalWindow, mascotEncourage, mascotAllDone } from '../../utils/constants'
 
 const content = document.querySelector('.content')
 
@@ -279,7 +279,13 @@ function renderEndDeck() {
   muteWordInteractions()
   analizeCharAbility()
 
-  wordArea.innerHTML = '<p>This is the end of the deck!<br>Are you ready for studying new? :)</p>'
+  wordArea.innerHTML = `
+    <div class="mascot-state">
+      ${mascotEncourage}
+      <p class="mascot-state__title">That's the whole deck!</p>
+      <p class="mascot-state__text">Ready to study?</p>
+    </div>
+  `
   cardBtnDiv.innerHTML = `
       <button class="btn btn--hint" id="findNewBtn">New words</button>
       <button class="btn btn--sage" id="studyBtn">Study words</button>
@@ -319,7 +325,13 @@ function showTrainingSuggest() {
 
   muteWordInteractions()
 
-  wordArea.innerHTML = '<p>Excellent supply of added words! <br>Ready for training?</p>'
+  wordArea.innerHTML = `
+    <div class="mascot-state">
+      ${mascotAllDone}
+      <p class="mascot-state__title">Great haul!</p>
+      <p class="mascot-state__text">Ready for training?</p>
+    </div>
+  `
   cardBtnDiv.innerHTML = `
       <button class="btn btn--primary" id="startTrainBtn">Let's study!</button>
       <button class="btn btn--secondary" id="goOnBtn">Not yet</button>

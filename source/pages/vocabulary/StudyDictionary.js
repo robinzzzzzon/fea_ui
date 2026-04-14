@@ -1,5 +1,6 @@
 import TrainingList from './TrainingList'
-import { domain, spinner, speechList } from '../../utils/constants'
+import NewDictionary from './NewDictionary'
+import { domain, spinner, speechList, mascotThinking } from '../../utils/constants'
 import { makeRequest, checkAvailableStudyWords } from '../../utils/utils'
 
 const content = document.querySelector('.content')
@@ -50,10 +51,14 @@ class StudyDictionary {
     content.innerHTML = ''
 
     if (!dictionaryRoot.children.length) {
-      const msg = document.createElement('p')
-      msg.className = 'empty-state'
-      msg.textContent = 'Your study list is empty. Find new words to start!'
-      content.appendChild(msg)
+      content.innerHTML = `
+        <div class="empty-state-hero">
+          ${mascotThinking}
+          <p class="mascot-state__title">Nothing to repeat yet. Find new words!</p>
+          <button class="btn btn--primary" id="findWordsBtn">Find words</button>
+        </div>
+      `
+      document.querySelector('#findWordsBtn').addEventListener('click', () => NewDictionary.renderPage())
       return
     }
 

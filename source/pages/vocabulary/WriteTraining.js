@@ -1,6 +1,6 @@
 import NewDictionary from './NewDictionary'
 import { fillArray, fillProgressBar, modifyStudyLevel, checkAvailableStudyWords, attachSrsKeyboard } from '../../utils/utils'
-import { spinner, feedbackArea, system_colors } from '../../utils/constants'
+import { spinner, feedbackArea, system_colors, mascotCelebrate } from '../../utils/constants'
 
 const content = document.querySelector('.content')
 
@@ -178,7 +178,11 @@ async function askForRepetitionFeedback() {
         <div class="wrapper">
           <div class="progress-bar"></div>
           <div class="training-area">
-            <div id="wordItem" class="training-area__word"><p>It was great! Try again?</p></div>
+            <div class="mascot-state">
+              ${mascotCelebrate}
+              <p class="mascot-state__title">Nice work!</p>
+              <p class="mascot-state__text">Want to go again?</p>
+            </div>
             <div class="srs-panel">
               <button type="button" class="btn btn--hint" id="findNewBtn">New words</button>
               <button type="button" class="btn btn--sage" id="repeatBtn">Repeat</button>

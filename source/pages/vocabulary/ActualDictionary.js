@@ -25,7 +25,7 @@ function renderPage(itemIndex) {
     content.innerHTML = `
       <div class="empty-state-hero">
         ${mascotThinking}
-        <p class="empty-state-hero__text">Your study list is empty :)</p>
+        <p class="mascot-state__title">Your study list is empty :)</p>
         <button class="btn btn--primary" id="chooseWordsBtn">Choose words</button>
       </div>
     `

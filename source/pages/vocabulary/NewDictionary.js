@@ -1,6 +1,6 @@
 import SeekNewWord from './SeekNewWord'
 import StudyDictionary from './StudyDictionary'
-import { speechList, domain, spinner, add_icon, getModalWindow } from '../../utils/constants'
+import { speechList, domain, spinner, add_icon, getModalWindow, mascotRest } from '../../utils/constants'
 import { makeRequest, attachModalKeyboard } from '../../utils/utils'
 
 const content = document.querySelector('.content')
@@ -66,7 +66,8 @@ class NewDictionary {
     if (enabledCount === 0) {
       content.innerHTML = `
         <div class="empty-state-hero">
-          <p class="empty-state-hero__text">All words are in your study list :)</p>
+          ${mascotRest}
+          <p class="mascot-state__title">All words are in your study list!</p>
           <button class="btn btn--primary" id="goStudyBtn">Study words</button>
         </div>
       `
