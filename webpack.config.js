@@ -17,10 +17,10 @@ module.exports = {
     magicHtml: true,
     allowedHosts: 'all',
     port: 3000,
-    static: {
-      directory: path.resolve(__dirname),
-      publicPath: '/',
-    },
+    static: [
+      { directory: path.resolve(__dirname), publicPath: '/' },
+      { directory: path.resolve(__dirname, 'source'), publicPath: '/' },
+    ],
   },
   devtool: 'eval-cheap-source-map',
   plugins: [
@@ -32,7 +32,7 @@ module.exports = {
       patterns: [
         { from: 'favicon.svg', to: 'favicon.svg' },
         { from: 'memonk-lineart.jpeg', to: 'memonk-lineart.jpeg' },
-        { from: 'mascot', to: 'mascot' },
+        { from: 'source/mascot', to: 'mascot' },
       ],
     }),
   ],
