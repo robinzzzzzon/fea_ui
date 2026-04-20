@@ -1,24 +1,23 @@
-module.exports = {
-  domain: 'http://127.0.0.1:3001/api',
+export const domain = 'http://127.0.0.1:3001/api'
 
-  alphabetList: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ',
+export const alphabetList = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
 
-  speechList: [
-    { dataName: 'verbs' },
-    { dataName: 'phrasal verbs' },
-    { dataName: 'nouns' },
-    { dataName: 'adjectives' },
-    { dataName: 'adverbs' },
-    { dataName: 'pronouns' },
-    { dataName: 'numerals' },
-    { dataName: 'other parts' },
-    { dataName: 'idioms' },
-    { dataName: 'useful phrases' },
-    { dataName: 'it phrases' },
-  ],
+export const speechList = [
+  { dataName: 'verbs' },
+  { dataName: 'phrasal verbs' },
+  { dataName: 'nouns' },
+  { dataName: 'adjectives' },
+  { dataName: 'adverbs' },
+  { dataName: 'pronouns' },
+  { dataName: 'numerals' },
+  { dataName: 'other parts' },
+  { dataName: 'idioms' },
+  { dataName: 'useful phrases' },
+  { dataName: 'it phrases' },
+]
 
-  getModalWindow({ title, description, actionBtnText }) {
-    return `
+export function getModalWindow({ title, description, actionBtnText }) {
+  return `
     <div class="c-modal">
         <div class="c-overlay">
           <div class="c-window" role="dialog" aria-modal="true" aria-labelledby="c-modal-title">
@@ -37,23 +36,23 @@ module.exports = {
         </div>
       </div>
     `
-  },
+}
 
-  spinner: `
+export const spinner = `
     <div class="spinner">
       <div class="spinner__dot"></div>
       <div class="spinner__dot"></div>
       <div class="spinner__dot"></div>
     </div>
-    `,
+    `
 
-  system_colors: {
-    success: '#A8D8BA',
-    failed: '#F5B0A0',
-    muted: '#E6E6E6',
-  },
+export const system_colors = {
+  success: '#A8D8BA',
+  failed: '#F5B0A0',
+  muted: '#E6E6E6',
+}
 
-  clear_icon: `
+export const clear_icon = `
     <button class="dictionary-icon" aria-label="Clear chosen word list">
       <svg viewBox="0 0 24 24" class="icon-trash">
         <path d="M3 6h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
@@ -62,28 +61,27 @@ module.exports = {
         <path d="M10 11v6M14 11v6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
       </svg>
     </button>
-  `,
+  `
 
-  add_icon: `
+export const add_icon = `
     <button class="dictionary-icon" data-action="addAllDeck" aria-label="Add all deck" data-tooltip="Add all words to study list">
       <svg viewBox="0 0 24 24" class="icon-plus">
         <path d="M12 5v14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
         <path d="M5 12h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
       </svg>
    </button>
-  `,
+  `
 
-  feedbackArea: `
+export const feedbackArea = `
     <div class="srs-panel">
       <button type="button" data-action="sendResolution" class="btn btn--srs-hard">HARD</button>
       <button type="button" data-action="sendResolution" class="btn btn--srs-good">GOOD</button>
       <button type="button" data-action="sendResolution" class="btn btn--srs-easy">EASY</button>
     </div>
-  `,
+  `
 
-  mascotThinking: `<img class="mascot-state__img" src="/mascot/memonk_thinking.png" alt="">`,
-  mascotCelebrate: `<img class="mascot-state__img" src="/mascot/memonk_celebrate.png" alt="">`,
-  mascotEncourage: `<img class="mascot-state__img" src="/mascot/memonk_encourage.png" alt="">`,
-  mascotAllDone: `<img class="mascot-state__img" src="/mascot/memonk_all_done.png" alt="">`,
-  mascotRest: `<img class="mascot-state__img" src="/mascot/memonk_rest.png" alt="">`,
-}
+export const mascotThinking = '<img class="mascot-state__img" src="/mascot/memonk_thinking.png" alt="">'
+export const mascotCelebrate = '<img class="mascot-state__img" src="/mascot/memonk_celebrate.png" alt="">'
+export const mascotEncourage = '<img class="mascot-state__img" src="/mascot/memonk_encourage.png" alt="">'
+export const mascotAllDone = '<img class="mascot-state__img" src="/mascot/memonk_all_done.png" alt="">'
+export const mascotRest = '<img class="mascot-state__img" src="/mascot/memonk_rest.png" alt="">'

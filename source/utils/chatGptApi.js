@@ -1,3 +1,4 @@
+/* eslint-disable */
 const OpenAI = require('openai')
 
 export async function getTopicList(config) {
@@ -20,13 +21,13 @@ export async function getTopicList(config) {
 export async function verifyRawEssayByGpt(topic, essay, config) {
   const openai = new OpenAI({ apiKey: config.gptKey, dangerouslyAllowBrowser: true })
 
-  const contentList = [`You are a professional English teacher. I want that you validate my essay in terms of grammar accuracy, use of vocabulary and meaning completeness according to the main idea of topic. `]
+  const contentList = ['You are a professional English teacher. I want that you validate my essay in terms of grammar accuracy, use of vocabulary and meaning completeness according to the main idea of topic. ']
   config.onlySevereMistakes
     ? contentList.push('After analyzing, explain only severe mistakes if I have done it in my essay in terms of grammar, vocabulary etc. ')
-    : contentList.push('After analizing, give me recommendations and possible improvements what comes to grammar and vocabulary using. ')
+    : contentList.push('After analyzing, give me recommendations and possible improvements what comes to grammar and vocabulary using. ')
 
   config.normilizeInformalWay
-    ? contentList.push("You should accept an informal way of my essay and don't reduce the grade for this. ")
+    ? contentList.push('You should accept an informal way of my essay and don\'t reduce the grade for this. ')
     : contentList.push('You should reduce the grade of my essay if I use an informal writing style. ')
 
   contentList.push(`After all please value my English level from A2 to C2 in general. So, essay's topic sounds like: ${topic}. Here is my essay: ${essay}`)

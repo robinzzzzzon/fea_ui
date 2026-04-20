@@ -55,7 +55,7 @@ async function renderPage() {
     const feedbackBtnArea = content.querySelector('.srs-panel')
     feedbackBtnArea.remove()
     const trainArea = content.querySelector('.training-area')
-    trainArea.insertAdjacentHTML('beforeend', `<div class="choice-grid"></div>`)
+    trainArea.insertAdjacentHTML('beforeend', '<div class="choice-grid"></div>')
     itemArea = content.querySelector('.choice-grid')
   }
 
@@ -116,13 +116,13 @@ async function validateChosenWord(event) {
     document.removeEventListener('keydown', choiceKeyHandler)
     choiceKeyHandler = null
 
-    await new Promise(r => setTimeout(r, 300));
+    await new Promise(r => setTimeout(r, 300))
 
     await askForRepetitionFeedback()
   } else {
     chooseWord.style.backgroundColor = system_colors.failed
 
-    await new Promise(r => setTimeout(r, 300));
+    await new Promise(r => setTimeout(r, 300))
 
     await modifyStudyLevel({ studyWord: currentDictionary.data[0].word, resolution: 'FAIL' })
 

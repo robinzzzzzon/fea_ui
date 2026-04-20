@@ -3,6 +3,7 @@
 /Dockerfile
 /docker-compose
 /.dockerignore
+/public
 reports
 driver-logs
 

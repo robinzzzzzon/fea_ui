@@ -26,14 +26,14 @@ export async function fillArray(speechPart) {
 
   speechPart === 'all-study-words'
     ? (array = await makeRequest({
-        methodType: 'GET',
-        getUrl: `${domain}/words/study`,
-      }))
+      methodType: 'GET',
+      getUrl: `${domain}/words/study`,
+    }))
     : (array = await makeRequest({
-        methodType: 'GET',
-        getUrl: `${domain}/words/study`,
-        getParams: { wordType: speechPart },
-      }))
+      methodType: 'GET',
+      getUrl: `${domain}/words/study`,
+      getParams: { wordType: speechPart },
+    }))
 
   return array
 }
@@ -56,7 +56,7 @@ export async function modifyStudyLevel({ studyWord, resolution }) {
 }
 
 export async function checkAvailableStudyWords({ studyList, speechPart }) {
-  let wordList = studyList;
+  let wordList = studyList
 
   if (!wordList) {
     wordList = await fillArray(speechPart)
@@ -138,30 +138,30 @@ export function generateWords(options) {
   }
 
   switch (options.topicCount) {
-    case '5': {
-      const part1 = getRandomListBySpeechPart(initDictionary, 'nouns', 5)
-      const part2 = getRandomListBySpeechPart(initDictionary, 'adjectives', 5)
-      const part3 = getRandomListBySpeechPart(initDictionary, 'adverbs', 5)
-      words = [...part1, ...part2, ...part3]
-      break
-    }
+  case '5': {
+    const part1 = getRandomListBySpeechPart(initDictionary, 'nouns', 5)
+    const part2 = getRandomListBySpeechPart(initDictionary, 'adjectives', 5)
+    const part3 = getRandomListBySpeechPart(initDictionary, 'adverbs', 5)
+    words = [...part1, ...part2, ...part3]
+    break
+  }
 
-    case '10': {
-      const part1 = getRandomListBySpeechPart(initDictionary, 'phrasal verbs', 5)
-      const part2 = getRandomListBySpeechPart(initDictionary, 'useful phrases', 5)
-      const part3 = getRandomListBySpeechPart(initDictionary, 'adverbs', 2)
-      const part4 = getRandomListBySpeechPart(initDictionary, 'nouns', 3)
-      words = [...part1, ...part2, ...part3, ...part4]
-      break
-    }
+  case '10': {
+    const part1 = getRandomListBySpeechPart(initDictionary, 'phrasal verbs', 5)
+    const part2 = getRandomListBySpeechPart(initDictionary, 'useful phrases', 5)
+    const part3 = getRandomListBySpeechPart(initDictionary, 'adverbs', 2)
+    const part4 = getRandomListBySpeechPart(initDictionary, 'nouns', 3)
+    words = [...part1, ...part2, ...part3, ...part4]
+    break
+  }
 
-    case '20': {
-      const part1 = getRandomListBySpeechPart(initDictionary, 'phrasal verbs', 5)
-      const part2 = getRandomListBySpeechPart(initDictionary, 'useful phrases', 7)
-      const part3 = getRandomListBySpeechPart(initDictionary, 'idioms', 3)
-      words = [...part1, ...part2, ...part3]
-      break
-    }
+  case '20': {
+    const part1 = getRandomListBySpeechPart(initDictionary, 'phrasal verbs', 5)
+    const part2 = getRandomListBySpeechPart(initDictionary, 'useful phrases', 7)
+    const part3 = getRandomListBySpeechPart(initDictionary, 'idioms', 3)
+    words = [...part1, ...part2, ...part3]
+    break
+  }
   }
 
   return words
@@ -229,21 +229,21 @@ export async function makeRequest({ methodType, getUrl, getBody, getParams }) {
   let res = null
 
   switch (methodType) {
-    case 'GET':
-      res = await axios.get(getUrl, { params: getParams })
-      break
+  case 'GET':
+    res = await axios.get(getUrl, { params: getParams })
+    break
 
-    case 'POST': 
-      res = await axios.post(getUrl, getBody)
-      break
+  case 'POST': 
+    res = await axios.post(getUrl, getBody)
+    break
     
-    case 'UPDATE': 
-      res = await axios.put(getUrl, getBody)
-      break
+  case 'UPDATE': 
+    res = await axios.put(getUrl, getBody)
+    break
     
-    case 'DELETE': 
-      res = await axios.delete(getUrl)
-      break
+  case 'DELETE': 
+    res = await axios.delete(getUrl)
+    break
   }
 
   return res
