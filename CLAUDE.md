@@ -2,6 +2,11 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+## Workflow Rules
+
+- **Never commit.** The user always reviews changes first and commits manually. Claude prepares changes and reports "ready for review" — nothing more.
+- **Never push** to remote unless explicitly asked.
+
 ## Tech Stack
 
 - **Vanilla JS** (ES6 modules) — no framework

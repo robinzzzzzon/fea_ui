@@ -17,7 +17,7 @@ class ActualDictionary {
 }
 
 function renderPage(itemIndex) {
-  content.innerHTML = `<ul class="word-list"></ul>`
+  content.innerHTML = '<ul class="word-list"></ul>'
 
   const wordList = document.querySelector('.word-list')
 

@@ -178,12 +178,13 @@ function moveCharToWordArea(event) {
     clearBtn.disabled = true
 
     if (key === 'Enter') {
-      checkBtn.addEventListener('keyDown', checkEnterWord(event))
+      checkBtn.click()
     }
   } else if (suggestBtn.disabled) suggestBtn.disabled = false
 }
 
 function handleKeyboardEvent(getChar, getKey) {
+  const wordDiv = document.querySelector('#wordDiv')
   let content = getChar.textContent.trim().split(' ').join('')
   let key = getKey
   let count
@@ -222,13 +223,13 @@ async function checkEnterWord(event) {
   if (resultWord === currentDictionary.data[0].word) {
     toggleClassForChar(resultChars)
 
-    await new Promise(r => setTimeout(r, 300));
+    await new Promise(r => setTimeout(r, 300))
 
     await askForRepetitionFeedback()
   } else {
     toggleClassForChar(resultChars, 'puzzle-char--wrong')
 
-    await new Promise(r => setTimeout(r, 300));
+    await new Promise(r => setTimeout(r, 300))
 
     await modifyStudyLevel({ studyWord: currentDictionary.data[0].word, resolution: 'FAIL' })
 

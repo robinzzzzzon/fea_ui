@@ -90,13 +90,13 @@ class NewDictionary {
   }
 
   addDeckToStudyList(event) {
-    const addDeckBtn = event.target.closest('button[data-action]');
+    const addDeckBtn = event.target.closest('button[data-action]')
 
-    if (!addDeckBtn) return;
+    if (!addDeckBtn) return
 
-    const wrapper = addDeckBtn.closest('.nav-card-wrap');
+    const wrapper = addDeckBtn.closest('.nav-card-wrap')
 
-    const deckBtn = wrapper.querySelector('button[data-name]');
+    const deckBtn = wrapper.querySelector('button[data-name]')
 
     const lContainer = document.querySelector('.l-container')
 

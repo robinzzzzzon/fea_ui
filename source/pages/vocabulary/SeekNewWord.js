@@ -5,7 +5,7 @@ import { domain, spinner, alphabetList, getModalWindow, mascotEncourage, mascotA
 
 const content = document.querySelector('.content')
 
-let speechPart = null;
+let speechPart = null
 let currentDictionary = []
 let studyWordCounter = 0
 let wordIndex = 0
@@ -135,7 +135,7 @@ async function studyThisWord(event) {
 
   const studyBtn = document.querySelector('#studyBtn')
   studyBtn.textContent = ''
-  studyBtn.innerHTML = `<span class="spinner--sm"><span class="spinner__dot"></span><span class="spinner__dot"></span><span class="spinner__dot"></span></span>`
+  studyBtn.innerHTML = '<span class="spinner--sm"><span class="spinner__dot"></span><span class="spinner__dot"></span><span class="spinner__dot"></span></span>'
   studyBtn.disabled = true
 
   const addedStudyWord = {
@@ -262,6 +262,7 @@ async function deleteWord(event) {
 }
 
 function muteWordInteractions() {
+  const wordArea = document.querySelector('#wordArea')
   const deleteBtn = document.querySelector('#deleteBtn')
 
   wordArea.removeEventListener('click', changeWord)
@@ -313,10 +314,10 @@ async function checkTrainAvailable() {
   !studyList.data.length
     ? studyBtn.disabled = true
     : studyBtn.addEventListener('click', () => {
-        document.removeEventListener('keydown', arrowKeyHandler)
-        arrowKeyHandler = null
-        TrainingList.renderPage(speechPart)
-      })
+      document.removeEventListener('keydown', arrowKeyHandler)
+      arrowKeyHandler = null
+      TrainingList.renderPage(speechPart)
+    })
 }
 
 function showTrainingSuggest() {
@@ -351,7 +352,7 @@ function showTrainingSuggest() {
 }
 
 function analizeCharAbility() {
-  const alphabet = alphabetList.split('');
+  const alphabet = alphabetList.split('')
   const charRoot = document.querySelector('.alphabet-bar')
   const currentChars = charRoot.querySelectorAll('button')
 

@@ -37,11 +37,11 @@ class WriteTraining {
 }
 
 function renderPage() {
-    const rootDiv = content.querySelector('.training-area')
+  const rootDiv = content.querySelector('.training-area')
 
-    if (rootDiv.innerHTML) rootDiv.innerHTML = ''
+  if (rootDiv.innerHTML) rootDiv.innerHTML = ''
 
-    rootDiv.insertAdjacentHTML('afterbegin', `
+  rootDiv.insertAdjacentHTML('afterbegin', `
       <div class="training-area__prompt"><p>${currentDictionary.data[0].translate}</p></div>
       <input type="text" class="training-input" placeholder=" Write here...">
       <div class="training-actions">
@@ -50,27 +50,27 @@ function renderPage() {
       </div>
     `)
   
-    const counter = content.querySelector('.training-counter')
-    const completed = initDictionary.data.length - currentDictionary.data.length
-    counter.textContent = `${completed} / ${initDictionary.data.length}`
+  const counter = content.querySelector('.training-counter')
+  const completed = initDictionary.data.length - currentDictionary.data.length
+  counter.textContent = `${completed} / ${initDictionary.data.length}`
 
-    fillProgressBar(initDictionary, currentDictionary)
+  fillProgressBar(initDictionary, currentDictionary)
 
-    const input = document.querySelector('.training-input')
-    input.focus()
-    input.addEventListener('keydown', (event) => {
-      if (event.key === 'Enter') {
-        checkWord(event)
-      }
-    })
+  const input = document.querySelector('.training-input')
+  input.focus()
+  input.addEventListener('keydown', (event) => {
+    if (event.key === 'Enter') {
+      checkWord(event)
+    }
+  })
 
-    const writeInput = document.querySelector('.training-input')
-    const suggestBtn = document.querySelector('#suggestBtn')
-    const checkBtn = document.querySelector('#checkBtn')
-    checkBtn.disabled = true
-    suggestBtn.addEventListener('click', suggestChar)
-    checkBtn.addEventListener('click', checkWord)
-    writeInput.addEventListener('input', checkCharCount)
+  const writeInput = document.querySelector('.training-input')
+  const suggestBtn = document.querySelector('#suggestBtn')
+  const checkBtn = document.querySelector('#checkBtn')
+  checkBtn.disabled = true
+  suggestBtn.addEventListener('click', suggestChar)
+  checkBtn.addEventListener('click', checkWord)
+  writeInput.addEventListener('input', checkCharCount)
 }
 
 function suggestChar(event) {
@@ -103,13 +103,13 @@ async function checkWord(event) {
     input.style.backgroundColor = system_colors.success
     charIndex = 0
 
-    await new Promise(r => setTimeout(r, 300));
+    await new Promise(r => setTimeout(r, 300))
 
     await askForRepetitionFeedback()
   } else {
     input.style.backgroundColor = system_colors.failed
 
-    await new Promise(r => setTimeout(r, 300));
+    await new Promise(r => setTimeout(r, 300))
 
     await modifyStudyLevel({ studyWord: currentDictionary.data[0].word, resolution: 'FAIL' })
 
