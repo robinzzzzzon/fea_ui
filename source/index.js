@@ -1,21 +1,16 @@
 import './styles/main.css'
+import Router from './core/Router'
 import VocabularySection from './pages/vocabulary/VocabularySection'
 import SpeakingSection from './pages/speaking/SpeakingSection'
 
-const lContainer = document.querySelector('.l-container')
+const router = new Router({
+  root: document.querySelector('.l-container'),
+  routes: [
+    { name: 'vocabulary', controller: VocabularySection },
+    { name: 'speaking',   controller: SpeakingSection },
+  ],
+})
 
-lContainer.addEventListener('click', renderNextPage)
+router.start()
 
-async function renderNextPage(event) {
-  event.preventDefault()
-
-  if (!event.target.dataset.name) return
-
-  const name = event.target.dataset.name
-
-  if (name === 'vocabulary') {
-    await VocabularySection.renderPage(event)
-  } else if (name === 'speaking') {
-    SpeakingSection.renderPage(event)
-  }
-}
+if (process.env.NODE_ENV !== 'production') window.__router = router
