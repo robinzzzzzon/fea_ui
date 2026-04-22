@@ -203,7 +203,12 @@ export function attachModalKeyboard(modalRoot) {
 export function setTimer(element, interval = 20) {
   interval--
   let seconds = 59
-  setTimeout(function counter() {
+  let handle = null
+  let cancelled = false
+
+  const tick = () => {
+    if (cancelled) return
+
     if (!interval && seconds < 0) {
       element.textContent = ''
       return
@@ -221,8 +226,20 @@ export function setTimer(element, interval = 20) {
     element.textContent = `${interval}:${seconds}`
 
     seconds--
-    setTimeout(counter, 1000)
-  }, 1000)
+    handle = setTimeout(tick, 1000)
+  }
+
+  handle = setTimeout(tick, 1000)
+
+  const cancel = () => {
+    if (cancelled) return
+    cancelled = true
+    if (handle) clearTimeout(handle)
+    handle = null
+    element.textContent = ''
+  }
+  cancel.cancel = cancel
+  return cancel
 }
 
 export async function makeRequest({ methodType, getUrl, getBody, getParams }) {
