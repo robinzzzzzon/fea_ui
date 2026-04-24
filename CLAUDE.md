@@ -11,7 +11,8 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 - **Vanilla JS** (ES6 modules) — no framework
 - **Webpack 5** — bundler, dev server on port 3000
-- **Bootstrap** + Bootstrap Icons — UI, bundled locally in `source/bootstrap/` (planned removal)
+- **CSS architecture** — ITCSS (tokens / reset / base / layout / components / pages) + design tokens as CSS custom properties in `source/styles/01-tokens/`. No CSS framework; Bootstrap fully removed.
+- **ESLint** — linting config in `.eslintrc.js`, run via `npm run lint`
 - **Axios** — HTTP client
 - **OpenAI SDK** — client-side, `gpt-4o-mini` (planned replacement with Claude API)
 - **Playwright** + **Faker.js** — E2E testing
@@ -24,6 +25,7 @@ Backend: separate repo (Node/Express + MongoDB). Run: `npm run api` (nodemon, po
 ```bash
 npm run dev       # Webpack dev server at http://localhost:3000
 npm run prod      # Production build to /public/
+npm run lint      # ESLint over source/
 
 npx playwright test                                              # Run all tests
 npx playwright test source/tests/specs/001.addNewWord.spec.ts   # Single test file
@@ -35,18 +37,27 @@ Dev server and backend (fea_api at `http://127.0.0.1:3001`) must both be running
 
 ## Architecture
 
-### Routing — two separate attribute systems
+### Routing — two levels + two attribute systems
 
-`data-name` drives **inter-page navigation** (routing between sections/pages). `data-action` drives **intra-page actions** (buttons within a page). These are distinct — don't confuse them.
+**Top-level routing** is handled by `Router` in `source/core/Router.js`. `source/index.js` constructs the Router with a registry of top-level sections (currently `vocabulary`, `speaking`) and calls `router.start()`, which attaches a single delegated click listener to `.l-container`. The Router catches clicks on elements with `data-name` that match its registry and runs `navigate(name)` — unmounting the current page and mounting the next one.
 
-`source/index.js` attaches one click listener to `.actionRoot` and delegates by `data-name`. Each section module exposes a `renderPage()` method. Pages pass navigation callbacks to each other:
+**Intra-page actions** use `data-action` — those are handled by each page's own listeners. Don't confuse `data-name` (inter-page, Router-owned) with `data-action` (intra-page).
+
+**Nested page-to-page navigation** within a section (e.g. Vocabulary → NewDictionary) is NOT yet routed through the Router — those pages attach their own listeners and pass navigation callbacks to each other:
 ```js
 new TrainingList(deck, () => new StudyDictionary().renderPage())
 ```
+The Router ignores unknown `data-name` values, so these page-local handlers keep working as before. Migration to lifecycle-managed pages is in progress (Phase 6.2 Migration, task-058+).
 
-### Page class pattern
+**URL sync is not implemented.** Everything lives at `/` — no history API, no deep-links, no back-button. Planned as a later task.
 
-Pages are ES6 classes exported as singletons (`export default new ClassName()`). Core methods: `renderPage()` injects HTML into `.actionRoot`, then attaches event listeners. DOM is fully replaced on each navigation — there is no lifecycle or state persistence between navigations. Within a session, state lives in module-level variables.
+### Page lifecycle — PageController
+
+`source/core/PageController.js` is the base class for lifecycle-managed pages: `mount()` / `unmount()` template methods with `onMount()` / `onUnmount()` override points. Under the hood it owns an `AbortController` — its helpers `addListener(element, event, handler)`, `setTimeout(callback, ms)`, `setInterval(callback, ms)`, and `fetch(url, options)` all bind to `signal`, so `unmount()` triggers `abort()` and the browser removes everything automatically. A `setHTML(element, trustedTemplate)` helper marks every innerHTML site as an XSS boundary (Phase 6.3 will add sanitization).
+
+Legacy singleton pages (`VocabularySection`, `SpeakingSection`) are still exported as `export default new ClassName()` with a `renderPage()` method that injects HTML into `.l-container` — DOM fully replaced, no cleanup. They're bridged to the Router via `LegacyPageAdapter` (inside `Router.js`): `onMount` calls `singleton.renderPage(event)`, `onUnmount` is a no-op that warns once (listeners inside legacy pages leak until the page is migrated).
+
+Migration is happening page-by-page in separate branches (task-058 SeekNewWord → task-062 remaining pages). Don't introduce new singleton-exported pages — new pages should extend `PageController`.
 
 ### Shared UI components
 
@@ -92,7 +103,7 @@ Client-side only (`source/utils/chatGptApi.js`), `dangerouslyAllowBrowser: true`
 
 ### Styles
 
-No CSS variables. Per-feature files in `source/styles/`. Base button class `.myBtn` with color modifiers: `.hardBtn`, `.goodBtn`, `.easyBtn`, `.findNewBtn`, etc. System colors (hardcoded): success `#94FF94`, failed `#FF8C8C`, muted `#E6E6E6`. Bootstrap + Icons bundled locally in `source/bootstrap/`.
+ITCSS structure in `source/styles/`: `01-tokens` → `02-reset` → `03-base` → `04-layout` → `05-components` → `06-pages`. Entrypoint is `source/styles/main.css`. Design tokens (colors, spacing, typography, radii, shadows) live in `01-tokens/` as CSS custom properties — reference them via `var(--color-success)` etc., don't hardcode. Mascot PNGs live alongside the Memonk brand assets and are integrated where configured (see Phase 5 branding). Bootstrap + Bootstrap Icons fully removed.
 
 ### Tests
 

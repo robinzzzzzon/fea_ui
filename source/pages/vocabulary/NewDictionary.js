@@ -1,4 +1,4 @@
-import SeekNewWord from './SeekNewWord'
+import SeekNewWordPage from './SeekNewWordPage'
 import StudyDictionary from './StudyDictionary'
 import { speechList, domain, spinner, add_icon, getModalWindow, mascotRest } from '../../utils/constants'
 import { makeRequest, attachModalKeyboard } from '../../utils/utils'
@@ -85,7 +85,8 @@ class NewDictionary {
   
       const name = event.target.dataset.name
   
-      await SeekNewWord.initPage(name)
+      const seekPage = new SeekNewWordPage()
+      await seekPage.mount({ speechPart: name })
     })
   }
 
