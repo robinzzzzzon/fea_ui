@@ -1,6 +1,6 @@
 import ChooseTrainingPage from './ChooseTrainingPage'
 import PuzzleTraining from './PuzzleTraining'
-import WriteTraining from './WriteTraining'
+import WriteTrainingPage from './WriteTrainingPage'
 
 const content = document.querySelector('.content')
 
@@ -30,7 +30,10 @@ class TrainingList {
       `
   
     const writingCard = document.querySelector('#writeTraining')
-    writingCard.addEventListener('click', () => WriteTraining.initPage(speechPart))
+    writingCard.addEventListener('click', async () => {
+      const writePage = new WriteTrainingPage()
+      await writePage.mount({ speechPart })
+    })
     
     // TODO: Add mobile layout implementation later.
     const puzzleCard = document.querySelector('#puzzleTraining')
