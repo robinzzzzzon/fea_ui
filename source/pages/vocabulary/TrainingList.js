@@ -1,4 +1,4 @@
-import ChooseTraining from './ChooseTraining'
+import ChooseTrainingPage from './ChooseTrainingPage'
 import PuzzleTraining from './PuzzleTraining'
 import WriteTraining from './WriteTraining'
 
@@ -43,7 +43,10 @@ class TrainingList {
     }
     
     const chooseCard = document.querySelector('#chooseTraining')
-    chooseCard.addEventListener('click', () => ChooseTraining.initPage(speechPart))
+    chooseCard.addEventListener('click', async () => {
+      const choosePage = new ChooseTrainingPage()
+      await choosePage.mount({ speechPart })
+    })
   }
 }
 
