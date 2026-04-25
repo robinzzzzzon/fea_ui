@@ -1,5 +1,5 @@
 import ChooseTrainingPage from './ChooseTrainingPage'
-import PuzzleTraining from './PuzzleTraining'
+import PuzzleTrainingPage from './PuzzleTrainingPage'
 import WriteTrainingPage from './WriteTrainingPage'
 
 const content = document.querySelector('.content')
@@ -42,7 +42,10 @@ class TrainingList {
       puzzleCard.classList.add('training-card--disabled')
       puzzleCard.querySelector('.training-card__label').textContent = 'Puzzle (Soon)'
     } else {
-      puzzleCard.addEventListener('click', () => PuzzleTraining.initPage(speechPart))
+      puzzleCard.addEventListener('click', async () => {
+        const puzzlePage = new PuzzleTrainingPage()
+        await puzzlePage.mount({ speechPart })
+      })
     }
     
     const chooseCard = document.querySelector('#chooseTraining')
