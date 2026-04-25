@@ -43,6 +43,8 @@ export default class SeekNewWordPage extends PageController {
   }
 
   renderPage() {
+    this._interactionsMuted = false
+
     const content = document.querySelector('.content')
 
     content.innerHTML = `
