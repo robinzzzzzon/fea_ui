@@ -1,6 +1,6 @@
 import PageController from '../../core/PageController'
-import NewDictionary from './NewDictionary'
-import TrainingList from './TrainingList'
+import NewDictionaryPage from './NewDictionaryPage'
+import TrainingListPage from './TrainingListPage'
 import { makeRequest, filterCurrentDictionary, attachModalKeyboard } from '../../utils/utils'
 import { domain, spinner, alphabetList, getModalWindow, mascotEncourage, mascotAllDone } from '../../utils/constants'
 
@@ -308,9 +308,12 @@ export default class SeekNewWordPage extends PageController {
 
     const findNewBtn = document.querySelector('#findNewBtn')
 
-    this.addListener(findNewBtn, 'click', () => {
-      this.unmount()
-      NewDictionary.renderPage()
+    this.addListener(findNewBtn, 'click', async () => {
+      await this.unmount()
+
+      const next = new NewDictionaryPage()
+
+      await next.mount()
     })
 
     this.checkTrainAvailable()
@@ -328,9 +331,14 @@ export default class SeekNewWordPage extends PageController {
     if (!studyList.data.length) {
       studyBtn.disabled = true
     } else {
-      this.addListener(studyBtn, 'click', () => {
-        this.unmount()
-        TrainingList.renderPage(this.speechPart)
+      this.addListener(studyBtn, 'click', async () => {
+        const speechPart = this.speechPart
+
+        await this.unmount()
+
+        const next = new TrainingListPage()
+
+        await next.mount({ speechPart })
       })
     }
   }
@@ -357,9 +365,14 @@ export default class SeekNewWordPage extends PageController {
     const trainBtn = document.querySelector('#startTrainBtn')
     const goOnBtn = document.querySelector('#goOnBtn')
 
-    this.addListener(trainBtn, 'click', () => {
-      this.unmount()
-      TrainingList.renderPage(this.speechPart)
+    this.addListener(trainBtn, 'click', async () => {
+      const speechPart = this.speechPart
+
+      await this.unmount()
+
+      const next = new TrainingListPage()
+
+      await next.mount({ speechPart })
     })
 
     this.addListener(goOnBtn, 'click', () => {

@@ -1,0 +1,127 @@
+import PageController from '../../core/PageController'
+import { domain } from '../../utils/constants'
+import { makeRequest } from '../../utils/utils'
+
+export default class AddDictionaryWordPage extends PageController {
+
+  async onMount() {
+    this.renderForm()
+  }
+
+  renderForm() {
+    const content = document.querySelector('.content')
+
+    content.innerHTML = `
+      <form class="word-form" novalidate>
+        <p class="word-form__info">Here you can add a new word to initial dictionary!</p>
+        <div class="word-form__fields">
+          <div class="word-form__field">
+            <label for="word" class="word-form__label">New Word <span class="required">*</span></label>
+            <input type="text" class="word-form__input wordInput" id="word" placeholder="e.g., red tape" aria-describedby="formMessage">
+          </div>
+          <div class="word-form__field">
+            <label for="translation" class="word-form__label">Translation <span class="required">*</span></label>
+            <input type="text" class="word-form__input translateInput" id="translation" placeholder="e.g., excessive bureaucracy">
+          </div>
+          <div class="word-form__field">
+            <label for="type" class="word-form__label">Word type</label>
+            <select class="word-form__select typeSelect" id="type">
+              <option selected disabled value="">choose type...</option>
+              <option>nouns</option>
+              <option>verbs</option>
+              <option>phrasal verbs</option>
+              <option>adjectives</option>
+              <option>adverbs</option>
+              <option>pronouns</option>
+              <option>numerals</option>
+              <option>other parts</option>
+              <option>idioms</option>
+              <option>useful phrases</option>
+              <option>it phrases</option>
+            </select>
+          </div>
+          <div class="word-form__field">
+            <label class="word-form__label">&nbsp;</label>
+            <div class="word-form__check">
+              <input type="checkbox" value="" id="flexCheckDefault">
+              <label for="flexCheckDefault">Add to study list</label>
+            </div>
+          </div>
+          <div class="word-form__actions">
+            <p class="word-form__message" id="formMessage" role="alert" aria-live="polite"></p>
+            <button type="button" class="btn btn--primary" id="addBtn" disabled>Confirm</button>
+          </div>
+        </div>
+      </form>
+    `
+
+    const wordInput = document.querySelector('.wordInput')
+    const translateInput = document.querySelector('.translateInput')
+    const addBtn = document.querySelector('#addBtn')
+
+    const toggleBtn = () => {
+      addBtn.disabled = !wordInput.value.trim() || !translateInput.value.trim()
+    }
+
+    this.addListener(wordInput, 'input', toggleBtn)
+    this.addListener(translateInput, 'input', toggleBtn)
+    this.addListener(addBtn, 'click', () => this.sendNewWord())
+
+    const formInputs = content.querySelectorAll('.word-form__input, .word-form__select')
+
+    formInputs.forEach((input) => {
+      this.addListener(input, 'keydown', (event) => {
+        if (event.key === 'Enter' && !addBtn.disabled) addBtn.click()
+      })
+    })
+  }
+
+  async sendNewWord() {
+    const word = document.querySelector('.wordInput')
+    const translate = document.querySelector('.translateInput')
+    const select = document.querySelector('.typeSelect')
+    const studyCb = document.querySelector('#flexCheckDefault')
+    const message = document.querySelector('#formMessage')
+
+    word.classList.remove('word-form__input--error')
+    translate.classList.remove('word-form__input--error')
+    message.className = 'word-form__message'
+    message.textContent = ''
+
+    if (select.options[0].selected) {
+      message.textContent = 'Please select a word type.'
+      message.classList.add('word-form__message--error')
+      return
+    }
+
+    const newWord = {
+      word: word.value.trim().toLowerCase(),
+      translate: translate.value.trim().toLowerCase(),
+      wordType: select.options[select.selectedIndex].text,
+    }
+
+    const duplicate = await makeRequest({
+      methodType: 'GET',
+      getUrl: `${domain}/words/init/`,
+      getParams: { word: newWord.word },
+    })
+
+    if (duplicate.data.length) {
+      word.classList.add('word-form__input--error')
+      message.textContent = 'This word already exists in the dictionary.'
+      message.classList.add('word-form__message--error')
+      return
+    }
+
+    await makeRequest({ methodType: 'POST', getUrl: `${domain}/words/init/`, getBody: newWord })
+
+    if (studyCb.checked) {
+      await makeRequest({ methodType: 'POST', getUrl: `${domain}/words/study/`, getBody: newWord })
+    }
+
+    message.textContent = `"${newWord.word}" has been added!`
+    message.classList.add('word-form__message--success')
+
+    this.setTimeout(() => this.renderForm(), 1500)
+  }
+}

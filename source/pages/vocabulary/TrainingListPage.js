@@ -1,11 +1,15 @@
+import PageController from '../../core/PageController'
 import ChooseTrainingPage from './ChooseTrainingPage'
 import PuzzleTrainingPage from './PuzzleTrainingPage'
 import WriteTrainingPage from './WriteTrainingPage'
 
-const content = document.querySelector('.content')
+export default class TrainingListPage extends PageController {
 
-class TrainingList {
-  renderPage(speechPart) {
+  async onMount({ speechPart } = {}) {
+    this.speechPart = speechPart
+
+    const content = document.querySelector('.content')
+
     content.innerHTML = `
       <div class="training-list">
           <div class="training-card training-card--write" id="writeTraining" data-tooltip="Type the word from translation">
@@ -27,33 +31,41 @@ class TrainingList {
               <span class="training-card__label">Choose</span>
           </div>
       </div>
-      `
-  
+    `
+
     const writingCard = document.querySelector('#writeTraining')
-    writingCard.addEventListener('click', async () => {
+
+    this.addListener(writingCard, 'click', async () => {
+      await this.unmount()
+
       const writePage = new WriteTrainingPage()
-      await writePage.mount({ speechPart })
+
+      await writePage.mount({ speechPart: this.speechPart })
     })
-    
-    // TODO: Add mobile layout implementation later.
+
     const puzzleCard = document.querySelector('#puzzleTraining')
-    
+
     if (window.matchMedia('(max-width: 560px)').matches) {
       puzzleCard.classList.add('training-card--disabled')
       puzzleCard.querySelector('.training-card__label').textContent = 'Puzzle (Soon)'
     } else {
-      puzzleCard.addEventListener('click', async () => {
+      this.addListener(puzzleCard, 'click', async () => {
+        await this.unmount()
+
         const puzzlePage = new PuzzleTrainingPage()
-        await puzzlePage.mount({ speechPart })
+
+        await puzzlePage.mount({ speechPart: this.speechPart })
       })
     }
-    
+
     const chooseCard = document.querySelector('#chooseTraining')
-    chooseCard.addEventListener('click', async () => {
+
+    this.addListener(chooseCard, 'click', async () => {
+      await this.unmount()
+
       const choosePage = new ChooseTrainingPage()
-      await choosePage.mount({ speechPart })
+
+      await choosePage.mount({ speechPart: this.speechPart })
     })
   }
 }
-
-export default new TrainingList()

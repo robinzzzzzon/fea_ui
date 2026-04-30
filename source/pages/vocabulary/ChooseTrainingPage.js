@@ -1,5 +1,5 @@
 import PageController from '../../core/PageController'
-import NewDictionary from './NewDictionary'
+import NewDictionaryPage from './NewDictionaryPage'
 import { makeRequest, fillArray, fillProgressBar, modifyStudyLevel, checkAvailableStudyWords, attachSrsKeyboard } from '../../utils/utils'
 import { domain, spinner, feedbackArea, system_colors, mascotCelebrate } from '../../utils/constants'
 
@@ -194,7 +194,10 @@ export default class ChooseTrainingPage extends PageController {
 
     this.addListener(findNewBtn, 'click', async () => {
       await this.unmount()
-      NewDictionary.renderPage()
+
+      const next = new NewDictionaryPage()
+
+      await next.mount()
     })
 
     this.addListener(repeatBtn, 'click', async () => {
