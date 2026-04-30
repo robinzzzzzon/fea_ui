@@ -43,11 +43,13 @@ Dev server and backend (fea_api at `http://127.0.0.1:3001`) must both be running
 
 **Intra-page actions** use `data-action` — those are handled by each page's own listeners. Don't confuse `data-name` (inter-page, Router-owned) with `data-action` (intra-page).
 
-**Nested page-to-page navigation** within a section (e.g. Vocabulary → NewDictionary) is NOT yet routed through the Router — those pages attach their own listeners and pass navigation callbacks to each other:
+**Nested page-to-page navigation** within a section (e.g. Vocabulary → NewDictionaryPage) is not routed through the Router. Sub-page transitions instantiate the next `PageController` directly and unmount the current one:
 ```js
-new TrainingList(deck, () => new StudyDictionary().renderPage())
+await this.unmount()
+const next = new NewDictionaryPage()
+await next.mount({ speechPart: name })
 ```
-The Router ignores unknown `data-name` values, so these page-local handlers keep working as before. Migration to lifecycle-managed pages is in progress (Phase 6.2 Migration, task-058+).
+The Router ignores unknown `data-name` values, so these page-local handlers run independently of Router state.
 
 **URL sync is not implemented.** Everything lives at `/` — no history API, no deep-links, no back-button. Planned as a later task.
 
@@ -55,9 +57,9 @@ The Router ignores unknown `data-name` values, so these page-local handlers keep
 
 `source/core/PageController.js` is the base class for lifecycle-managed pages: `mount()` / `unmount()` template methods with `onMount()` / `onUnmount()` override points. Under the hood it owns an `AbortController` — its helpers `addListener(element, event, handler)`, `setTimeout(callback, ms)`, `setInterval(callback, ms)`, and `fetch(url, options)` all bind to `signal`, so `unmount()` triggers `abort()` and the browser removes everything automatically. A `setHTML(element, trustedTemplate)` helper marks every innerHTML site as an XSS boundary (Phase 6.3 will add sanitization).
 
-Legacy singleton pages (`VocabularySection`, `SpeakingSection`) are still exported as `export default new ClassName()` with a `renderPage()` method that injects HTML into `.l-container` — DOM fully replaced, no cleanup. They're bridged to the Router via `LegacyPageAdapter` (inside `Router.js`): `onMount` calls `singleton.renderPage(event)`, `onUnmount` is a no-op that warns once (listeners inside legacy pages leak until the page is migrated).
+All page modules (Vocabulary + Speaking, 15 files total) extend `PageController` and are exported as classes — no singleton instances. `LegacyPageAdapter` (inside `Router.js`) is kept as a fallback for any future legacy-style pages, but it's no longer in use.
 
-Migration is happening page-by-page in separate branches (task-058 SeekNewWord → task-062 remaining pages). Don't introduce new singleton-exported pages — new pages should extend `PageController`.
+Don't introduce new singleton-exported pages — new pages must extend `PageController`. File naming convention: `XxxPage.js` for all page files.
 
 ### Shared UI components
 

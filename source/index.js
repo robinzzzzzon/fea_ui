@@ -1,13 +1,13 @@
 import './styles/main.css'
 import Router from './core/Router'
 import VocabularySectionPage from './pages/vocabulary/VocabularySectionPage'
-import SpeakingSection from './pages/speaking/SpeakingSection'
+import SpeakingSectionPage from './pages/speaking/SpeakingSectionPage'
 
 const router = new Router({
   root: document.querySelector('.l-container'),
   routes: [
     { name: 'vocabulary', controller: VocabularySectionPage },
-    { name: 'speaking',   controller: SpeakingSection },
+    { name: 'speaking',   controller: SpeakingSectionPage },
   ],
 })
 
