@@ -92,8 +92,9 @@ export default class StudyDictionaryPage extends PageController {
 
   createStudyDictionary(speechListItem, toneIndex) {
     const dictionary = document.createElement('button')
+    const tone = speechListItem?.tone || ((toneIndex % 6) + 1)
 
-    dictionary.classList.add('deck-card', `deck-card--tone-${(toneIndex % 6) + 1}`)
+    dictionary.classList.add('deck-card', `deck-card--tone-${tone}`)
 
     if (speechListItem) {
       dictionary.setAttribute('data-name', `${speechListItem.dataName}`)
