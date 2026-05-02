@@ -20,13 +20,18 @@ export default class NewDictionaryPage extends PageController {
       getUrl: `${domain}/decks/init/`,
     })
 
-    const deckList = dbInitDeckList.data.length ? dbInitDeckList.data : speechList
+    const seededDeckList = dbInitDeckList.data.length
+      ? dbInitDeckList.data
+      : speechList.map((deck, index) => ({ ...deck, tone: (index % 6) + 1 }))
+
+    const deckList = seededDeckList
     let enabledCount = 0
 
     for (let index = 0; index < deckList.length; index++) {
       const deck = document.createElement('button')
+      const tone = deckList[index].tone || ((index % 6) + 1)
 
-      deck.classList.add('deck-card', `deck-card--tone-${(index % 6) + 1}`)
+      deck.classList.add('deck-card', `deck-card--tone-${tone}`)
       deck.setAttribute('data-name', deckList[index].dataName)
       deck.textContent = deckList[index].dataName.toUpperCase()
 
