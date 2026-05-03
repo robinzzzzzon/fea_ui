@@ -26,6 +26,7 @@
 @import './05-components/_form.css';
 @import './05-components/_tooltip.css';
 @import './05-components/_mascot.css';
+@import './05-components/_toast.css';
 
 /* 06-pages: Page-Specific Styles */
 @import './06-pages/_vocabulary.css';

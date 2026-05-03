@@ -1,77 +1,18 @@
 import PageController from './PageController'
-
-const FALLBACK_404 = (name) => `
-  <div class="page-error">
-    <p>Unknown route: <b>${escapeText(name)}</b></p>
-    <button type="button" class="btn btn--primary" data-name="home">Home</button>
-  </div>
-`
-
-const FALLBACK_ERROR = (name) => `
-  <div class="page-error">
-    <p>Failed to load <b>${escapeText(name)}</b>.</p>
-    <button type="button" class="btn btn--primary" data-name="home">Home</button>
-  </div>
-`
-
-function escapeText(text) {
-  const escapeMap = {
-    '&': '&amp;',
-    '<': '&lt;',
-    '>': '&gt;',
-    '"': '&quot;',
-    '\'': '&#39;',
-  }
-
-  return String(text).replace(/[&<>"']/g, (char) => escapeMap[char])
-}
-
-class LegacyPageAdapter extends PageController {
-  constructor(singleton, name) {
-    super()
-
-    this._singleton = singleton
-    this._routeName = name
-    this._warned = false
-  }
-
-  async onMount(params = {}) {
-    const event = params.event || {
-      preventDefault() {},
-      target: { dataset: {} },
-    }
-
-    if (typeof this._singleton.initPage === 'function') {
-      await this._singleton.initPage(this._routeName)
-    } else if (typeof this._singleton.renderPage === 'function') {
-      await this._singleton.renderPage(event)
-    } else {
-      throw new Error(`[Router] legacy page "${this._routeName}" has no renderPage/initPage`)
-    }
-  }
-
-  async onUnmount() {
-    if (this._warned) return
-
-    this._warned = true
-    console.warn(`[Router] legacy page "${this._routeName}" has no cleanup — listeners may leak until migrated`)
-  }
-}
+import { showToast } from '../components/toast'
 
 export default class Router {
-  constructor({ root, routes = [], fallback404, fallbackError } = {}) {
+  constructor({ root, routes = [] } = {}) {
     if (!root) throw new Error('[Router] root element is required')
 
     this._root = root
+    this._initialRootHTML = root.innerHTML
     this._routes = new Map()
 
     this._currentPage = null
     this._currentName = null
     this._navToken = 0
     this._started = false
-
-    this._fallback404 = fallback404 || FALLBACK_404
-    this._fallbackError = fallbackError || FALLBACK_ERROR
 
     routes.forEach((route) => this.register(route.name, route.controller))
 
@@ -121,7 +62,8 @@ export default class Router {
     }
 
     if (!this._routes.has(name)) {
-      this._render404(name)
+      this._restoreHome()
+      showToast({ message: `Unknown page: ${name}`, type: 'error' })
       return
     }
 
@@ -148,7 +90,7 @@ export default class Router {
       this._currentPage = null
       this._currentName = null
 
-      this._renderError(name)
+      this._restoreHome()
     }
   }
 
@@ -163,8 +105,7 @@ export default class Router {
     // PageController instance — already constructed (mostly for tests)
     if (entry instanceof PageController) return entry
 
-    // Legacy singleton — wrap in adapter so lifecycle still works
-    return new LegacyPageAdapter(entry, name)
+    throw new Error(`[Router] route "${name}" must be a PageController subclass or instance`)
   }
 
   _onRootClick(event) {
@@ -179,11 +120,7 @@ export default class Router {
     this.navigate(name, { event, target })
   }
 
-  _render404(name) {
-    this._root.innerHTML = this._fallback404(name)
-  }
-
-  _renderError(name) {
-    this._root.innerHTML = this._fallbackError(name)
+  _restoreHome() {
+    this._root.innerHTML = this._initialRootHTML
   }
 }
