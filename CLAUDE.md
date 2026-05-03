@@ -57,9 +57,9 @@ The Router ignores unknown `data-name` values, so these page-local handlers run 
 
 `source/core/PageController.js` is the base class for lifecycle-managed pages: `mount()` / `unmount()` template methods with `onMount()` / `onUnmount()` override points. Under the hood it owns an `AbortController` — its helpers `addListener(element, event, handler)`, `setTimeout(callback, ms)`, `setInterval(callback, ms)`, and `fetch(url, options)` all bind to `signal`, so `unmount()` triggers `abort()` and the browser removes everything automatically. A `setHTML(element, trustedTemplate)` helper marks every innerHTML site as an XSS boundary (Phase 6.3 will add sanitization).
 
-All page modules (Vocabulary + Speaking, 15 files total) extend `PageController` and are exported as classes — no singleton instances. `LegacyPageAdapter` (inside `Router.js`) is kept as a fallback for any future legacy-style pages, but it's no longer in use.
+All page modules (Vocabulary + Speaking, 15 files total) extend `PageController` and are exported as classes — no singleton instances. Router rejects any registered route whose controller isn't a `PageController` subclass/instance.
 
-Don't introduce new singleton-exported pages — new pages must extend `PageController`. File naming convention: `XxxPage.js` for all page files.
+New pages must extend `PageController`. File naming convention: `XxxPage.js` for all page files.
 
 ### Shared UI components
 

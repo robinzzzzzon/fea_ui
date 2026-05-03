@@ -1,6 +1,7 @@
 import axios from 'axios'
 import { domain } from './constants'
 import initDictionary from './dictionary.json'
+import { showToast } from '../components/toast'
 
 
 export async function filterCurrentDictionary(dictionary, speechPart) {
@@ -243,25 +244,36 @@ export function setTimer(element, interval = 20) {
 }
 
 export async function makeRequest({ methodType, getUrl, getBody, getParams }) {
-  let res = null
+  try {
+    let res = null
 
-  switch (methodType) {
-  case 'GET':
-    res = await axios.get(getUrl, { params: getParams })
-    break
+    switch (methodType) {
+    case 'GET':
+      res = await axios.get(getUrl, { params: getParams })
+      break
 
-  case 'POST': 
-    res = await axios.post(getUrl, getBody)
-    break
-    
-  case 'UPDATE': 
-    res = await axios.put(getUrl, getBody)
-    break
-    
-  case 'DELETE': 
-    res = await axios.delete(getUrl)
-    break
+    case 'POST':
+      res = await axios.post(getUrl, getBody)
+      break
+
+    case 'UPDATE':
+      res = await axios.put(getUrl, getBody)
+      break
+
+    case 'DELETE':
+      res = await axios.delete(getUrl)
+      break
+    }
+
+    return res
+  } catch (error) {
+    const apiMessage = error.response?.data?.error
+    const fallback = error.response
+      ? `Server error (${error.response.status})`
+      : 'Network error — server is unreachable'
+
+    showToast({ message: apiMessage || fallback, type: 'error' })
+
+    throw error
   }
-
-  return res
 }
