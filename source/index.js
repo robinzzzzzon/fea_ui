@@ -2,6 +2,9 @@ import './styles/main.css'
 import Router from './core/Router'
 import VocabularySectionPage from './pages/vocabulary/VocabularySectionPage'
 import SpeakingSectionPage from './pages/speaking/SpeakingSectionPage'
+import { mountThemeToggle } from './components/themeToggle'
+
+mountThemeToggle()
 
 const router = new Router({
   root: document.querySelector('.l-container'),
