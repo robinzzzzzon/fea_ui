@@ -9,6 +9,7 @@
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-sm);
   position: relative;
+  color: var(--color-text-on-pastel);
 }
 
 .word-card__body {
@@ -24,6 +25,7 @@
   font-size: var(--text-xl);
   margin: var(--space-5) auto 0;
   cursor: zoom-in;
+  color: var(--color-text-on-pastel);
 }
 
 .word-card__body > div > input {
@@ -33,6 +35,7 @@
   text-align: center;
   font-family: var(--font-body);
   font-size: var(--text-xl);
+  color: var(--color-text-on-pastel);
 }
 
 .word-card__body > div > input:focus {

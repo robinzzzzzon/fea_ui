@@ -15,7 +15,7 @@
   background: #FDF3D9;
   border: 1px solid #E6C870;
   border-radius: var(--radius-md);
-  color: var(--color-text-secondary);
+  color: var(--color-text-on-pastel);
   font-size: var(--text-base);
   margin: 0 0 var(--space-4);
 }

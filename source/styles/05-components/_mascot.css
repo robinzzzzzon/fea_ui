@@ -20,11 +20,11 @@
   font-family: var(--font-display);
   font-size: var(--text-xl);
   font-weight: 700;
-  color: var(--color-text-primary);
+  color: var(--color-text-on-pastel);
 }
 
 .mascot-state__text {
   font-size: var(--text-base);
-  color: var(--color-text-secondary);
+  color: #6B5F58;
   max-width: 280px;
 }

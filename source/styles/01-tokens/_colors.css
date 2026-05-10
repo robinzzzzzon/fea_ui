@@ -31,4 +31,40 @@
   --color-success: #A8D8BA;
   --color-failed:  #FF8C8C;
   --color-muted:   #E6E6E6;
+
+  /* Always-dark text for components that keep their light/pastel backgrounds in both themes */
+  --color-text-on-pastel: #1D1916;
+}
+
+[data-theme="dark"] {
+  /* Backgrounds */
+  --color-bg:          #1B1714;   /* warm near-black */
+  --color-surface:     #25201C;   /* header/footer/modal */
+  --color-card:        #3A4F47;   /* mint dimmed for nav cards */
+  --color-surface-alt: #2D2823;   /* hover/secondary */
+  --color-border:      #4A3F37;
+
+  /* Text */
+  --color-text-primary:   #F0E8DF;
+  --color-text-secondary: #B8ACA1;
+  --color-text-muted:     #82766C;
+
+  /* Accent — slightly brightened for contrast */
+  --color-accent:       #EC7958;
+  --color-accent-hover: #F08D70;
+
+  /* SRS — kept saturated for clarity */
+  --color-srs-hard: #E47163;
+  --color-srs-good: #ECB55A;
+  --color-srs-easy: #6FBC95;
+
+  /* Training cards — desaturated dark */
+  --color-training-write:  #4F3A2E;
+  --color-training-choose: #4F4F30;
+  --color-training-puzzle: #3D3955;
+
+  /* System */
+  --color-success: #6FBC95;
+  --color-failed:  #D55F5F;
+  --color-muted:   #3A3530;
 }

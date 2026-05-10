@@ -27,7 +27,7 @@
 }
 
 .word-item:hover {
-  background: #EEE6DC;
+  background: var(--color-surface-alt);
   box-shadow: var(--shadow-md);
 }
 

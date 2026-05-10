@@ -76,7 +76,7 @@
   font-family: var(--font-body);
   font-size: var(--text-lg);
   font-weight: 600;
-  color: var(--color-text-primary);
+  color: var(--color-text-on-pastel);
   letter-spacing: 0.02em;
   text-align: center;
   cursor: pointer;

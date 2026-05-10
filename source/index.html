@@ -7,11 +7,25 @@
     <title>Memonk</title>
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="icon" href="/favicon.ico" sizes="32x32" />
+    <script>
+      (function () {
+        try {
+          var stored = localStorage.getItem('memonk-theme');
+          var theme = stored === 'light' || stored === 'dark'
+            ? stored
+            : (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+          document.documentElement.dataset.theme = theme;
+        } catch (e) {
+          document.documentElement.dataset.theme = 'light';
+        }
+      })();
+    </script>
   </head>
   <body>
     <div class="site-wrap">
       <header class="site-header">
         <a class="site-header__home" href="/">Home</a>
+        <div class="site-header__theme-toggle"></div>
         <div class="site-header__brand">
           <span class="site-header__app-name">Memonk</span>
           <img class="site-header__icon" src="/memonk-lineart.jpeg" alt="Memonk mascot"/>
