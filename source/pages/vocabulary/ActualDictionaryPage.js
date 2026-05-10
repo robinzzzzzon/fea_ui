@@ -1,7 +1,7 @@
 import PageController from '../../core/PageController'
 import NewDictionaryPage from './NewDictionaryPage'
 import { domain, spinner, mascotThinking } from '../../utils/constants'
-import { makeRequest } from '../../utils/utils'
+import { makeRequest, escapeHtml } from '../../utils/utils'
 
 export default class ActualDictionaryPage extends PageController {
 
@@ -49,8 +49,8 @@ export default class ActualDictionaryPage extends PageController {
 
       item.classList.add('word-item')
       item.innerHTML = `
-        <div class="word-item__word">${this.studyList.data[index].word}</div>
-        <div class="word-item__translate">${this.studyList.data[index].translate}</div>
+        <div class="word-item__word">${escapeHtml(this.studyList.data[index].word)}</div>
+        <div class="word-item__translate">${escapeHtml(this.studyList.data[index].translate)}</div>
         <div class="word-item__actions">
           <button class="btn btn--secondary" id="clearProgress" data-tooltip="Reset study progress">Reset</button>
           <button class="btn btn--destructive" id="removeWord">Delete</button>

@@ -1,6 +1,6 @@
 import PageController from '../../core/PageController'
 import NewDictionaryPage from './NewDictionaryPage'
-import { makeRequest, fillArray, fillProgressBar, modifyStudyLevel, checkAvailableStudyWords, attachSrsKeyboard } from '../../utils/utils'
+import { makeRequest, fillArray, fillProgressBar, modifyStudyLevel, checkAvailableStudyWords, attachSrsKeyboard, escapeHtml } from '../../utils/utils'
 import { domain, spinner, feedbackArea, system_colors, mascotCelebrate } from '../../utils/constants'
 
 export default class ChooseTrainingPage extends PageController {
@@ -52,7 +52,7 @@ export default class ChooseTrainingPage extends PageController {
     const translateArray = await this.getRandomTranslateArray(this.currentDictionary.data[0])
 
     const wordItem = content.querySelector('#wordItem')
-    wordItem.innerHTML = `<p>${this.currentDictionary.data[0].word}</p>`
+    wordItem.innerHTML = `<p>${escapeHtml(this.currentDictionary.data[0].word)}</p>`
 
     let itemArea = content.querySelector('.choice-grid')
 
@@ -67,10 +67,10 @@ export default class ChooseTrainingPage extends PageController {
     }
 
     itemArea.innerHTML = `
-      <div class="choice-item"><p>${translateArray[0]}</p></div>
-      <div class="choice-item"><p>${translateArray[1]}</p></div>
-      <div class="choice-item"><p>${translateArray[2]}</p></div>
-      <div class="choice-item"><p>${translateArray[3]}</p></div>
+      <div class="choice-item"><p>${escapeHtml(translateArray[0])}</p></div>
+      <div class="choice-item"><p>${escapeHtml(translateArray[1])}</p></div>
+      <div class="choice-item"><p>${escapeHtml(translateArray[2])}</p></div>
+      <div class="choice-item"><p>${escapeHtml(translateArray[3])}</p></div>
     `
 
     const counter = content.querySelector('.training-counter')

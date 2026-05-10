@@ -3,6 +3,17 @@ import { domain } from './constants'
 import initDictionary from './dictionary.json'
 import { showToast } from '../components/toast'
 
+const HTML_ESCAPE_MAP = {
+  '&': '&amp;',
+  '<': '&lt;',
+  '>': '&gt;',
+  '"': '&quot;',
+  '\'': '&#39;',
+}
+
+export function escapeHtml(value) {
+  return String(value ?? '').replace(/[&<>"']/g, (char) => HTML_ESCAPE_MAP[char])
+}
 
 export async function filterCurrentDictionary(dictionary, speechPart) {
   let studyArray = await makeRequest({

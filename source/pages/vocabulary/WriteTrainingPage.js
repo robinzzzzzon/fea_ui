@@ -1,6 +1,6 @@
 import PageController from '../../core/PageController'
 import NewDictionaryPage from './NewDictionaryPage'
-import { fillArray, fillProgressBar, modifyStudyLevel, checkAvailableStudyWords, attachSrsKeyboard } from '../../utils/utils'
+import { fillArray, fillProgressBar, modifyStudyLevel, checkAvailableStudyWords, attachSrsKeyboard, escapeHtml } from '../../utils/utils'
 import { spinner, feedbackArea, system_colors, mascotCelebrate } from '../../utils/constants'
 
 export default class WriteTrainingPage extends PageController {
@@ -37,7 +37,7 @@ export default class WriteTrainingPage extends PageController {
     if (rootDiv.innerHTML) rootDiv.innerHTML = ''
 
     rootDiv.insertAdjacentHTML('afterbegin', `
-      <div class="training-area__prompt"><p>${this.currentDictionary.data[0].translate}</p></div>
+      <div class="training-area__prompt"><p>${escapeHtml(this.currentDictionary.data[0].translate)}</p></div>
       <input type="text" class="training-input" placeholder=" Write here...">
       <div class="training-actions">
         <button class="btn btn--hint" id="suggestBtn">Get a cue</button>
