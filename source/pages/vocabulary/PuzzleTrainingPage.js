@@ -1,6 +1,6 @@
 import PageController from '../../core/PageController'
 import NewDictionaryPage from './NewDictionaryPage'
-import { fillArray, fillProgressBar, optimizeCharacters, modifyStudyLevel, checkAvailableStudyWords, attachSrsKeyboard } from '../../utils/utils'
+import { fillArray, fillProgressBar, optimizeCharacters, modifyStudyLevel, checkAvailableStudyWords, attachSrsKeyboard, escapeHtml } from '../../utils/utils'
 import { spinner, feedbackArea, mascotCelebrate } from '../../utils/constants'
 
 const BADGE_SPAN_CLASS = 'puzzle-char__badge'
@@ -40,7 +40,7 @@ export default class PuzzleTrainingPage extends PageController {
 
     rootArea.innerHTML = `
       <div class="puzzle-spell-area">
-        <div id="translateDiv" class="training-area__prompt"><p>${this.currentDictionary.data[0].translate}</p></div>
+        <div id="translateDiv" class="training-area__prompt"><p>${escapeHtml(this.currentDictionary.data[0].translate)}</p></div>
         <div id="wordDiv"></div>
       </div>
       <div id="charArea" class="puzzle-char-area" role="group" aria-label="Letter tiles" tabindex="0"></div>
@@ -102,7 +102,7 @@ export default class PuzzleTrainingPage extends PageController {
 
       if (optimizeChars[index].count > 1) {
         charDiv.innerHTML = `
-          ${optimizeChars[index].element} <span class="${BADGE_SPAN_CLASS}">${optimizeChars[index].count}</span>
+          ${escapeHtml(optimizeChars[index].element)} <span class="${BADGE_SPAN_CLASS}">${optimizeChars[index].count}</span>
         `
       } else {
         charDiv.textContent = optimizeChars[index].element
@@ -204,16 +204,16 @@ export default class PuzzleTrainingPage extends PageController {
       const charDiv = document.createElement('div')
 
       charDiv.classList.add('puzzle-char')
-      charDiv.innerHTML = key
+      charDiv.textContent = key
       wordDiv.append(charDiv)
 
       if (count > 2) {
-        getChar.innerHTML = `${key} <span class="${BADGE_SPAN_CLASS}">${--count}</span>`
+        getChar.innerHTML = `${escapeHtml(key)} <span class="${BADGE_SPAN_CLASS}">${--count}</span>`
       } else {
-        getChar.innerHTML = key
+        getChar.textContent = key
       }
     } else {
-      getChar.innerHTML = key
+      getChar.textContent = key
       wordDiv.append(getChar)
     }
   }

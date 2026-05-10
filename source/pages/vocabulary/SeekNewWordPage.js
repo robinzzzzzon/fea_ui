@@ -1,7 +1,7 @@
 import PageController from '../../core/PageController'
 import NewDictionaryPage from './NewDictionaryPage'
 import TrainingListPage from './TrainingListPage'
-import { makeRequest, filterCurrentDictionary, attachModalKeyboard } from '../../utils/utils'
+import { makeRequest, filterCurrentDictionary, attachModalKeyboard, escapeHtml } from '../../utils/utils'
 import { domain, spinner, alphabetList, getModalWindow, mascotEncourage, mascotAllDone } from '../../utils/constants'
 
 export default class SeekNewWordPage extends PageController {
@@ -53,9 +53,9 @@ export default class SeekNewWordPage extends PageController {
         <div class="word-card">
           <div class="word-card__body" id="wordArea">
             <div>
-              <b>${this.currentDictionary.data[this.wordIndex].word}</b>
+              <b>${escapeHtml(this.currentDictionary.data[this.wordIndex].word)}</b>
             </div>
-            <div>${this.currentDictionary.data[this.wordIndex].translate}</div>
+            <div>${escapeHtml(this.currentDictionary.data[this.wordIndex].translate)}</div>
           </div>
           <button type="button" class="word-card__close" id="deleteBtn"></button>
           <div class="word-card__actions">
@@ -118,8 +118,8 @@ export default class SeekNewWordPage extends PageController {
 
     if (wordArea) {
       wordArea.innerHTML = `
-        <div><b>${this.currentDictionary.data[this.wordIndex].word}</b></div>
-        <div>${this.currentDictionary.data[this.wordIndex].translate}</div>
+        <div><b>${escapeHtml(this.currentDictionary.data[this.wordIndex].word)}</b></div>
+        <div>${escapeHtml(this.currentDictionary.data[this.wordIndex].translate)}</div>
       `
 
       document.querySelector('#backBtn').disabled = this.wordIndex === 0
