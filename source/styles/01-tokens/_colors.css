@@ -27,6 +27,22 @@
   --color-training-choose: #F0F0C8;   /* lemon */
   --color-training-puzzle: #E2DEF8;   /* lavender */
 
+  /* Word card (SeekNewWordPage) — outer + inner panel */
+  --color-word-card:      #FAF3ED;
+  --color-word-card-body: #FFFBF8;
+
+  /* Card hover backgrounds — vibrant pastels (light theme).
+     RGB-triplet companions used inside rgba() for matching glow shadows.
+     --card-glow-alpha controls overall glow intensity. */
+  --color-card-hover-mint:    #B8E4D4;  --card-glow-mint:    184, 228, 212;
+  --color-card-hover-tone-1:  #F0C4BE;  --card-glow-tone-1:  240, 196, 190;
+  --color-card-hover-tone-2:  #B8D4EE;  --card-glow-tone-2:  184, 212, 238;
+  --color-card-hover-tone-3:  #C4E0BC;  --card-glow-tone-3:  196, 224, 188;
+  --color-card-hover-tone-4:  #DCC8E8;  --card-glow-tone-4:  220, 200, 232;
+  --color-card-hover-tone-5:  #F2E0A4;  --card-glow-tone-5:  242, 224, 164;
+  --color-card-hover-tone-6:  #A8D8D0;  --card-glow-tone-6:  168, 216, 208;
+  --card-glow-alpha: 0.9;
+
   /* System (compatibility with current code) */
   --color-success: #A8D8BA;
   --color-failed:  #FF8C8C;
@@ -62,6 +78,21 @@
   --color-training-write:  #4F3A2E;
   --color-training-choose: #4F4F30;
   --color-training-puzzle: #3D3955;
+
+  /* Word card — muted dark surfaces with subtle separation */
+  --color-word-card:      #2D2823;
+  --color-word-card-body: #322C26;
+
+  /* Card hover backgrounds — desaturated muted pastels for dark theme.
+     Glow alpha lowered so the highlight doesn't overpower the dim surface. */
+  --color-card-hover-mint:    #7FA89A;  --card-glow-mint:    127, 168, 154;
+  --color-card-hover-tone-1:  #BC8F89;  --card-glow-tone-1:  188, 143, 137;
+  --color-card-hover-tone-2:  #8AA1BD;  --card-glow-tone-2:  138, 161, 189;
+  --color-card-hover-tone-3:  #93AC8B;  --card-glow-tone-3:  147, 172, 139;
+  --color-card-hover-tone-4:  #AB9CBA;  --card-glow-tone-4:  171, 156, 186;
+  --color-card-hover-tone-5:  #BBA66E;  --card-glow-tone-5:  187, 166, 110;
+  --color-card-hover-tone-6:  #7DA89F;  --card-glow-tone-6:  125, 168, 159;
+  --card-glow-alpha: 0.5;
 
   /* System */
   --color-success: #6FBC95;

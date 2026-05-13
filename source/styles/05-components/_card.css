@@ -1,4 +1,18 @@
 /* ==========================================
+   Shared card mount animation
+   ========================================== */
+
+@keyframes cardSlideUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes cardSlideUpDimmed {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 0.45; transform: translateY(0); }
+}
+
+/* ==========================================
    Nav Cards — .nav-card, .nav-card-wrap, .nav-grid
    ========================================== */
 
@@ -28,35 +42,49 @@
   justify-content: center;
   padding: 0 var(--space-6);
 
-  background: var(--color-card);
+  background: var(--color-surface);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
 
   font-family: var(--font-body);
   font-size: var(--text-lg);
   font-weight: 600;
-  color: var(--color-text-primary);
+  color: var(--color-text-secondary);
   letter-spacing: 0.02em;
   text-align: center;
   cursor: pointer;
 
-  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+  opacity: 0;
+  animation: cardSlideUp 0.25s ease forwards;
+  transition: background-color .2s ease, transform .2s ease, box-shadow .2s ease, border-color .2s ease, color .2s ease;
 }
 
-.nav-card:hover:not(:disabled) {
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-md);
-  border-color: var(--color-text-muted);
+.nav-card:hover:not(:disabled),
+.nav-card-wrap:hover > .nav-card:not(:disabled) {
+  background: var(--color-card-hover-mint);
+  color: var(--color-text-on-pastel);
+  border-color: transparent;
+  transform: translateY(-4px) scale(1.02);
+  box-shadow: 0 8px 28px rgba(var(--card-glow-mint), var(--card-glow-alpha));
 }
 
 .nav-card:active:not(:disabled) {
-  transform: translateY(0);
+  transform: translateY(0) scale(1);
   box-shadow: var(--shadow-sm);
 }
 
 .nav-card:disabled {
-  opacity: 0.45;
   cursor: not-allowed;
+  animation: cardSlideUpDimmed 0.25s ease forwards;
+}
+
+.nav-card:disabled:hover {
+  background: var(--color-surface);
+  color: var(--color-text-secondary);
+  border-color: var(--color-border);
+  transform: none;
+  box-shadow: var(--shadow-sm);
 }
 
 /* ==========================================
@@ -70,43 +98,119 @@
   justify-content: center;
   padding: 0 var(--space-6);
 
-  border: 1px solid transparent;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
   border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
 
   font-family: var(--font-body);
   font-size: var(--text-lg);
   font-weight: 600;
-  color: var(--color-text-on-pastel);
+  color: var(--color-text-secondary);
   letter-spacing: 0.02em;
   text-align: center;
   cursor: pointer;
 
-  transition: transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease;
+  opacity: 0;
+  animation: cardSlideUp 0.25s ease forwards;
+  transition: background-color .2s ease, transform .2s ease, box-shadow .2s ease, color .2s ease;
 }
 
-.deck-card:hover:not(:disabled) {
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-md);
-  filter: brightness(0.96);
+.deck-card:hover:not(:disabled),
+.nav-card-wrap:hover > .deck-card:not(:disabled) {
+  color: var(--color-text-on-pastel);
+  transform: translateY(-4px) scale(1.02);
 }
 
 .deck-card:active:not(:disabled) {
-  transform: translateY(0);
+  transform: translateY(0) scale(1);
   box-shadow: var(--shadow-sm);
 }
 
 .deck-card:disabled {
-  opacity: 0.45;
   cursor: not-allowed;
+  animation: cardSlideUpDimmed 0.25s ease forwards;
 }
 
-/* 6-tone palette — cycling by index % 6 */
-.deck-card--tone-1 { background: #F0C4BE; }  /* soft coral */
-.deck-card--tone-2 { background: #B8D4EE; }  /* periwinkle blue */
-.deck-card--tone-3 { background: #C4E0BC; }  /* sage green */
-.deck-card--tone-4 { background: #DCC8E8; }  /* soft lavender */
-.deck-card--tone-5 { background: #F2E0A4; }  /* warm honey */
-.deck-card--tone-6 { background: #A8D8D0; }  /* teal mint */
+.deck-card:disabled:hover {
+  background: var(--color-surface);
+  color: var(--color-text-secondary);
+  transform: none;
+  box-shadow: var(--shadow-sm);
+}
+
+/* 6-tone palette — color + matching glow shown only on hover.
+   Each rule pairs the direct-hover selector with a wrap-hover selector so the
+   colorization persists while the cursor sits on the .dictionary-icon overlay.
+   Color/glow values come from theme-aware tokens (vibrant in light, muted in dark). */
+.deck-card--tone-1:hover:not(:disabled),
+.nav-card-wrap:hover > .deck-card--tone-1:not(:disabled) {
+  background: var(--color-card-hover-tone-1);
+  box-shadow: 0 8px 28px rgba(var(--card-glow-tone-1), var(--card-glow-alpha));
+}
+
+.deck-card--tone-2:hover:not(:disabled),
+.nav-card-wrap:hover > .deck-card--tone-2:not(:disabled) {
+  background: var(--color-card-hover-tone-2);
+  box-shadow: 0 8px 28px rgba(var(--card-glow-tone-2), var(--card-glow-alpha));
+}
+
+.deck-card--tone-3:hover:not(:disabled),
+.nav-card-wrap:hover > .deck-card--tone-3:not(:disabled) {
+  background: var(--color-card-hover-tone-3);
+  box-shadow: 0 8px 28px rgba(var(--card-glow-tone-3), var(--card-glow-alpha));
+}
+
+.deck-card--tone-4:hover:not(:disabled),
+.nav-card-wrap:hover > .deck-card--tone-4:not(:disabled) {
+  background: var(--color-card-hover-tone-4);
+  box-shadow: 0 8px 28px rgba(var(--card-glow-tone-4), var(--card-glow-alpha));
+}
+
+.deck-card--tone-5:hover:not(:disabled),
+.nav-card-wrap:hover > .deck-card--tone-5:not(:disabled) {
+  background: var(--color-card-hover-tone-5);
+  box-shadow: 0 8px 28px rgba(var(--card-glow-tone-5), var(--card-glow-alpha));
+}
+
+.deck-card--tone-6:hover:not(:disabled),
+.nav-card-wrap:hover > .deck-card--tone-6:not(:disabled) {
+  background: var(--color-card-hover-tone-6);
+  box-shadow: 0 8px 28px rgba(var(--card-glow-tone-6), var(--card-glow-alpha));
+}
+
+/* ==========================================
+   Cascade mount-animation delays
+   Applies to:
+   - .nav-card-wrap > .nav-card        (VocabularySectionPage)
+   - .nav-card-wrap > .deck-card       (NewDictionaryPage)
+   - .nav-grid > .deck-card            (StudyDictionaryPage)
+   ========================================== */
+
+.nav-card-wrap:nth-child(1) > .nav-card,
+.nav-card-wrap:nth-child(1) > .deck-card,
+.nav-grid > .deck-card:nth-child(1) { animation-delay: 0ms; }
+
+.nav-card-wrap:nth-child(2) > .nav-card,
+.nav-card-wrap:nth-child(2) > .deck-card,
+.nav-grid > .deck-card:nth-child(2) { animation-delay: 60ms; }
+
+.nav-card-wrap:nth-child(3) > .nav-card,
+.nav-card-wrap:nth-child(3) > .deck-card,
+.nav-grid > .deck-card:nth-child(3) { animation-delay: 120ms; }
+
+.nav-card-wrap:nth-child(4) > .nav-card,
+.nav-card-wrap:nth-child(4) > .deck-card,
+.nav-grid > .deck-card:nth-child(4) { animation-delay: 180ms; }
+
+.nav-card-wrap:nth-child(5) > .deck-card,
+.nav-grid > .deck-card:nth-child(5) { animation-delay: 240ms; }
+
+.nav-card-wrap:nth-child(6) > .deck-card,
+.nav-grid > .deck-card:nth-child(6) { animation-delay: 300ms; }
+
+.nav-card-wrap:nth-child(n+7) > .deck-card,
+.nav-grid > .deck-card:nth-child(n+7) { animation-delay: 360ms; }
 
 /* ==========================================
    Dictionary icon — hover-reveal on .nav-card-wrap
@@ -134,6 +238,7 @@
   transition:
     opacity 0.2s ease,
     transform 0.15s ease;
+  z-index: 1;
 }
 
 .icon-trash,

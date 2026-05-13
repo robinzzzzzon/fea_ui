@@ -48,13 +48,3 @@
   width: 96px;
   height: 96px;
 }
-
-/* On the page-level empty state the surface follows --color-bg (theme-aware),
-   so mascot text must follow --color-text-* tokens instead of the on-pastel one. */
-.empty-state-hero .mascot-state__title {
-  color: var(--color-text-primary);
-}
-
-.empty-state-hero .mascot-state__text {
-  color: var(--color-text-secondary);
-}
