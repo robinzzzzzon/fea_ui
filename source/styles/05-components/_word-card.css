@@ -4,12 +4,12 @@
   justify-content: center;
   height: 400px;
   width: 600px;
-  background: #FAF3ED;
+  background: var(--color-word-card);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-sm);
   position: relative;
-  color: var(--color-text-on-pastel);
+  color: var(--color-text-primary);
 }
 
 .word-card__body {
@@ -18,14 +18,14 @@
   align-items: center;
   height: 300px;
   width: 500px;
-  background: #FFFBF8;
+  background: var(--color-word-card-body);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-md);
   text-align: center;
   font-size: var(--text-xl);
   margin: var(--space-5) auto 0;
   cursor: zoom-in;
-  color: var(--color-text-on-pastel);
+  color: var(--color-text-primary);
 }
 
 .word-card__body > div > input {
@@ -35,7 +35,7 @@
   text-align: center;
   font-family: var(--font-body);
   font-size: var(--text-xl);
-  color: var(--color-text-on-pastel);
+  color: var(--color-text-primary);
 }
 
 .word-card__body > div > input:focus {
