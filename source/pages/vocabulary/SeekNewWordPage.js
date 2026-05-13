@@ -2,7 +2,7 @@ import PageController from '../../core/PageController'
 import NewDictionaryPage from './NewDictionaryPage'
 import TrainingListPage from './TrainingListPage'
 import { makeRequest, filterCurrentDictionary, attachModalKeyboard, escapeHtml } from '../../utils/utils'
-import { domain, spinner, alphabetList, getModalWindow, mascotEncourage, mascotAllDone } from '../../utils/constants'
+import { domain, spinner, alphabetList, getModalWindow, mascotEncourage, mascotAllDone, speechList } from '../../utils/constants'
 
 export default class SeekNewWordPage extends PageController {
 
@@ -24,6 +24,8 @@ export default class SeekNewWordPage extends PageController {
     })
 
     this.currentDictionary = await filterCurrentDictionary(this.currentDictionary, this.speechPart)
+
+    this.deckNeighbors = await this.computeDeckNeighbors()
 
     this.addListener(document, 'keydown', (event) => {
       if (document.querySelector('.c-modal')) return
@@ -104,6 +106,8 @@ export default class SeekNewWordPage extends PageController {
       this.wordIndex++
       this.showNewWord(event)
     })
+
+    this.renderDeckEdges()
   }
 
   showNewWord(event) {
@@ -317,6 +321,82 @@ export default class SeekNewWordPage extends PageController {
     })
 
     this.checkTrainAvailable()
+  }
+
+  async computeDeckNeighbors() {
+    const dbDecks = await makeRequest({ methodType: 'GET', getUrl: `${domain}/decks/init/` })
+    const deckList = dbDecks.data.length ? dbDecks.data : speechList
+
+    const available = []
+
+    for (const deck of deckList) {
+      if (deck.dataName === this.speechPart) {
+        available.push(deck)
+        continue
+      }
+
+      const init = await makeRequest({
+        methodType: 'GET',
+        getUrl: `${domain}/words/init/`,
+        getParams: { wordType: deck.dataName },
+      })
+
+      const study = await makeRequest({
+        methodType: 'GET',
+        getUrl: `${domain}/words/study/`,
+        getParams: { wordType: deck.dataName },
+      })
+
+      if (init.data.length > study.data.length) available.push(deck)
+    }
+
+    if (available.length <= 1) return null
+
+    const idx = available.findIndex((deck) => deck.dataName === this.speechPart)
+    const prev = available[(idx - 1 + available.length) % available.length]
+    const next = available[(idx + 1) % available.length]
+
+    return { prev, next }
+  }
+
+  renderDeckEdges() {
+    if (!this.deckNeighbors) return
+
+    const content = document.querySelector('.content')
+
+    const arrowLeft = `
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16">
+        <path d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"/>
+      </svg>
+    `
+    const arrowRight = `
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16">
+        <path d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"/>
+      </svg>
+    `
+
+    content.insertAdjacentHTML('beforeend', `
+      <button type="button" class="deck-edge deck-edge--left" data-deck="${escapeHtml(this.deckNeighbors.prev.dataName)}" aria-label="Previous deck: ${escapeHtml(this.deckNeighbors.prev.dataName)}">
+        ${arrowLeft}
+        <span class="deck-edge__label">${escapeHtml(this.deckNeighbors.prev.dataName)}</span>
+      </button>
+      <button type="button" class="deck-edge deck-edge--right" data-deck="${escapeHtml(this.deckNeighbors.next.dataName)}" aria-label="Next deck: ${escapeHtml(this.deckNeighbors.next.dataName)}">
+        <span class="deck-edge__label">${escapeHtml(this.deckNeighbors.next.dataName)}</span>
+        ${arrowRight}
+      </button>
+    `)
+
+    document.querySelectorAll('.deck-edge').forEach((button) => {
+      this.addListener(button, 'click', async () => {
+        const targetDeck = button.dataset.deck
+
+        await this.unmount()
+
+        const nextPage = new SeekNewWordPage()
+
+        await nextPage.mount({ speechPart: targetDeck })
+      })
+    })
   }
 
   async checkTrainAvailable() {
