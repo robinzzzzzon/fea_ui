@@ -1,5 +1,6 @@
 /node_modules
 /.claude
+/.user_artifacts
 /Dockerfile
 /docker-compose
 /.dockerignore
