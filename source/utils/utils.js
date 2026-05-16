@@ -51,20 +51,13 @@ export async function fillArray(speechPart) {
 }
 
 export async function modifyStudyLevel({ studyWord, resolution }) {
-  let currentWord = await makeRequest({
-    methodType: 'GET',
-    getUrl: `${domain}/words/study/`,
-    getParams: { word: studyWord },
-  })
-
-  currentWord = currentWord.data[0]
-  currentWord.resolution = resolution
-
-  await makeRequest({
+  const response = await makeRequest({
     methodType: 'UPDATE',
-    getUrl: `${domain}/words/study/${currentWord._id}`,
-    getBody: currentWord,
+    getUrl: `${domain}/words/study/${studyWord._id}`,
+    getBody: { ...studyWord, resolution },
   })
+  
+  Object.assign(studyWord, response.data)
 }
 
 export async function checkAvailableStudyWords({ studyList, speechPart }) {

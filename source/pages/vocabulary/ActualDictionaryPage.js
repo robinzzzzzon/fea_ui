@@ -48,6 +48,7 @@ export default class ActualDictionaryPage extends PageController {
       const item = document.createElement('li')
 
       item.classList.add('word-item')
+      item.dataset.id = this.studyList.data[index]._id
       item.innerHTML = `
         <div class="word-item__word">${escapeHtml(this.studyList.data[index].word)}</div>
         <div class="word-item__translate">${escapeHtml(this.studyList.data[index].translate)}</div>
@@ -90,16 +91,8 @@ export default class ActualDictionaryPage extends PageController {
   async clearWordProgress(event) {
     event.preventDefault()
 
-    const itemRoot = event.target.parentNode.parentNode
-    const itemWordText = itemRoot.querySelector('.word-item__word').textContent
-
-    const getWordList = await makeRequest({
-      methodType: 'GET',
-      getUrl: `${domain}/words/study`,
-      getParams: { word: itemWordText },
-    })
-
-    const word = getWordList.data[0]
+    const itemId = event.target.parentNode.parentNode.dataset.id
+    const word = this.studyList.data.find(w => w._id === itemId)
 
     word.studyInterval = 1
     word.coefficient = 2.5
@@ -115,34 +108,19 @@ export default class ActualDictionaryPage extends PageController {
     event.preventDefault()
 
     const itemRoot = event.target.parentNode.parentNode
-    const itemWordText = itemRoot.querySelector('.word-item__word').textContent
-
-    let itemIndex
-
-    this.studyList.data.forEach((item, index) => {
-      if (item.word === itemWordText) {
-        itemIndex = index
-      }
-    })
+    const itemId = itemRoot.dataset.id
+    const itemIndex = this.studyList.data.findIndex(w => w._id === itemId)
 
     const content = document.querySelector('.content')
 
     content.innerHTML = spinner
 
-    const getWordList = await makeRequest({
-      methodType: 'GET',
-      getUrl: `${domain}/words/study`,
-      getParams: { word: itemWordText },
-    })
-
-    const word = getWordList.data[0]
-
     await makeRequest({
       methodType: 'DELETE',
-      getUrl: `${domain}/words/study/${word._id}`,
+      getUrl: `${domain}/words/study/${itemId}`,
     })
 
-    this.studyList.data = Array.from(this.studyList.data).filter((item) => item.word !== itemWordText)
+    this.studyList.data = this.studyList.data.filter(w => w._id !== itemId)
 
     this.renderPage(itemIndex)
   }

@@ -241,7 +241,7 @@ export default class PuzzleTrainingPage extends PageController {
 
       await new Promise((resolve) => this.setTimeout(resolve, 300))
 
-      await modifyStudyLevel({ studyWord: this.currentDictionary.data[0].word, resolution: 'FAIL' })
+      await modifyStudyLevel({ studyWord: this.currentDictionary.data[0], resolution: 'FAIL' })
 
       this.clearWordProgress(event)
 
@@ -292,7 +292,7 @@ export default class PuzzleTrainingPage extends PageController {
 
       const target = event.target.closest('[data-action]')
 
-      await modifyStudyLevel({ studyWord: this.currentDictionary.data[0].word, resolution: target.textContent })
+      await modifyStudyLevel({ studyWord: this.currentDictionary.data[0], resolution: target.textContent })
 
       this.currentDictionary.data.shift()
 

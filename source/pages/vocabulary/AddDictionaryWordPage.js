@@ -103,12 +103,12 @@ export default class AddDictionaryWordPage extends PageController {
     const duplicate = await makeRequest({
       methodType: 'GET',
       getUrl: `${domain}/words/init/`,
-      getParams: { word: newWord.word },
+      getParams: { word: newWord.word, wordType: newWord.wordType },
     })
 
     if (duplicate.data.length) {
       word.classList.add('word-form__input--error')
-      message.textContent = 'This word already exists in the dictionary.'
+      message.textContent = 'This word with this word type already exists in the dictionary.'
       message.classList.add('word-form__message--error')
       return
     }
