@@ -253,19 +253,15 @@ export default class SeekNewWordPage extends PageController {
       } else if (target.dataset.action === 'doAction') {
         cleanupModalKeys()
 
-        const deletedInitWord = await makeRequest({
-          methodType: 'GET',
-          getUrl: `${domain}/words/init`,
-          getParams: { word: this.currentDictionary.data[this.wordIndex].word },
-        })
+        const wordToDelete = this.currentDictionary.data[this.wordIndex]
 
         await makeRequest({
           methodType: 'DELETE',
-          getUrl: `${domain}/words/init/${deletedInitWord.data[0]._id}`,
+          getUrl: `${domain}/words/init/${wordToDelete._id}`,
         })
 
         this.currentDictionary.data = this.currentDictionary.data.filter(
-          (wordItem) => wordItem.word !== deletedInitWord.data[0].word
+          (wordItem) => wordItem._id !== wordToDelete._id
         )
 
         if (this.wordIndex === this.currentDictionary.data.length) {
