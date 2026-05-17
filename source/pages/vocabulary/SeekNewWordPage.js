@@ -148,6 +148,7 @@ export default class SeekNewWordPage extends PageController {
       word: this.currentDictionary.data[this.wordIndex].word,
       translate: this.currentDictionary.data[this.wordIndex].translate,
       wordType: this.currentDictionary.data[this.wordIndex].wordType,
+      wordCategory: this.currentDictionary.data[this.wordIndex].wordCategory,
     }
 
     await makeRequest({
