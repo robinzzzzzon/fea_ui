@@ -24,7 +24,7 @@ export default class AddDictionaryWordPage extends PageController {
             <input type="text" class="word-form__input translateInput" id="translation" placeholder="e.g., excessive bureaucracy">
           </div>
           <div class="word-form__field">
-            <label for="type" class="word-form__label">Word type</label>
+            <label for="type" class="word-form__label">Word type <span class="required">*</span></label>
             <select class="word-form__select typeSelect" id="type">
               <option selected disabled value="">choose type...</option>
               <option>nouns</option>
@@ -41,13 +41,19 @@ export default class AddDictionaryWordPage extends PageController {
             </select>
           </div>
           <div class="word-form__field">
-            <label class="word-form__label">&nbsp;</label>
+            <label for="category" class="word-form__label">Word category <span class="required">*</span></label>
+            <select class="word-form__select categorySelect" id="category">
+              <option selected disabled value="">choose category...</option>
+              <option value="1">Beginner (A1–A2)</option>
+              <option value="2">Intermediate (B1–B2)</option>
+              <option value="3">Advanced (C1–C2)</option>
+            </select>
+          </div>
+          <div class="word-form__actions">
             <div class="word-form__check">
               <input type="checkbox" value="" id="flexCheckDefault">
               <label for="flexCheckDefault">Add to study list</label>
             </div>
-          </div>
-          <div class="word-form__actions">
             <p class="word-form__message" id="formMessage" role="alert" aria-live="polite"></p>
             <button type="button" class="btn btn--primary" id="addBtn" disabled>Confirm</button>
           </div>
@@ -80,6 +86,7 @@ export default class AddDictionaryWordPage extends PageController {
     const word = document.querySelector('.wordInput')
     const translate = document.querySelector('.translateInput')
     const select = document.querySelector('.typeSelect')
+    const categorySelect = document.querySelector('.categorySelect')
     const studyCb = document.querySelector('#flexCheckDefault')
     const message = document.querySelector('#formMessage')
 
@@ -94,10 +101,17 @@ export default class AddDictionaryWordPage extends PageController {
       return
     }
 
+    if (!categorySelect.value) {
+      message.textContent = 'Please select a word category.'
+      message.classList.add('word-form__message--error')
+      return
+    }
+
     const newWord = {
       word: word.value.trim().toLowerCase(),
       translate: translate.value.trim().toLowerCase(),
       wordType: select.options[select.selectedIndex].text,
+      wordCategory: Number(categorySelect.value),
     }
 
     const duplicate = await makeRequest({
