@@ -62,11 +62,10 @@
 
 .nav-card:hover:not(:disabled),
 .nav-card-wrap:hover > .nav-card:not(:disabled) {
-  background: var(--color-card-hover-mint);
-  color: var(--color-text-on-pastel);
-  border-color: transparent;
+  background: var(--color-surface-alt);
+  color: var(--color-text-primary);
   transform: translateY(-4px) scale(1.02);
-  box-shadow: 0 8px 28px rgba(var(--card-glow-mint), var(--card-glow-alpha));
+  box-shadow: var(--shadow-md);
 }
 
 .nav-card:active:not(:disabled) {

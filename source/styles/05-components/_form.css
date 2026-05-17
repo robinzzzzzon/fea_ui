@@ -71,6 +71,11 @@
   gap: var(--space-2);
 }
 
+/* Inside .word-form__actions — keep checkbox at left while Confirm stays right. */
+.word-form__actions > .word-form__check {
+  margin-right: auto;
+}
+
 .word-form__check input[type="checkbox"] {
   appearance: auto;
   width: 16px;

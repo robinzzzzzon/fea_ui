@@ -1,5 +1,5 @@
 import PageController from '../../core/PageController'
-import NewDictionaryPage from './NewDictionaryPage'
+import LevelSelectionPage from './LevelSelectionPage'
 import { domain, spinner, mascotThinking } from '../../utils/constants'
 import { makeRequest, escapeHtml } from '../../utils/utils'
 
@@ -7,6 +7,7 @@ export default class ActualDictionaryPage extends PageController {
 
   async onMount() {
     this.studyList = null
+    this.activeCategory = null
 
     const content = document.querySelector('.content')
 
@@ -17,12 +18,13 @@ export default class ActualDictionaryPage extends PageController {
     this.renderPage()
   }
 
+  getFilteredWords() {
+    if (this.activeCategory === null) return this.studyList.data
+    return this.studyList.data.filter(w => w.wordCategory === this.activeCategory)
+  }
+
   renderPage(itemIndex) {
     const content = document.querySelector('.content')
-
-    content.innerHTML = '<ul class="word-list"></ul>'
-
-    const wordList = document.querySelector('.word-list')
 
     if (!this.studyList.data.length) {
       content.innerHTML = `
@@ -36,22 +38,59 @@ export default class ActualDictionaryPage extends PageController {
       this.addListener(document.querySelector('#chooseWordsBtn'), 'click', async () => {
         await this.unmount()
 
-        const next = new NewDictionaryPage()
+        const next = new LevelSelectionPage()
 
-        await next.mount()
+        await next.mount({ target: 'new' })
       })
 
       return
     }
 
-    for (let index = 0; index < this.studyList.data.length; index++) {
+    const tabs = [
+      { label: 'All', value: null },
+      { label: 'Beginner', value: 1 },
+      { label: 'Intermediate', value: 2 },
+      { label: 'Advanced', value: 3 },
+    ]
+
+    content.innerHTML = `
+      <div class="word-list-wrap">
+        <div class="category-tabs">
+          ${tabs.map((tab) => `
+            <button type="button" class="category-tab ${tab.value === this.activeCategory ? 'category-tab--active' : ''}" data-category="${tab.value === null ? 'all' : tab.value}">${tab.label}</button>
+          `).join('')}
+        </div>
+        <ul class="word-list"></ul>
+      </div>
+    `
+
+    const tabsRoot = document.querySelector('.category-tabs')
+    this.addListener(tabsRoot, 'click', (event) => {
+      const tab = event.target.closest('.category-tab')
+      if (!tab) return
+      const raw = tab.dataset.category
+      this.activeCategory = raw === 'all' ? null : Number(raw)
+      this.renderPage()
+    })
+
+    const wordList = document.querySelector('.word-list')
+    const filtered = this.getFilteredWords()
+
+    if (!filtered.length) {
+      wordList.innerHTML = `
+        <li class="word-list__empty">No words at this level.</li>
+      `
+      return
+    }
+
+    for (let index = 0; index < filtered.length; index++) {
       const item = document.createElement('li')
 
       item.classList.add('word-item')
-      item.dataset.id = this.studyList.data[index]._id
+      item.dataset.id = filtered[index]._id
       item.innerHTML = `
-        <div class="word-item__word">${escapeHtml(this.studyList.data[index].word)}</div>
-        <div class="word-item__translate">${escapeHtml(this.studyList.data[index].translate)}</div>
+        <div class="word-item__word">${escapeHtml(filtered[index].word)}</div>
+        <div class="word-item__translate">${escapeHtml(filtered[index].translate)}</div>
         <div class="word-item__actions">
           <button class="btn btn--secondary" id="clearProgress" data-tooltip="Reset study progress">Reset</button>
           <button class="btn btn--destructive" id="removeWord">Delete</button>
