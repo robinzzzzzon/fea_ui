@@ -15,11 +15,14 @@ export function escapeHtml(value) {
   return String(value ?? '').replace(/[&<>"']/g, (char) => HTML_ESCAPE_MAP[char])
 }
 
-export async function filterCurrentDictionary(dictionary, speechPart) {
+export async function filterCurrentDictionary(dictionary, speechPart, wordCategory) {
+  const getParams = { wordType: speechPart }
+  if (wordCategory) getParams.wordCategory = wordCategory
+
   let studyArray = await makeRequest({
     methodType: 'GET',
     getUrl: `${domain}/words/study/`,
-    getParams: { wordType: speechPart },
+    getParams,
   })
 
   if (studyArray.data.length) {
@@ -33,21 +36,16 @@ export async function filterCurrentDictionary(dictionary, speechPart) {
   return dictionary
 }
 
-export async function fillArray(speechPart) {
-  let array = []
+export async function fillArray(speechPart, wordCategory) {
+  const getParams = {}
+  if (speechPart && speechPart !== 'all-study-words') getParams.wordType = speechPart
+  if (wordCategory) getParams.wordCategory = wordCategory
 
-  speechPart === 'all-study-words'
-    ? (array = await makeRequest({
-      methodType: 'GET',
-      getUrl: `${domain}/words/study`,
-    }))
-    : (array = await makeRequest({
-      methodType: 'GET',
-      getUrl: `${domain}/words/study`,
-      getParams: { wordType: speechPart },
-    }))
-
-  return array
+  return makeRequest({
+    methodType: 'GET',
+    getUrl: `${domain}/words/study`,
+    getParams,
+  })
 }
 
 export async function modifyStudyLevel({ studyWord, resolution }) {
@@ -60,11 +58,11 @@ export async function modifyStudyLevel({ studyWord, resolution }) {
   Object.assign(studyWord, response.data)
 }
 
-export async function checkAvailableStudyWords({ studyList, speechPart }) {
+export async function checkAvailableStudyWords({ studyList, speechPart, wordCategory }) {
   let wordList = studyList
 
   if (!wordList) {
-    wordList = await fillArray(speechPart)
+    wordList = await fillArray(speechPart, wordCategory)
   }
 
   wordList.data = wordList.data.filter(word => word.studyInterval === 1 || new Date(word.nextShowDate).getTime() <= Date.now())

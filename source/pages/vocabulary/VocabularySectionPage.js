@@ -1,8 +1,7 @@
 import PageController from '../../core/PageController'
 import AddDictionaryWordPage from './AddDictionaryWordPage'
 import ActualDictionaryPage from './ActualDictionaryPage'
-import NewDictionaryPage from './NewDictionaryPage'
-import StudyDictionaryPage from './StudyDictionaryPage'
+import LevelSelectionPage from './LevelSelectionPage'
 import { domain, spinner, clear_icon, getModalWindow } from '../../utils/constants'
 import { makeRequest, checkAvailableStudyWords, attachModalKeyboard } from '../../utils/utils'
 
@@ -69,11 +68,11 @@ export default class VocabularySectionPage extends PageController {
     }
 
     if (name === 'seekNew') {
-      const page = new NewDictionaryPage()
-      await page.mount()
+      const page = new LevelSelectionPage()
+      await page.mount({ target: 'new' })
     } else if (name === 'getTraining') {
-      const page = new StudyDictionaryPage()
-      await page.mount()
+      const page = new LevelSelectionPage()
+      await page.mount({ target: 'study' })
     } else if (name === 'seeActual') {
       const page = new ActualDictionaryPage()
       await page.mount()
