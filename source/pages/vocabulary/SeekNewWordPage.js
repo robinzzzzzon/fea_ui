@@ -6,8 +6,9 @@ import { domain, spinner, alphabetList, getModalWindow, mascotEncourage, mascotA
 
 export default class SeekNewWordPage extends PageController {
 
-  async onMount({ speechPart } = {}) {
+  async onMount({ speechPart, wordCategory } = {}) {
     this.speechPart = speechPart
+    this.wordCategory = wordCategory
     this.wordIndex = 0
     this.studyWordCounter = 0
     this.currentDictionary = []
@@ -17,13 +18,16 @@ export default class SeekNewWordPage extends PageController {
 
     content.innerHTML = spinner
 
+    const initParams = { wordType: this.speechPart }
+    if (this.wordCategory) initParams.wordCategory = this.wordCategory
+
     this.currentDictionary = await makeRequest({
       methodType: 'GET',
       getUrl: `${domain}/words/init/`,
-      getParams: { wordType: this.speechPart },
+      getParams: initParams,
     })
 
-    this.currentDictionary = await filterCurrentDictionary(this.currentDictionary, this.speechPart)
+    this.currentDictionary = await filterCurrentDictionary(this.currentDictionary, this.speechPart, this.wordCategory)
 
     this.deckNeighbors = await this.computeDeckNeighbors()
 
@@ -314,7 +318,7 @@ export default class SeekNewWordPage extends PageController {
 
       const next = new NewDictionaryPage()
 
-      await next.mount()
+      await next.mount({ wordCategory: this.wordCategory })
     })
 
     this.checkTrainAvailable()
@@ -332,16 +336,19 @@ export default class SeekNewWordPage extends PageController {
         continue
       }
 
+      const deckParams = { wordType: deck.dataName }
+      if (this.wordCategory) deckParams.wordCategory = this.wordCategory
+
       const init = await makeRequest({
         methodType: 'GET',
         getUrl: `${domain}/words/init/`,
-        getParams: { wordType: deck.dataName },
+        getParams: deckParams,
       })
 
       const study = await makeRequest({
         methodType: 'GET',
         getUrl: `${domain}/words/study/`,
-        getParams: { wordType: deck.dataName },
+        getParams: deckParams,
       })
 
       if (init.data.length > study.data.length) available.push(deck)
@@ -391,16 +398,19 @@ export default class SeekNewWordPage extends PageController {
 
         const nextPage = new SeekNewWordPage()
 
-        await nextPage.mount({ speechPart: targetDeck })
+        await nextPage.mount({ speechPart: targetDeck, wordCategory: this.wordCategory })
       })
     })
   }
 
   async checkTrainAvailable() {
+    const trainParams = { wordType: this.speechPart }
+    if (this.wordCategory) trainParams.wordCategory = this.wordCategory
+
     const studyList = await makeRequest({
       methodType: 'GET',
       getUrl: `${domain}/words/study/`,
-      getParams: { wordType: this.speechPart },
+      getParams: trainParams,
     })
 
     const studyBtn = document.querySelector('#studyBtn')
@@ -415,7 +425,7 @@ export default class SeekNewWordPage extends PageController {
 
         const next = new TrainingListPage()
 
-        await next.mount({ speechPart })
+        await next.mount({ speechPart, wordCategory: this.wordCategory })
       })
     }
   }
@@ -449,7 +459,7 @@ export default class SeekNewWordPage extends PageController {
 
       const next = new TrainingListPage()
 
-      await next.mount({ speechPart })
+      await next.mount({ speechPart, wordCategory: this.wordCategory })
     })
 
     this.addListener(goOnBtn, 'click', () => {

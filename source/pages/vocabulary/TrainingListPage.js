@@ -5,8 +5,9 @@ import WriteTrainingPage from './WriteTrainingPage'
 
 export default class TrainingListPage extends PageController {
 
-  async onMount({ speechPart } = {}) {
+  async onMount({ speechPart, wordCategory } = {}) {
     this.speechPart = speechPart
+    this.wordCategory = wordCategory
 
     const content = document.querySelector('.content')
 
@@ -40,7 +41,7 @@ export default class TrainingListPage extends PageController {
 
       const writePage = new WriteTrainingPage()
 
-      await writePage.mount({ speechPart: this.speechPart })
+      await writePage.mount({ speechPart: this.speechPart, wordCategory: this.wordCategory })
     })
 
     const puzzleCard = document.querySelector('#puzzleTraining')
@@ -54,7 +55,7 @@ export default class TrainingListPage extends PageController {
 
         const puzzlePage = new PuzzleTrainingPage()
 
-        await puzzlePage.mount({ speechPart: this.speechPart })
+        await puzzlePage.mount({ speechPart: this.speechPart, wordCategory: this.wordCategory })
       })
     }
 
@@ -65,7 +66,7 @@ export default class TrainingListPage extends PageController {
 
       const choosePage = new ChooseTrainingPage()
 
-      await choosePage.mount({ speechPart: this.speechPart })
+      await choosePage.mount({ speechPart: this.speechPart, wordCategory: this.wordCategory })
     })
   }
 }

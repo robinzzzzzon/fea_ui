@@ -5,8 +5,9 @@ import { spinner, feedbackArea, system_colors, mascotCelebrate } from '../../uti
 
 export default class WriteTrainingPage extends PageController {
 
-  async onMount({ speechPart } = {}) {
+  async onMount({ speechPart, wordCategory } = {}) {
     this.speechPart = speechPart
+    this.wordCategory = wordCategory
     this.initDictionary = null
     this.currentDictionary = null
     this.charIndex = 0
@@ -15,8 +16,8 @@ export default class WriteTrainingPage extends PageController {
 
     content.innerHTML = spinner
 
-    this.initDictionary = await fillArray(this.speechPart)
-    this.currentDictionary = await checkAvailableStudyWords({ speechPart: this.speechPart })
+    this.initDictionary = await fillArray(this.speechPart, this.wordCategory)
+    this.currentDictionary = await checkAvailableStudyWords({ speechPart: this.speechPart, wordCategory: this.wordCategory })
     this.currentDictionary.data = this.currentDictionary.data.sort(() => Math.random() - 0.5)
 
     content.innerHTML = `
@@ -200,7 +201,7 @@ export default class WriteTrainingPage extends PageController {
     const findNewBtn = document.querySelector('#findNewBtn')
     const repeatBtn = document.querySelector('#repeatBtn')
 
-    const remainedStudyList = await checkAvailableStudyWords({ speechPart: this.speechPart })
+    const remainedStudyList = await checkAvailableStudyWords({ speechPart: this.speechPart, wordCategory: this.wordCategory })
 
     if (!remainedStudyList.data.length) repeatBtn.disabled = true
 
@@ -209,7 +210,7 @@ export default class WriteTrainingPage extends PageController {
 
       const next = new NewDictionaryPage()
 
-      await next.mount()
+      await next.mount({ wordCategory: this.wordCategory })
     })
 
     this.addListener(repeatBtn, 'click', async () => {
@@ -219,7 +220,7 @@ export default class WriteTrainingPage extends PageController {
 
       const next = new WriteTrainingPage()
 
-      await next.mount({ speechPart })
+      await next.mount({ speechPart, wordCategory: this.wordCategory })
     })
   }
 }

@@ -1,12 +1,15 @@
 import PageController from '../../core/PageController'
 import TrainingListPage from './TrainingListPage'
 import NewDictionaryPage from './NewDictionaryPage'
+import LevelSelectionPage from './LevelSelectionPage'
 import { domain, spinner, speechList, mascotThinking } from '../../utils/constants'
 import { makeRequest, checkAvailableStudyWords } from '../../utils/utils'
 
 export default class StudyDictionaryPage extends PageController {
 
-  async onMount() {
+  async onMount({ wordCategory } = {}) {
+    this.wordCategory = wordCategory
+
     const content = document.querySelector('.content')
     const dictionaryRoot = document.createElement('div')
 
@@ -19,9 +22,13 @@ export default class StudyDictionaryPage extends PageController {
       getUrl: `${domain}/decks/init/`,
     })
 
+    const allParams = {}
+    if (this.wordCategory) allParams.wordCategory = this.wordCategory
+
     let allStudyList = await makeRequest({
       methodType: 'GET',
       getUrl: `${domain}/words/study/`,
+      getParams: allParams,
     })
 
     allStudyList = await checkAvailableStudyWords({ studyList: allStudyList })
@@ -36,10 +43,13 @@ export default class StudyDictionaryPage extends PageController {
     }
 
     for (let index = 0; index < deckList.length; index++) {
+      const deckParams = { wordType: deckList[index].dataName }
+      if (this.wordCategory) deckParams.wordCategory = this.wordCategory
+
       let studyList = await makeRequest({
         methodType: 'GET',
         getUrl: `${domain}/words/study/`,
-        getParams: { wordType: deckList[index].dataName },
+        getParams: deckParams,
       })
 
       studyList = await checkAvailableStudyWords({ studyList })
@@ -67,10 +77,14 @@ export default class StudyDictionaryPage extends PageController {
 
         const next = new NewDictionaryPage()
 
-        await next.mount()
+        await next.mount({ wordCategory: this.wordCategory })
       })
 
       return
+    }
+
+    if (this.wordCategory) {
+      content.append(this.createBackButton())
     }
 
     content.append(dictionaryRoot)
@@ -86,8 +100,23 @@ export default class StudyDictionaryPage extends PageController {
 
       const next = new TrainingListPage()
 
-      await next.mount({ speechPart: name })
+      await next.mount({ speechPart: name, wordCategory: this.wordCategory })
     })
+  }
+
+  createBackButton() {
+    const backBtn = document.createElement('button')
+    backBtn.classList.add('back-to-levels')
+    backBtn.type = 'button'
+    backBtn.innerHTML = '<span aria-hidden="true">←</span> Back to level selection'
+
+    this.addListener(backBtn, 'click', async () => {
+      await this.unmount()
+      const next = new LevelSelectionPage()
+      await next.mount({ target: 'study' })
+    })
+
+    return backBtn
   }
 
   createStudyDictionary(speechListItem, toneIndex) {

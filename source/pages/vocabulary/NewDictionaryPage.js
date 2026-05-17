@@ -1,12 +1,15 @@
 import PageController from '../../core/PageController'
 import SeekNewWordPage from './SeekNewWordPage'
 import StudyDictionaryPage from './StudyDictionaryPage'
+import LevelSelectionPage from './LevelSelectionPage'
 import { speechList, domain, spinner, add_icon, getModalWindow, mascotRest } from '../../utils/constants'
 import { makeRequest, attachModalKeyboard } from '../../utils/utils'
 
 export default class NewDictionaryPage extends PageController {
 
-  async onMount() {
+  async onMount({ wordCategory } = {}) {
+    this.wordCategory = wordCategory
+
     const content = document.querySelector('.content')
 
     content.innerHTML = spinner
@@ -35,24 +38,34 @@ export default class NewDictionaryPage extends PageController {
       deck.setAttribute('data-name', deckList[index].dataName)
       deck.textContent = deckList[index].dataName.toUpperCase()
 
+      const initParams = { wordType: deckList[index].dataName }
+      if (this.wordCategory) initParams.wordCategory = this.wordCategory
+
       const initList = await makeRequest({
         methodType: 'GET',
         getUrl: `${domain}/words/init/`,
-        getParams: { wordType: deckList[index].dataName },
+        getParams: initParams,
       })
 
       const studyList = await makeRequest({
         methodType: 'GET',
         getUrl: `${domain}/words/study/`,
-        getParams: { wordType: deckList[index].dataName },
+        getParams: initParams,
       })
+
+      const availableCount = initList.data.length - studyList.data.length
 
       const dictionaryWrapper = document.createElement('div')
 
       dictionaryWrapper.classList.add('nav-card-wrap')
       dictionaryWrapper.append(deck)
 
-      if (initList.data.length === studyList.data.length) {
+      const countBadge = document.createElement('span')
+      countBadge.classList.add('card-count-badge', 'card-count-badge--deck')
+      countBadge.textContent = String(availableCount)
+      dictionaryWrapper.append(countBadge)
+
+      if (availableCount === 0) {
         deck.disabled = true
       } else {
         enabledCount++
@@ -89,13 +102,18 @@ export default class NewDictionaryPage extends PageController {
 
         const next = new StudyDictionaryPage()
 
-        await next.mount()
+        await next.mount({ wordCategory: this.wordCategory })
       })
 
       return
     }
 
     content.innerHTML = ''
+
+    if (this.wordCategory) {
+      content.append(this.createBackButton())
+    }
+
     content.append(dictionaryRoot)
 
     this.addListener(dictionaryRoot, 'click', async (event) => {
@@ -109,8 +127,23 @@ export default class NewDictionaryPage extends PageController {
 
       const seekPage = new SeekNewWordPage()
 
-      await seekPage.mount({ speechPart: name })
+      await seekPage.mount({ speechPart: name, wordCategory: this.wordCategory })
     })
+  }
+
+  createBackButton() {
+    const backBtn = document.createElement('button')
+    backBtn.classList.add('back-to-levels')
+    backBtn.type = 'button'
+    backBtn.innerHTML = '<span aria-hidden="true">←</span> Back to level selection'
+
+    this.addListener(backBtn, 'click', async () => {
+      await this.unmount()
+      const next = new LevelSelectionPage()
+      await next.mount({ target: 'new' })
+    })
+
+    return backBtn
   }
 
   async addDeckToStudyList(event) {
@@ -144,10 +177,13 @@ export default class NewDictionaryPage extends PageController {
       } else if (modalTarget.dataset.action === 'doAction') {
         cleanupModalKeys()
 
+        const deckParams = { wordType: deckBtn.dataset.name }
+        if (this.wordCategory) deckParams.wordCategory = this.wordCategory
+
         const deckWordList = await makeRequest({
           methodType: 'GET',
           getUrl: `${domain}/words/init/`,
-          getParams: { wordType: deckBtn.dataset.name },
+          getParams: deckParams,
         })
 
         await makeRequest({
@@ -160,7 +196,7 @@ export default class NewDictionaryPage extends PageController {
 
         const next = new NewDictionaryPage()
 
-        await next.mount()
+        await next.mount({ wordCategory: this.wordCategory })
       }
     })
   }
